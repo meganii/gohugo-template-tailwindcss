@@ -92,14 +92,6 @@
         <a class="ml-2 mt-2 block text-lg text-hover:text-grey-200" href="{{.Page.Permalink}}">{{ .Page.Title }}</a>
         {{end}}
       </section>
-      <section class="mt-2 p-1">
-        <h3 class="text-lg font-bold">Tags</h3>
-        {{ range sort .Site.Taxonomies.tags "Count" "desc" }}
-        {{ if gt .Count 4 }}
-        <a class="inline-block p-1 mt-1 text-sm md:text-xs text-white bg-gray-600 hover:bg-gray-500 rounded"
-          href="{{ .Page.Permalink }}">{{ .Page.Title }}({{.Count}})</a>{{end}}
-        {{ end }}
-      </section>
     </div>
   </div>
   <div class="mt-2 text-sm text-gray-700 text-center">
