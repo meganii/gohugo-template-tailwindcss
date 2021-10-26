@@ -32,8 +32,13 @@
       {{- with $json.Kindle.productUrl -}}
       <a href="{{ $json.Kindle.productUrl }}" target="_blank" rel="noopener sponsored" class="block leading-9 text-white text-sm font-medium text-center w-full border-1 border-gray-600 bg-yellow-600 rounded  hover:bg-yellow-500">Kindle</a>
       {{- end -}}
-      {{- with $json.Rakuten.productUrlPC -}}
-      <a href="{{ $json.Rakuten.productUrlPC }}" target="_blank" rel="noopener sponsored" class="block leading-9 text-white text-sm text-center w-full border-1 border-gray-600 bg-red-600 rounded hover:bg-red-500">楽天市場</a>
+      {{- with $json.Rakuten -}}
+        {{- if isset $json.Rakuten "productUrl" -}}
+        <a href="{{ $json.Rakuten.productUrl }}" target="_blank" rel="noopener sponsored" class="block leading-9 text-white text-sm text-center w-full border-1 border-gray-600 bg-red-600 rounded hover:bg-red-500">楽天市場</a>
+        {{- end -}}
+        {{- if isset $json.Rakuten "productUrlPC" -}}
+        <a href="{{ $json.Rakuten.productUrlPC }}" target="_blank" rel="noopener sponsored" class="block leading-9 text-white text-sm text-center w-full border-1 border-gray-600 bg-red-600 rounded hover:bg-red-500">楽天市場</a>
+        {{- end -}}
       {{- end -}}
       {{- with $json.Yahoo.productUrl -}}
       <a href="{{ $json.Yahoo.productUrl }}" target="_blank" rel="noopener sponsored" class="block leading-9 text-white text-sm text-center w-full border-1 border-gray-600 bg-purple-600 rounded hover:bg-purple-500">Yahoo!ショッピング</a>
