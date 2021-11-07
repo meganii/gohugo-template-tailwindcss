@@ -1,0 +1,37 @@
+
+{{ $width := 400}}
+{{ $height := 300}}
+
+{{ with .Title }}
+  {{ $titlesize := (split . "=") }}
+  {{ if gt (len $titlesize) 1 }}
+    {{ $sizes := split (index $titlesize 1) "x" }}
+    {{ $width = index $sizes 0 }}
+    {{ $height = index $sizes 1 }}
+    {{ $title := index $titlesize 0 }}
+  {{ end }}
+{{ end }}
+
+
+{{ $baseurl := (printf "https://res.cloudinary.com/%s/image/upload/" "meganii") }}
+{{ $restr := (printf "^https?://res.cloudinary.com/%s/image/upload/.+/(.*)" "meganii" )}}
+
+{{ if (hasPrefix .Destination $baseurl) }}
+{{ $itemid := .Destination | replaceRE $restr "$1" }}
+
+<div class="pt-4">
+    <amp-img class="contain"
+        src="{{ .Destination }}"
+        srcset="{{ $baseurl }}q_auto,f_auto,w_1024/{{ $itemid }} 1024w,
+                {{ $baseurl }}q_auto,f_auto,w_864/{{ $itemid }} 864w,
+                {{ $baseurl }}q_auto,f_auto,w_640/{{ $itemid }} 640w,
+                {{ $baseurl }}q_auto,f_auto,w_400/{{ $itemid }} 400w,
+                {{ $baseurl }}q_auto,f_auto,w_320/{{ $itemid }} 320w"
+        width="{{ $width }}"
+        height="{{ $height }}"
+        heights="(min-width:600px) 400px, 80%"
+        layout="responsive"
+        alt="{{ .Text | default $.Page.Title }}">
+    </amp-img>
+</div>
+{{ end }}
