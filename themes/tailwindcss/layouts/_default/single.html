@@ -17,7 +17,17 @@
     </div>
   </section>
 
+  <amp-iframe width=512 height=200
+  layout="responsive"
+  sandbox="allow-scripts allow-same-origin allow-modals allow-popups allow-forms allow-popups-to-escape-sandbox allow-top-navigation"
+  resizable
+  src="https://sandbox-amp-hatenastar.vercel.app/?title={{ .Title }}&url={{ .Permalink }}">
+  <div overflow tabindex=0 role=button aria-label="">Read more...</div>
+  </amp-iframe>
+
   {{- partial "share.html" . -}}
+
+
   <div>
     {{- partial "adsense.html" . -}}
   </div>
