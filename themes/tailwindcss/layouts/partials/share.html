@@ -1,16 +1,22 @@
-
-<div class="mt-8 flex">
-<amp-social-share
-  class="rounded mr-1"
-  type="twitter"
-  aria-label="Share on Twitter"
-></amp-social-share>
+<amp-iframe class="ml-0" width=512 height=75
+layout="responsive"
+sandbox="allow-scripts allow-same-origin allow-modals allow-popups allow-forms allow-popups-to-escape-sandbox allow-top-navigation"
+resizable
+src="https://sandbox-amp-hatenastar.vercel.app/?title={{ .Title }}&url={{ .Permalink }}">
+<div overflow tabindex=0 role=button aria-label="">Read more...</div>
+</amp-iframe>
+<div class="mt-1 flex">
 <amp-social-share
   class="mr-1 cursor-pointer font-mono text-white text-center text-3xl font-bold leading-normal bg-blue-500 rounded"
   type="hatena_bookmark"
   data-share-endpoint="https://b.hatena.ne.jp/entry/CANONICAL_URL"
   aria-label="Share on Hatena"
 > B! </amp-social-share>
+<amp-social-share
+  class="rounded mr-1"
+  type="twitter"
+  aria-label="Share on Twitter"
+></amp-social-share>
 <amp-social-share
   class="mr-1 rounded text-white bg-blue-600"
   type="facebook"
