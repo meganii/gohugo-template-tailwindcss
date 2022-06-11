@@ -28,15 +28,7 @@
     <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
     {{ end }}
 
-    {{ if .Site.IsServer }}
-    {{ $style := resources.Get "css/styles.css" | postCSS (dict "config" "./assets/css/dev/postcss.config.js") | fingerprint }}
-    <link rel="stylesheet" href="{{ $style.Permalink }}" data> 
-    {{ else }}
-    {{ $style := resources.Get "css/styles.css" | postCSS (dict "config" "./assets/css/postcss.config.js") | minify }}
-    <style amp-custom>{{ $style.Content | safeCSS }}</style>
-
-  
-    {{ end }}
+    {{ partialCached "css.html" . }}
 
     <link rel="apple-touch-icon" type="image/png" href="/images/icons/apple-touch-icon-180x180.png">
     <link rel="icon" type="image/png" href="/images/icons/icon-96x96.png">
