@@ -1,7 +1,8 @@
 <a
   class="text-blue-500 hover:underline"
+  {{- if not (strings.HasPrefix .Destination "http") }}data-rel="prefetch"{{ end -}}
   href="{{ .Destination | safeURL }}"
   {{ with .Title }} title="{{ . }}"{{ end }}
-  {{ if not (strings.HasPrefix .Destination "https://www.meganii.com") }}target="_blank" rel="noopener"{{ end }}>
+  {{ if (strings.HasPrefix .Destination "http") }}target="_blank" rel="noopener"{{ end }}>
   {{ .Text | safeHTML }}
 </a>
