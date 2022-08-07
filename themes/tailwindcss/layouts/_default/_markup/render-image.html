@@ -50,15 +50,27 @@
     <amp-img {{if eq $hero 1}}data-hero{{ end }} class="contain"
         src="{{ .Destination }}"
         srcset="{{ $baseurl }}q_auto,f_auto,w_1024/{{ $itemid }} 1024w,
-                {{ $baseurl }}q_auto,f_auto,w_864/{{ $itemid }} 864w,
-                {{ $baseurl }}q_auto,f_auto,w_640/{{ $itemid }} 640w,
-                {{ $baseurl }}q_auto,f_auto,w_400/{{ $itemid }} 400w,
-                {{ $baseurl }}q_auto,f_auto,w_320/{{ $itemid }} 320w"
+        {{ $baseurl }}q_auto,f_auto,w_864/{{ $itemid }} 864w,
+        {{ $baseurl }}q_auto,f_auto,w_640/{{ $itemid }} 640w,
+        {{ $baseurl }}q_auto,f_auto,w_400/{{ $itemid }} 400w,
+        {{ $baseurl }}q_auto,f_auto,w_320/{{ $itemid }} 320w"
         width="{{ $width }}"
         height="{{ $height }}"
         heights="(min-width:600px) 400px, 80%"
         layout="responsive"
         alt="{{ .Text | default $.Page.Title }}">
     </amp-img>
+</div>
+{{ else }}
+
+<div class="pt-4">
+  <amp-img {{if eq $hero 1}}data-hero{{ end }} class="contain"
+      src="{{ .Destination }}"
+      width="{{ $width }}"
+      height="{{ $height }}"
+      heights="(min-width:600px) 400px, 80%"
+      layout="responsive"
+      alt="{{ .Text | default $.Page.Title }}">
+  </amp-img>
 </div>
 {{ end }}
