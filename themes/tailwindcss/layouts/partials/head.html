@@ -4,10 +4,14 @@
     <meta name="theme-color" content="#2196f3">
     {{- partial "meta.html" . -}}
     <meta http-equiv="x-dns-prefetch-control" content="on">
-    <link rel="preconnect dns-prefetch" href="https://images.meganii.com/" crossorigin>
-    <link rel="preconnect dns-prefetch" href="https://res.cloudinary.com/" crossorigin>
-    <link rel="preconnect dns-prefetch" href="https://www.googletagmanager.com/" crossorigin>
-    <link rel="preconnect dns-prefetch" href="https://www.google-analytics.com/" crossorigin>
+    <link rel="preconnect" href="https://images.meganii.com">
+    <link rel="dns-prefetch" href="https://images.meganii.com">
+    <link rel="preconnect" href="https://res.cloudinary.com">
+    <link rel="dns-prefetch" href="https://res.cloudinary.com">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://www.google-analytics.com">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
     <meta name="runtime-host" content="{{ .Site.BaseURL }}amp">
     <link rel="preload" as="script" href="{{ .Site.BaseURL }}amp/rtv/012207221643000/v0.js">
     <script async src="{{ .Site.BaseURL }}amp/rtv/012207221643000/v0.js"></script>
