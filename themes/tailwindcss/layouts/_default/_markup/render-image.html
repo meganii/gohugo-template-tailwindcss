@@ -47,7 +47,7 @@
 {{ $itemid := .Destination | replaceRE $restr "$1" }}
 
 <div class="pt-4">
-    <amp-img {{if eq $hero 1}}data-hero{{ end }} class="contain"
+    <amp-img {{if eq $hero 1}}data-hero{{ end }} class=""
         src="{{ .Destination }}"
         srcset="{{ $baseurl }}q_auto,f_auto,w_1024/{{ $itemid }} 1024w,
         {{ $baseurl }}q_auto,f_auto,w_864/{{ $itemid }} 864w,
@@ -56,8 +56,7 @@
         {{ $baseurl }}q_auto,f_auto,w_320/{{ $itemid }} 320w"
         width="{{ $width }}"
         height="{{ $height }}"
-        heights="(min-width:600px) 400px, 80%"
-        layout="responsive"
+        layout="intrinsic"
         alt="{{ .Text | default $.Page.Title }}">
     </amp-img>
 </div>
