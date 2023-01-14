@@ -1,0 +1,7 @@
+<div>
+    {{- $name := .Attributes.name -}}
+    {{ with $name }}<div class="codeblock--name w-fit text-sm text-white bg-gray-600 mt-1 py-1 px-1.5 rounded-t-lg">{{ . }}</div>{{ end }}
+    <div class="codeblock--content">
+      {{- highlight (.Inner | safeHTML) .Type .Options }}
+    </div>
+</div>
