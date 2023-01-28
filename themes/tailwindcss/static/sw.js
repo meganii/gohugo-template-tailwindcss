@@ -1,4 +1,4 @@
-importScripts('https://www.meganii.com/amp/rtv/012301041800000/sw/amp-sw.js');
+importScripts('https://www.meganii.com/amp/rtv/012301112346000/sw/amp-sw.js');
 AMP_SW.init({
   linkPrefetchOptions: {},
   assetCachingOptions: [
