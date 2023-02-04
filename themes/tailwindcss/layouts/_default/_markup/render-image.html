@@ -46,7 +46,7 @@
 {{ if (hasPrefix .Destination $baseurl) }}
 {{ $itemid := .Destination | replaceRE $restr "$1" }}
 
-<div class="pt-4">
+<div class="pt-4 text-center">
     <amp-img {{if eq $hero 1}}data-hero{{ end }} class=""
         src="{{ .Destination }}"
         srcset="{{ $baseurl }}q_auto,f_auto,w_1024/{{ $itemid }} 1024w,
@@ -62,7 +62,7 @@
 </div>
 {{ else }}
 
-<div class="pt-4">
+<div class="pt-4 text-center">
   <amp-img {{if eq $hero 1}}data-hero{{ end }} class="contain"
       src="{{ .Destination }}"
       width="{{ $width }}"
