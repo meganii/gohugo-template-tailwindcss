@@ -1,18 +1,11 @@
 <ol>
-  {{- template "breadcrumbnav" (dict "p1" . "p2" .) -}}
+  <ul>
+    {{- range .Ancestors.Reverse }}
+      <li class="inline"><a class="text-gray-800 hover:underline hover:text-gray-600" href="{{ .Permalink }}">{{ .Title }}</a></li>
+      <li class="inline">></li>
+    {{- end }}
+    <li class="inline active:text-black">
+      {{- .Title -}}
+    </li>
+  </ul>
 </ol>
-
-{{ define "breadcrumbnav" }}
-  {{ if .p1.Parent }}
-    {{ template "breadcrumbnav" (dict "p1" .p1.Parent "p2" .p2 ) }}<li class="inline">></li>
-  {{ else if not .p1.IsHome }}
-    {{ template "breadcrumbnav" (dict "p1" .p1.Site.Home "p2" .p2 ) }}
-  {{ end }}
-<li class="inline{{ if eq .p1 .p2 }} active:text-black{{ end }}">
-  {{ if eq .p1 .p2 }}
-    {{- .p1.Title -}}
-  {{ else }}
-    <a class="text-gray-800 hover:underline hover:text-gray-600 " href="{{ .p1.Permalink }}">{{- .p1.Title -}}</a>
-  {{ end }}
-</li>
-{{ end }}
