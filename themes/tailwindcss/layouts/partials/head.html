@@ -18,6 +18,13 @@
             quicklink.listen();
         });
     </script>
+    {{ $regex := `<img[\s\S]*data-hero[\s\S]+?src="(.+?)"[\s\S]+?(?:srcset="([\s\S]+?)")[\s\S]+?/>` }}
+    {{ $matches := findRESubmatch $regex .Content }}
+    {{- range $matches -}}
+        {{ $imageset := (replaceRE `\n` "" (index . 2)) }}
+        {{ $imageset = (replaceRE `,\s+` "," $imageset) }}
+        <link rel="preload" as="image" href="{{ index . 1 }}" {{ with $imageset }}imagesrcset="{{ $imageset }}"{{ end }}>
+    {{- end -}}
     {{ partial "seo-schema.html" . }}
     <link rel="canonical" href="{{ .Site.Params.CanonicalUrl }}{{ .RelPermalink }}">
     <title>{{ $isHomePage := eq .Title .Site.Title }}{{ .Title }}{{ if eq $isHomePage false }} - {{ .Site.Title }}{{ end }}</title>
