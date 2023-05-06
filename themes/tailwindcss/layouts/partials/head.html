@@ -1,30 +1,23 @@
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#2196f3">
     {{- partial "meta.html" . -}}
     <meta http-equiv="x-dns-prefetch-control" content="on">
     <link rel="preconnect" href="https://res.cloudinary.com">
     <link rel="dns-prefetch" href="https://res.cloudinary.com">
-    <meta name="runtime-host" content="{{ .Site.BaseURL }}amp">
     <link rel="manifest" href="{{ .Site.BaseURL }}manifest.json">
 
     {{- partialCached "css.html" . -}}
     <link rel="apple-touch-icon" type="image/png" href="/images/icons/apple-touch-icon-180x180.png">
     <link rel="icon" type="image/png" href="/images/icons/icon-96x96.png">
-    <script src="/quicklink.umd.js"></script>
+    <link href="/quicklink.umd.js?20230506" rel="preload" as="script">
+    <script src="/quicklink.umd.js?20230506"></script>
     <script>
         window.addEventListener('load', () => {
             quicklink.listen();
         });
     </script>
-    {{ $regex := `<img[\s\S]*data-hero[\s\S]+?src="(.+?)"[\s\S]+?(?:srcset="([\s\S]+?)")[\s\S]+?/>` }}
-    {{ $matches := findRESubmatch $regex .Content }}
-    {{- range $matches -}}
-        {{ $imageset := (replaceRE `\n` "" (index . 2)) }}
-        {{ $imageset = (replaceRE `,\s+` "," $imageset) }}
-        <link rel="preload" as="image" href="{{ index . 1 }}" {{ with $imageset }}imagesrcset="{{ $imageset }}"{{ end }}>
-    {{- end -}}
     {{ partial "seo-schema.html" . }}
     <link rel="canonical" href="{{ .Site.Params.CanonicalUrl }}{{ .RelPermalink }}">
     <title>{{ $isHomePage := eq .Title .Site.Title }}{{ .Title }}{{ if eq $isHomePage false }} - {{ .Site.Title }}{{ end }}</title>
