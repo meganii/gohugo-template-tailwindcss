@@ -9,10 +9,15 @@
     <meta name="runtime-host" content="{{ .Site.BaseURL }}amp">
     <link rel="manifest" href="{{ .Site.BaseURL }}manifest.json">
 
-    {{ partialCached "css.html" . }}    
+    {{- partialCached "css.html" . -}}
     <link rel="apple-touch-icon" type="image/png" href="/images/icons/apple-touch-icon-180x180.png">
     <link rel="icon" type="image/png" href="/images/icons/icon-96x96.png">
-
+    <script src="/quicklink.umd.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            quicklink.listen();
+        });
+    </script>
     {{ partial "seo-schema.html" . }}
     <link rel="canonical" href="{{ .Site.Params.CanonicalUrl }}{{ .RelPermalink }}">
     <title>{{ $isHomePage := eq .Title .Site.Title }}{{ .Title }}{{ if eq $isHomePage false }} - {{ .Site.Title }}{{ end }}</title>
