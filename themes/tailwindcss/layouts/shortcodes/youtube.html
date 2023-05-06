@@ -1,0 +1,17 @@
+{{ if .IsNamedParams }}
+  {{ $.Scratch.Add "youtubeId" ( .Get "id") }}
+  {{ $.Scratch.Add "youtubeWidth" ( .Get "width") }}
+  {{ $.Scratch.Add "youtubeHeight" ( .Get "height") }}
+{{ else }}
+  {{ $.Scratch.Add "youtubeId" ( .Get 0) }}
+  {{ $.Scratch.Add "youtubeWidth" "800" }}
+  {{ $.Scratch.Add "youtubeHeight" "450" }}
+{{ end }}
+
+{{ $id := $.Scratch.Get "youtubeId" }}
+{{ $width := $.Scratch.Get "youtubeWidth" }}
+{{ $height := $.Scratch.Get "youtubeHeight" }}
+
+<iframe class="w-full aspect-video" loading="lazy" id="ytplayer" type="text/html"
+  src="https://www.youtube.com/embed/{{ $id }}"
+  frameborder="0"></iframe>

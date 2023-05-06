@@ -5,12 +5,12 @@
 <p></p><!-- Avoid overriding list -->
 
 <div class="affiliate border border-grey-light rounded lg:flex lg:my-4 lg:mx-auto z-0">
-  <div class="h-56 relative rounded lg:flex-none lg:w-2/5 lg:px-2 lg:py-4 lg:mx-2 my-4">
-    <amp-img class="contain" src="{{ $json.Images.Primary.Large.URL }}"
-      alt="{{ $json.ItemInfo.Title.DisplayValue }}"
-      layout="fill" />
+  <div class="rounded lg:flex-none lg:w-2/5 lg:px-2 lg:py-4 lg:mx-2 my-4 flex justify-center items-center">
+    <a href="{{ $json.DetailPageURL }}" rel="noopener sponsored" class="text-blue-500 hover:underline">
+      <img loading="lazy" class="h-56 object-contain" src="{{ $json.Images.Primary.Large.URL }}" alt="{{ $json.ItemInfo.Title.DisplayValue }}" />
+    </a>
   </div>
-  <div class="p-4 relative flex flex-col justify-between leading-normal lg:w-3/5">
+  <div class="p-4 flex flex-col justify-between leading-normal lg:w-3/5">
     <div class="mb-8 px-1">
       <a href="{{ $json.DetailPageURL }}" rel="noopener sponsored" class="text-blue-500 hover:underline">{{ $json.ItemInfo.Title.DisplayValue }}</a>
       {{- with $json.ItemInfo.Classifications.ProductGroup.DisplayValue -}}
