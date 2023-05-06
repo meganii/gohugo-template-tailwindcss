@@ -5,7 +5,7 @@
 {{ $itemid := .Get "src" | replaceRE $restr "$1" }}
 
 <div class="pt-4">
-    <amp-img class="contain"
+    <img class="contain"
         src="{{ .Get "src" }}"
         srcset="{{ $baseurl }}q_auto,f_auto,w_1024/{{ $itemid }} 1024w,
                 {{ $baseurl }}q_auto,f_auto,w_864/{{ $itemid }} 864w,
@@ -16,13 +16,12 @@
         height="{{ .Get "h" }}"
         heights="(min-width:600px) 400px, 80%"
         layout="responsive"
-        alt="{{.Get "alt" | default $.Page.Title }}">
-    </amp-img>
+        alt="{{.Get "alt" | default $.Page.Title }}" />
 </div>
 {{ else }}
 <figure{{ if .Get "class" }} class="{{ .Get "class" }}"{{ end }}>
-  <amp-img src="
-  {{ if eq (substr (.Get "src") 0 4) "http" }}{{ .Get "src"}}{{ else }}{{ $.Site.BaseURL }}{{ .Get "src" }}{{ end }}" alt="{{ .Page.Title }} {{ .Get "src" }}" width={{ .Get "w" | default "640" }} height={{ .Get "h" | default "400"}} layout={{ .Get "layout" | default "responsive" }}></amp-img>
+  <img src="
+  {{ if eq (substr (.Get "src") 0 4) "http" }}{{ .Get "src"}}{{ else }}{{ $.Site.BaseURL }}{{ .Get "src" }}{{ end }}" alt="{{ .Page.Title }} {{ .Get "src" }}" width={{ .Get "w" | default "640" }} height={{ .Get "h" | default "400"}} layout={{ .Get "layout" | default "responsive" }} />
   {{ if .Get "caption" }}
   <figcaption>
     {{ if .Get "href" }}

@@ -9,7 +9,7 @@
             <div class="text-sm leading-tight">{{ $ogpjson.ogDescription | truncate 100 }}</div>
         </div>
         <div class="m-2 lg:flex-none lg:w-1/5 h-20 relative">
-            <amp-img class="contain" src="{{ $ogpjson.ogImage.url }}" layout="fill" />
+            <img loading="lazy" class="contain" src="{{ $ogpjson.ogImage.url }}" layout="fill" />
         </div>
     </div>
 </div>
