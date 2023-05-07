@@ -18,6 +18,27 @@
             quicklink.listen();
         });
     </script>
+
+    {{ $baseurl := (printf "https://res.cloudinary.com/%s/image/upload/" "meganii") }}
+    {{ $restr := (printf "^https?://res.cloudinary.com/%s/image/upload/.+/(.*)" "meganii" )}} 
+
+    {{- $regex := `<img[\s\S]*data-hero[\s\S]+?src="(.+?)"[\s\S]+? />` -}}
+    {{- $matches := findRESubmatch $regex .Content -}}
+    {{- range $matches -}}
+        {{ $src := index . 1 }}
+        {{ if (hasPrefix $src $baseurl) }}
+            {{ $itemid := $src | replaceRE $restr "$1" }}
+            <link rel="preload" as="image" href="{{$src}}" 
+                imagesrcset="
+                {{ $baseurl }}q_auto,f_auto,w_320/{{ $itemid }} 320w,
+                {{ $baseurl }}q_auto,f_auto,w_640/{{ $itemid }} 640w,
+                {{ $baseurl }}q_auto,f_auto,w_1024/{{ $itemid }} 1024w"
+            />
+        {{ else }}
+        <link rel="preload" as="image" href="{{$src}}" />
+        {{ end }}
+    {{- end -}}
+
     {{ partial "seo-schema.html" . }}
     <link rel="canonical" href="{{ .Site.Params.CanonicalUrl }}{{ .RelPermalink }}">
     <title>{{ $isHomePage := eq .Title .Site.Title }}{{ .Title }}{{ if eq $isHomePage false }} - {{ .Site.Title }}{{ end }}</title>

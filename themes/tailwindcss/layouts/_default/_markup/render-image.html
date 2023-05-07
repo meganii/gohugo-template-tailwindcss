@@ -49,14 +49,11 @@
 <div class="pt-4 text-center">
     <img {{if eq $hero 1}}data-hero{{ end }} class=""
         src="{{ .Destination }}"
-        srcset="{{ $baseurl }}q_auto,f_auto,w_1024/{{ $itemid }} 1024w,
-        {{ $baseurl }}q_auto,f_auto,w_864/{{ $itemid }} 864w,
+        srcset="{{ $baseurl }}q_auto,f_auto,w_320/{{ $itemid }} 320w,
         {{ $baseurl }}q_auto,f_auto,w_640/{{ $itemid }} 640w,
-        {{ $baseurl }}q_auto,f_auto,w_400/{{ $itemid }} 400w,
-        {{ $baseurl }}q_auto,f_auto,w_320/{{ $itemid }} 320w"
+        {{ $baseurl }}q_auto,f_auto,w_1024/{{ $itemid }} 1024w"
         width="{{ $width }}"
         height="{{ $height }}"
-        layout="intrinsic"
         alt="{{ .Text | default $.Page.Title }}" />
 </div>
 {{ else }}
