@@ -11,13 +11,6 @@
     {{- partialCached "css.html" . -}}
     <link rel="apple-touch-icon" type="image/png" href="/images/icons/apple-touch-icon-180x180.png">
     <link rel="icon" type="image/png" href="/images/icons/icon-96x96.png">
-    <link href="/quicklink.umd.js?20230506" rel="preload" as="script">
-    <script src="/quicklink.umd.js?20230506"></script>
-    <script>
-        window.addEventListener('load', () => {
-            quicklink.listen();
-        });
-    </script>
 
     {{ $baseurl := (printf "https://res.cloudinary.com/%s/image/upload/" "meganii") }}
     {{ $restr := (printf "^https?://res.cloudinary.com/%s/image/upload/.+/(.*)" "meganii" )}} 

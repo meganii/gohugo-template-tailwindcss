@@ -10,5 +10,11 @@
     </main>
   </div>
   {{- partial "footer.html" . -}}
+  <script>
+    document.getElementById("nav-open").addEventListener('click', function() {
+      document.getElementById("nav-menu").classList.toggle('hidden');
+    });
+  </script>
+  <script src="/instantpage-5.2.0.js" type="module" defer></script>
 </body>
 </html>
