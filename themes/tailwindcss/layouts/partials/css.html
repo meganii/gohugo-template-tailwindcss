@@ -1,8 +1,9 @@
-{{/* styles */}}
-{{ $options := dict "inlineImports" true }}
 {{ $styles := resources.Get "css/main.css" }}
-{{ $styles = $styles | resources.PostCSS $options }}
 {{ if hugo.IsProduction }}
-  {{ $styles = $styles | minify | fingerprint | resources.PostProcess }}
+  {{- with $styles -}}
+    {{ $styles = $styles | minify | fingerprint | resources.PostProcess }}
+    <link href="{{ $styles.RelPermalink }}" rel="stylesheet" />
+  {{- end -}}
+{{ else }}
+  <link href="{{ $styles.RelPermalink }}" rel="stylesheet" />
 {{ end }}
-<link href="{{ $styles.RelPermalink }}" rel="stylesheet" />
