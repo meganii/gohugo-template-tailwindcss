@@ -3,13 +3,13 @@
 
 name = "gohugo-template-tailwindcss"
 license = "MIT"
-licenselink = "https://github.com/dirkolbrich/hugo-theme-tailwindcss-starter/blob/master/LICENSE"
+licenselink = "https://github.com/meganii/gohugo-template-tailwindcss/blob/master/LICENSE"
 description = ""
-homepage = "https://github.com/dirkolbrich/hugo-theme-tailwindcss-starter"
+homepage = "https://github.com/meganii/gohugo-template-tailwindcss"
 tags = ["Hugo", "Tailwindcss", "theme", "starter"]
 features = []
 min_version = "0.112"
 
 [author]
-  name = "Dirk Olbrich"
-  homepage = "https://github.com/dirkolbrich/"
+  name = "meganii"
+  homepage = "https://github.com/meganii/"

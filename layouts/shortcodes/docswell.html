@@ -1,0 +1,20 @@
+{{ $id := 0 }}
+{{ $width := 620 }}
+{{ $height := 405 }}
+
+{{ if .IsNamedParams }}
+  {{ $id = ( .Get "id") }}
+  {{ $width = 16 }}
+  {{ $height = 9 }}
+{{ else }}
+  {{ $id = .Get 0 }}
+{{ end }}
+
+<div>
+  <iframe
+    loading="lazy"
+    class="w-full aspect-video"
+    frameborder="0"
+    src="https://www.docswell.com/slide/{{$id}}/embed">
+  </iframe>
+</div>

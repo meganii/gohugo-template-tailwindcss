@@ -1,0 +1,17 @@
+{
+    "name": "gohugo-template-tailwindcss",
+    "version": "1.0.0",
+    "description": "Starter files for a Hugo theme with Tailwindcss",
+    "main": "index.js",
+    "repository": "https://github.com/meganii/gohugo-template-tailwindcss",
+    "author": "meganii",
+    "license": "MIT",
+    "scripts": {
+        "start": "hugo --gc"
+    },
+    "devDependencies": {
+        "postcss": "^8.4.27",
+        "postcss-cli": "^10.1.0",
+        "tailwindcss": "^3.3.3"    
+    }
+}

@@ -1,0 +1,12 @@
+{{ $width := .Get "w" }}
+{{ $height := .Get "h" }}
+{{ $src := .Get "src" }}
+
+<div class="border-gray-300">
+<iframe
+  loading="lazy"
+  class="w-full aspect-video"
+  frameborder="0"
+  src="{{$src}}?:showVizHome=no&:embed=yes">
+</iframe>
+</div>

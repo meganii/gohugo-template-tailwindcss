@@ -1,17 +1,26 @@
 {
-    "name": "hugo-theme-tailwindcss-starter",
-    "version": "0.1.1",
-    "description": "Starter files for a Hugo theme with Tailwindcss",
-    "main": "index.js",
-    "repository": "https://github.com/dirkolbrich/hugo-theme-tailwindcss-starter",
-    "author": "dirkolbrich <github@dirkolbrich.de>",
-    "license": "MIT",
-    "scripts": {
-        "start": "hugo --gc"
-    },
+  "author": "meganii",
+  "comments": {
+    "dependencies": {},
     "devDependencies": {
-        "postcss": "^8.4.27",
-        "postcss-cli": "^10.1.0",
-        "tailwindcss": "^3.3.3"    
+      "postcss": "project",
+      "postcss-cli": "project",
+      "tailwindcss": "project"
     }
+  },
+  "dependencies": {},
+  "description": "Starter files for a Hugo theme with Tailwindcss",
+  "devDependencies": {
+    "postcss": "^8.4.27",
+    "postcss-cli": "^10.1.0",
+    "tailwindcss": "^3.3.3"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "name": "gohugo-template-tailwindcss",
+  "repository": "https://github.com/meganii/gohugo-template-tailwindcss",
+  "scripts": {
+    "start": "hugo --gc"
+  },
+  "version": "1.0.0"
 }

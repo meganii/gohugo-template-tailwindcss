@@ -1,0 +1,27 @@
+
+{{- if .IsNamedParams -}}
+    {{- $id := .Get "tweetid" -}}
+    {{- $user :=  "meganii" -}}
+    {{- if and $id $user -}}
+    {{- template "render-tweet" (dict "id" $id "user" $user) -}}
+    {{- else -}}
+    {{- end -}}
+{{- else -}}
+    {{- $id := .Get 1 -}}
+    {{- $user := .Get 0 -}}
+    {{- if eq 1 (len .Params) -}}
+    {{- $id = .Get 0 -}}
+    {{- $user = "x" -}} {{/* This triggers a redirect. It works, but may not work forever. */}}
+    {{- end -}}
+    {{- template "render-tweet" (dict "id" $id "user" $user) -}}
+{{- end -}}
+
+{{- define "render-tweet" -}}
+  {{- $url := printf "https://twitter.com/%v/status/%v" .user .id -}}
+  {{- $query := querify "url" $url "align" "center" -}}
+  {{- $request := printf "https://publish.twitter.com/oembed?%s" $query -}}
+  {{- $json := getJSON $request -}}
+  <div class="w-full">
+  {{- $json.html | safeHTML -}}
+  </div>
+{{- end -}}
