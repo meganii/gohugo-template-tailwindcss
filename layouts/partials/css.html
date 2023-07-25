@@ -1,4 +1,4 @@
-{{ $options := dict "inlineImports" true }}
+{{ $options := dict "inlineImports" true "config" "./assets/postcss.config.js" }}
 {{ $styles := resources.Get "css/styles.css" }}
 {{ $styles = $styles | resources.PostCSS $options }}
 {{ if hugo.IsProduction }}
