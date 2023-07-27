@@ -12,6 +12,12 @@
 {{ $width := $.Scratch.Get "youtubeWidth" }}
 {{ $height := $.Scratch.Get "youtubeHeight" }}
 
-<iframe class="w-full aspect-video" loading="lazy" id="ytplayer" type="text/html"
+
+<iframe
+  class="aspect-video w-full"
+  loading="lazy"
+  id="ytplayer"
+  type="text/html"
   src="https://www.youtube.com/embed/{{ $id }}"
-  frameborder="0"></iframe>
+  frameborder="0"
+></iframe>

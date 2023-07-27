@@ -1,42 +1,37 @@
 {{ define "main" }}
-<article class="mx-4 sm:mx-12">
-  <section class="">
-    <div class="">
-      <h2 class="font-bold text-xl">Blog Archives</h2>
-      {{ $type := "blog" }}
-      {{ $isGroupKey := true}}
-
-      {{ range (.Site.RegularPages.GroupByDate "2006") }}
-
-      {{ $count := (len .Pages) }}
-      {{ if (gt .Key 2000) }}
-
-      {{ range (where .Pages "Type" $type) }}
-      {{ if $isGroupKey }}
-      <h3 class="font-bold mt-2">{{ .Date.Format "2006" }}年 ({{ $count }})</h3>
-      {{ $isGroupKey = false}}
-      {{ end }}
-      {{ end }}
-
-      {{ $isGroupKey = true}}
-
-      <ul class="mt-2">
-        {{ range (where .Pages "Type" $type) }}
-        <li class="mt-2">
-          <a class="" href="{{ .RelPermalink }}">
-            <div class="flex">
-              <div class="w-2/12 md:w-1/12">{{ .Date.Format "01/02" }}</div>
-              {{/*  <div class="w-2/12">{{ .Params.Category }}</div>  */}}
-              <div class="w-10/12 md:w-11/12">{{ .Title }}</div>
-            </div>
-          </a>
-        </li>
+  <article class="mx-4 sm:mx-12">
+    <section class="">
+      <div class="">
+        <h2 class="text-xl font-bold">Blog Archives</h2>
+        {{ $type := "blog" }}
+        {{ $isGroupKey := true }}
+        {{ range (.Site.RegularPages.GroupByDate "2006") }}
+          {{ $count := (len .Pages) }}
+          {{ range (where .Pages "Type" $type) }}
+            {{ if $isGroupKey }}
+              <h3 class="mt-2 font-bold">
+                {{ .Date.Format "2006" }}年 ({{ $count }})
+              </h3>
+              {{ $isGroupKey = false }}
+            {{ end }}
+          {{ end }}
+          {{ $isGroupKey = true }}
+          <ul class="mt-2">
+            {{ range (where .Pages "Type" $type) }}
+              <li class="mt-2">
+                <a class="" href="{{ .RelPermalink }}">
+                  <div class="flex">
+                    <div class="w-2/12 md:w-1/12">
+                      {{ .Date.Format "01/02" }}
+                    </div>
+                    <div class="w-10/12 md:w-11/12">{{ .Title }}</div>
+                  </div>
+                </a>
+              </li>
+            {{ end }}
+          </ul>
         {{ end }}
-      </ul>
-
-      {{ end }}
-      {{ end }}
-    </div>
-  </section>
-</article>
+      </div>
+    </section>
+  </article>
 {{ end }}

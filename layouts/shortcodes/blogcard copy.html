@@ -2,14 +2,22 @@
 {{ $getURL := printf "http://localhost:6060/ogp?%s" (querify "url" $url ) }}
 {{ $ogpjson := getJSON $getURL }}
 
-<div class="border border-grey-light rounded my-4">
-    <div class="lg:flex mx-2 p-3 relative">
-        <div class="lg:w-4/5">
-            <a href="{{ $ogpjson.ogUrl }}"><strong>{{ $ogpjson.ogTitle }}</strong></a>
-            <div class="text-sm leading-tight">{{ $ogpjson.ogDescription | truncate 100 }}</div>
-        </div>
-        <div class="m-2 lg:flex-none lg:w-1/5 h-20 relative">
-            <img loading="lazy" class="contain" src="{{ $ogpjson.ogImage.url }}" layout="fill" />
-        </div>
+
+<div class="border-grey-light my-4 rounded border">
+  <div class="relative mx-2 p-3 lg:flex">
+    <div class="lg:w-4/5">
+      <a href="{{ $ogpjson.ogUrl }}"><strong>{{ $ogpjson.ogTitle }}</strong></a>
+      <div class="text-sm leading-tight">
+        {{ $ogpjson.ogDescription | truncate 100 }}
+      </div>
     </div>
+    <div class="relative m-2 h-20 lg:w-1/5 lg:flex-none">
+      <img
+        loading="lazy"
+        class="contain"
+        src="{{ $ogpjson.ogImage.url }}"
+        layout="fill"
+      />
+    </div>
+  </div>
 </div>

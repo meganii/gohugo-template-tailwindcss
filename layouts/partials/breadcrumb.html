@@ -1,7 +1,13 @@
 <ol>
   <ul>
     {{- range .Ancestors.Reverse }}
-      <li class="inline"><a class="text-gray-800 hover:underline hover:text-gray-600" href="{{ .Permalink }}">{{ .Title }}</a></li>
+      <li class="inline">
+        <a
+          class="text-gray-800 hover:text-gray-600 hover:underline"
+          href="{{ .Permalink }}"
+          >{{ .Title }}</a
+        >
+      </li>
       <li class="inline">></li>
     {{- end }}
     <li class="inline active:text-black">

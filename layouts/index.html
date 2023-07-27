@@ -1,41 +1,68 @@
 {{ define "main" }}
-<div class="text-gray-700">
-  <a href="{{ .Site.BaseURL }}">
-    <img loading="lazy" class="rounded"
-      src="https://res.cloudinary.com/{{ .Site.Params.Cloudinary }}/image/upload/{{ .Site.Params.topbanner.src }}"
-      srcset="https://res.cloudinary.com/{{ .Site.Params.Cloudinary }}/image/upload/q_auto,f_auto/{{ .Site.Params.topbanner.src }} 1000w,
-                        https://res.cloudinary.com/{{ .Site.Params.Cloudinary }}/image/upload/q_auto,f_auto,w_800/{{ .Site.Params.topbanner.src }} 800w,
-                        https://res.cloudinary.com/{{ .Site.Params.Cloudinary }}/image/upload/q_auto,f_auto,w_640/{{ .Site.Params.topbanner.src }} 640w,
-                        https://res.cloudinary.com/{{ .Site.Params.Cloudinary }}/image/upload/q_auto,f_auto,w_400/{{ .Site.Params.topbanner.src }} 400w,
-                        https://res.cloudinary.com/{{ .Site.Params.Cloudinary }}/image/upload/q_auto,f_auto,w_320/{{ .Site.Params.topbanner.src }} 320w"
-      width="{{.Site.Params.topbanner.width}}" height="{{.Site.Params.topbanner.height}}" layout="responsive" />
-  </a>
-  {{ $recent_articles := (where .Site.Pages "IsPage" true) }}
-  {{ range first ($.Site.Params.latestSize | default 3) $recent_articles }}
-  <article class="mt-1.5 pt-1 pb-1 border border-grey-light rounded">
-    <a href="{{ .Permalink }}">
-      <div class="flex flex-row">
-        <div class="basis-1/4 rounded flex justify-center items-center">
-          <img loading="lazy" class="h-32 object-contain" src="{{ if isset .Params " eyecatch" }}{{ .Params.Eyecatch}}{{ else if isset .Params "img" }}{{ .Params.img }}{{ else }}{{ $.Site.BaseURL}}images/nopicture.png{{ end }}" />
-        </div>
-        <div class="basis-3/4 p-4 flex flex-col justify-between leading-normal">
-          <div class="mb-8 px-1">
-            <p class="text-sm text-grey-dark flex items-center">{{ range .Params.category }}{{.|upper}}{{ end }}</p>
-            <p class="text-grey-dark">{{ .Date.Format "2006.01.02" }}</p>
-            <div class="text-black font-bold text-xl mb-2">{{ .Title }}</div>
-            <p class="text-gray-700 text-base">{{ .Summary | plainify | truncate 200 }}</p>
-          </div>
-        </div>
-      </div>
+  <div class="text-gray-700">
+    <a href="{{ .Site.BaseURL }}">
+      <img
+        loading="lazy"
+        class="rounded"
+        src="https://res.cloudinary.com/{{ .Site.Params.Cloudinary }}/image/upload/{{ .Site.Params.topbanner.src }}"
+        srcset="
+          https://res.cloudinary.com/{{ .Site.Params.Cloudinary }}/image/upload/q_auto,f_auto/{{ .Site.Params.topbanner.src }}       1000w,
+          https://res.cloudinary.com/{{ .Site.Params.Cloudinary }}/image/upload/q_auto,f_auto,w_800/{{ .Site.Params.topbanner.src }}  800w,
+          https://res.cloudinary.com/{{ .Site.Params.Cloudinary }}/image/upload/q_auto,f_auto,w_640/{{ .Site.Params.topbanner.src }}  640w,
+          https://res.cloudinary.com/{{ .Site.Params.Cloudinary }}/image/upload/q_auto,f_auto,w_400/{{ .Site.Params.topbanner.src }}  400w,
+          https://res.cloudinary.com/{{ .Site.Params.Cloudinary }}/image/upload/q_auto,f_auto,w_320/{{ .Site.Params.topbanner.src }}  320w
+        "
+        width="{{ .Site.Params.topbanner.width }}"
+        height="{{ .Site.Params.topbanner.height }}"
+        layout="responsive"
+      />
     </a>
-</article>
-{{ end }}
-<div class="text-center my-4">
-  <a href="/blog/" class="">
-    <button
-      class="bg-transparent hover:bg-gray-500 bg-gray-700 text-white font-semibold hover:text-white py-2 px-4 border border-gray-100 hover:border-transparent rounded mr-2">
-      Blog Archives
-    </button>
-  </a>
-</div>
+    {{ $recent_articles := (where .Site.Pages "IsPage" true) }}
+    {{ range first ($.Site.Params.latestSize | default 3) $recent_articles }}
+      <article class="border-grey-light mt-1.5 rounded border pb-1 pt-1">
+        <a href="{{ .Permalink }}">
+          <div class="flex flex-row">
+            <div class="flex basis-1/4 items-center justify-center rounded">
+              <img
+                loading="lazy"
+                class="h-32 object-contain"
+                src="{{ if isset .Params "eyecatch" }}
+                  {{ .Params.Eyecatch }}
+                {{ else if isset .Params "img" }}
+                  {{ .Params.img }}
+                {{ else }}
+                  {{ $.Site.BaseURL }}images/nopicture.png
+                {{ end }}"
+              />
+            </div>
+            <div
+              class="flex basis-3/4 flex-col justify-between p-4 leading-normal"
+            >
+              <div class="mb-8 px-1">
+                <p class="text-grey-dark flex items-center text-sm">
+                  {{ range .Params.category }}{{ . | upper }}{{ end }}
+                </p>
+                <p class="text-grey-dark">{{ .Date.Format "2006.01.02" }}</p>
+                <div class="mb-2 text-xl font-bold text-black">
+                  {{ .Title }}
+                </div>
+                <p class="text-base text-gray-700">
+                  {{ .Summary | plainify | truncate 200 }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </a>
+      </article>
+    {{ end }}
+    <div class="my-4 text-center">
+      <a href="/blog/" class="">
+        <button
+          class="mr-2 rounded border border-gray-100 bg-gray-700 bg-transparent px-4 py-2 font-semibold text-white hover:border-transparent hover:bg-gray-500 hover:text-white"
+        >
+          Blog Archives
+        </button>
+      </a>
+    </div>
+  </div>
 {{ end }}
