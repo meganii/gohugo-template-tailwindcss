@@ -1,6 +1,5 @@
-
-{{ $width := 400}}
-{{ $height := 300}}
+{{ $width := 400 }}
+{{ $height := 300 }}
 {{ $hero := 0 }}
 
 {{ with .Title }}
@@ -8,10 +7,10 @@
   {{ if gt (. | strings.Count "=") 0 }}
 
     <!-- ?よりも後をqueryStringとする -->
-    {{ $queryString := (split . "?" )}} 
+    {{ $queryString := (split . "?" ) }}
     {{ if gt (len $queryString) 1 }}
       <!-- & で分割 -->
-      {{ $paramString := (split (index $queryString 1) "&" )}}
+      {{ $paramString := (split (index $queryString 1) "&" ) }}
       {{ $params := "" }}
       {{ range $paramString }}
         {{ $kv := split . "=" }}
@@ -39,32 +38,45 @@
   {{ end }}
 {{ end }}
 
-
 {{ $baseurl := (printf "https://res.cloudinary.com/%s/image/upload/" "meganii") }}
-{{ $restr := (printf "^https?://res.cloudinary.com/%s/image/upload/.+/(.*)" "meganii" )}}
+{{ $restr := (printf "^https?://res.cloudinary.com/%s/image/upload/.+/(.*)" "meganii" ) }}
 
 {{ if (hasPrefix .Destination $baseurl) }}
-{{ $itemid := .Destination | replaceRE $restr "$1" }}
-
-<div class="pt-4 text-center">
-    <img {{if eq $hero 1}}data-hero {{ else }}loading="lazy"{{ end }} class=""
-        src="{{ .Destination }}"
-        srcset="{{ $baseurl }}q_auto,f_auto,w_320/{{ $itemid }} 320w,
-        {{ $baseurl }}q_auto,f_auto,w_640/{{ $itemid }} 640w,
-        {{ $baseurl }}q_auto,f_auto,w_1024/{{ $itemid }} 1024w"
-        width="{{ $width }}"
-        height="{{ $height }}"
-        alt="{{ .Text | default $.Page.Title }}" />
-</div>
+  {{ $itemid := .Destination | replaceRE $restr "$1" }}
+  <div class="pt-4 text-center">
+    <img
+      {{ if eq $hero 1 }}
+        data-hero
+      {{ else }}
+        loading="lazy"
+      {{ end }}
+      class=""
+      src="{{ .Destination }}"
+      srcset="
+        {{ $baseurl }}q_auto,f_auto,w_320/{{ $itemid }}   320w,
+        {{ $baseurl }}q_auto,f_auto,w_640/{{ $itemid }}   640w,
+        {{ $baseurl }}q_auto,f_auto,w_1024/{{ $itemid }} 1024w
+      "
+      width="{{ $width }}"
+      height="{{ $height }}"
+      alt="{{ .Text | default $.Page.Title }}"
+    />
+  </div>
 {{ else }}
-
-<div class="pt-4 text-center">
-  <img {{if eq $hero 1}}data-hero decoding="async"{{ else }}loading="lazy"{{ end }} class="contain"
+  <div class="pt-4 text-center">
+    <img
+      {{ if eq $hero 1 }}
+        data-hero decoding="async"
+      {{ else }}
+        loading="lazy"
+      {{ end }}
+      class="contain"
       src="{{ .Destination }}"
       width="{{ $width }}"
       height="{{ $height }}"
       heights="(min-width:600px) 400px, 80%"
       layout="responsive"
-      alt="{{ .Text | default $.Page.Title }}" />
-</div>
+      alt="{{ .Text | default $.Page.Title }}"
+    />
+  </div>
 {{ end }}

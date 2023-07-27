@@ -1,12 +1,21 @@
 {{ if and (not (strings.HasPrefix .Destination "http")) (strings.HasSuffix .Destination ".md") }}
-<a class="text-blue-500 hover:underline" href="{{ relref .Page .Destination }}">{{ .Text | safeHTML }}</a>
+  <a
+    class="text-blue-500 hover:underline"
+    href="{{ relref .Page .Destination }}"
+    >{{ .Text | safeHTML }}</a
+  >
 {{ else }}
-<a
-  class="text-blue-500 hover:underline"
-  {{- if not (strings.HasPrefix .Destination "http") }}data-rel="prefetch"{{ end -}}
-  href="{{ .Destination | safeURL }}"
-  {{ with .Title }} title="{{ . }}"{{ end }}
-  {{ if (strings.HasPrefix .Destination "http") }}target="_blank" rel="noopener"{{ end }}>
-  {{ .Text | safeHTML }}
-</a>
+  <a
+    class="text-blue-500 hover:underline"
+    {{- if not (strings.HasPrefix .Destination "http") }}
+      data-rel="prefetch"
+    {{ end -}}
+    href="{{ .Destination | safeURL }}"
+    {{ with .Title }}title="{{ . }}"{{ end }}
+    {{ if (strings.HasPrefix .Destination "http") }}
+      target="_blank" rel="noopener"
+    {{ end }}
+  >
+    {{ .Text | safeHTML }}
+  </a>
 {{ end }}

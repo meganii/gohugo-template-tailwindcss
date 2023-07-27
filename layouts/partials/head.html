@@ -1,38 +1,53 @@
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#2196f3">
-    {{- partial "meta.html" . -}}
-    <meta http-equiv="x-dns-prefetch-control" content="on">
-    <link rel="preconnect" href="https://res.cloudinary.com">
-    <link rel="dns-prefetch" href="https://res.cloudinary.com">
-    <link rel="manifest" href="{{ .Site.BaseURL }}manifest.json">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#2196f3" />
+  {{- partial "meta.html" . -}}
+  <meta http-equiv="x-dns-prefetch-control" content="on" />
+  <link rel="preconnect" href="https://res.cloudinary.com" />
+  <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+  <link rel="manifest" href="{{ .Site.BaseURL }}manifest.json" />
 
-    {{- partialCached "css.html" . -}}
-    <link rel="apple-touch-icon" type="image/png" href="/images/icons/apple-touch-icon-180x180.png">
-    <link rel="icon" type="image/png" href="/images/icons/icon-96x96.png">
+  {{- partialCached "css.html" . -}}
+  <link
+    rel="apple-touch-icon"
+    type="image/png"
+    href="/images/icons/apple-touch-icon-180x180.png"
+  />
+  <link rel="icon" type="image/png" href="/images/icons/icon-96x96.png" />
 
-    {{ $baseurl := (printf "https://res.cloudinary.com/%s/image/upload/" "meganii") }}
-    {{ $restr := (printf "^https?://res.cloudinary.com/%s/image/upload/.+/(.*)" "meganii" )}} 
+  {{ $baseurl := (printf "https://res.cloudinary.com/%s/image/upload/" "meganii") }}
+  {{ $restr := (printf "^https?://res.cloudinary.com/%s/image/upload/.+/(.*)" "meganii" ) }}
 
-    {{- $regex := `<img[\s\S]*data-hero[\s\S]+?src="(.+?)"[\s\S]+? />` -}}
-    {{- $matches := findRESubmatch $regex .Content -}}
-    {{- range $matches -}}
-        {{ $src := index . 1 }}
-        {{ if (hasPrefix $src $baseurl) }}
-            {{ $itemid := $src | replaceRE $restr "$1" }}
-            <link rel="preload" as="image" href="{{$src}}" 
-                imagesrcset="
+  {{- $regex := `<img[\s\S]*data-hero[\s\S]+?src="(.+?)"[\s\S]+? />` -}}
+  {{- $matches := findRESubmatch $regex .Content -}}
+  {{- range $matches -}}
+    {{ $src := index . 1 }}
+    {{ if (hasPrefix $src $baseurl) }}
+      {{ $itemid := $src | replaceRE $restr "$1" }}
+      <link
+        rel="preload"
+        as="image"
+        href="{{ $src }}"
+        imagesrcset="
                 {{ $baseurl }}q_auto,f_auto,w_320/{{ $itemid }} 320w,
                 {{ $baseurl }}q_auto,f_auto,w_640/{{ $itemid }} 640w,
                 {{ $baseurl }}q_auto,f_auto,w_1024/{{ $itemid }} 1024w"
-            />
-        {{ else }}
-        <link rel="preload" as="image" href="{{$src}}" />
-        {{ end }}
-    {{- end -}}
+      />
+    {{ else }}
+      <link rel="preload" as="image" href="{{ $src }}" />
+    {{ end }}
+  {{- end -}}
 
-    {{ partial "seo-schema.html" . }}
-    <link rel="canonical" href="{{ .Site.Params.CanonicalUrl }}{{ .RelPermalink }}">
-    <title>{{ $isHomePage := eq .Title .Site.Title }}{{ .Title }}{{ if eq $isHomePage false }} - {{ .Site.Title }}{{ end }}</title>
+  {{ partial "seo-schema.html" . }}
+  <link
+    rel="canonical"
+    href="{{ .Site.Params.CanonicalUrl }}{{ .RelPermalink }}"
+  />
+  <title>
+    {{ $isHomePage := eq .Title .Site.Title }}{{ .Title }}{{ if eq $isHomePage false }}
+      -
+      {{ .Site.Title }}
+    {{ end }}
+  </title>
 </head>

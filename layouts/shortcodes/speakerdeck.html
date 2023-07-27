@@ -8,8 +8,12 @@
   {{ $id = .Get 0 }}
 {{ end }}
 
+
 <div class="mb-1.5">
-  <iframe class="w-full {{$ratio}}" loading="lazy"
-    id="speakerdeckplayer" 
-    src="//speakerdeck.com/player/{{$id}}"></iframe>
+  <iframe
+    class="{{ $ratio }} w-full"
+    loading="lazy"
+    id="speakerdeckplayer"
+    src="//speakerdeck.com/player/{{ $id }}"
+  ></iframe>
 </div>

@@ -10,11 +10,13 @@
   {{ $id = .Get 0 }}
 {{ end }}
 
+
 <div>
   <iframe
     loading="lazy"
-    class="w-full aspect-video"
+    class="aspect-video w-full"
     frameborder="0"
-    src="https://www.docswell.com/slide/{{$id}}/embed">
+    src="https://www.docswell.com/slide/{{ $id }}/embed"
+  >
   </iframe>
 </div>

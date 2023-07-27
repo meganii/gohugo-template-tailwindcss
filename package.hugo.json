@@ -1,17 +1,32 @@
 {
-    "name": "gohugo-template-tailwindcss",
-    "version": "1.0.0",
-    "description": "Starter files for a Hugo theme with Tailwindcss",
-    "main": "index.js",
-    "repository": "https://github.com/meganii/gohugo-template-tailwindcss",
-    "author": "meganii",
-    "license": "MIT",
-    "scripts": {
-        "start": "hugo --gc"
-    },
+  "author": "meganii",
+  "comments": {
+    "dependencies": {},
     "devDependencies": {
-        "postcss": "^8.4.27",
-        "postcss-cli": "^10.1.0",
-        "tailwindcss": "^3.3.3"    
+      "postcss": "project",
+      "postcss-cli": "project",
+      "prettier": "project",
+      "prettier-plugin-go-template": "project",
+      "prettier-plugin-tailwindcss": "project",
+      "tailwindcss": "project"
     }
+  },
+  "dependencies": {},
+  "description": "Starter files for a Hugo theme with Tailwindcss",
+  "devDependencies": {
+    "postcss": "^8.4.27",
+    "postcss-cli": "^10.1.0",
+    "prettier": "^3.0.0",
+    "prettier-plugin-go-template": "^0.0.15",
+    "prettier-plugin-tailwindcss": "^0.4.1",
+    "tailwindcss": "^3.3.3"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "name": "gohugo-template-tailwindcss",
+  "repository": "https://github.com/meganii/gohugo-template-tailwindcss",
+  "scripts": {
+    "start": "hugo --gc"
+  },
+  "version": "1.0.0"
 }
