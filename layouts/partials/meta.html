@@ -10,7 +10,8 @@
 <meta property="og:url" content="{{ .Permalink }}" />
 <meta
   property="og:image"
-  content="{{ if isset .Params "img" }}
+  content="
+  {{ if isset .Params "img" }}
     {{ if eq (substr .Params.img 0 4) "http" }}
       {{ .Params.img }}
     {{ else }}
@@ -35,13 +36,13 @@
 />
 <meta
   name="twitter:image"
-  content="{{ if isset .Params "img" }}
+  content="
+  {{ if isset .Params "img" }}
     {{ if eq (substr .Params.img 0 4) "http" }}
       {{ .Params.img }}
     {{ else }}
       {{ $.Site.BaseURL }}{{ replaceRE "^/" "" .Params.img }}
     {{ end }}
-
   {{ else }}
     {{ $.Site.BaseURL }}images/nopicture.png
   {{ end }}
