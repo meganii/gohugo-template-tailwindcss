@@ -1,0 +1,45 @@
+{{ define "main" }}
+  <article class="mx-5">
+    <h2>Tweets</h2>
+    <ul>
+      {{ $data := .Site.Data.tweet.twitter.tweets }}
+      {{ $sorted := sort $data ".tweet.id" "desc" }}
+      {{ range $sorted }}
+        {{ if strings.HasPrefix .tweet.full_text "@" }}
+          {{ continue }}
+        {{ end }}
+        {{ $media := index .tweet.entities.media 0 }}
+        <li>
+          <div class="m-5 border-t border-gray-200 p-2">
+            <span
+              ><a
+                class="text-blue-500 hover:underline"
+                href="https://twitter.com/meganii/status/{{ .tweet.id }}"
+                >{{ .tweet.id }}</a
+              ></span
+            >
+            {{ $utc := time .tweet.created_at }}
+            <span>{{ dateFormat "2006-01-02 15:04:05" $utc.Local }}</span>
+            <div class="flex flex-col md:flex-row">
+              <div class="grow md:pr-2">{{ .tweet.full_text }}</div>
+              {{ if eq $media.type "photo" }}
+                <div
+                  class="mx-auto mt-2 h-32 w-32 flex-none bg-blue-300 md:mx-0 md:mt-0"
+                >
+                  <img
+                    class="h-32 w-32 object-cover"
+                    loading="lazy"
+                    src="{{ $media.media_url_https }}?name=thumb"
+                    alt=""
+                    width="{{ $media.sizes.thumb.w }}"
+                    height="{{ $media.sizes.thumb.h }}"
+                  />
+                </div>
+              {{ end }}
+            </div>
+          </div>
+        </li>
+      {{ end }}
+    </ul>
+  </article>
+{{ end }}
