@@ -8,6 +8,10 @@
   <a class="text-blue-500 hover:underline" href="{{ .Destination | safeURL }}"
     >{{ .Text | safeHTML }}</a
   >
+{{ else if and (ne .Destination "") (strings.HasPrefix .Destination "https://px.a8.net/") }}
+  {{ range first 1 ( where .Page.Site.Data.affiliate.affiliate.links "url" .Destination) }}
+    {{ .content | safeHTML }}
+  {{ end }}
 {{ else }}
   <a
     class="external-link text-blue-500 hover:underline"
