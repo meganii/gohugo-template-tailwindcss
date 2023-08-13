@@ -3,7 +3,7 @@
     <div class="mt-2 lg:w-2/5 lg:flex-none">
       <section>
         <article class="">
-          <h3 class="text-xl font-bold">Profile</h3>
+          <h1 class="text-xl font-bold">Profile</h1>
           <div class="flex">
             <img
               class="rounded"
@@ -113,7 +113,7 @@
     <div class="mt-2 lg:w-2/5 lg:flex-none">
       {{ $recent_articles := (where .Site.Pages "IsPage" true) }}
       <section class="">
-        <h3 class="text-xl font-bold">Latest Posts</h3>
+        <h1 class="text-xl font-bold">Latest Posts</h1>
         {{ range first ($.Site.Params.latestSize | default 3) $recent_articles }}
           <article class="m-4 border-t border-gray-300 pt-3">
             <a href="{{ .Permalink }}">
@@ -121,7 +121,7 @@
                 <div class="flex basis-1/5 items-center justify-center rounded">
                   <img
                     loading="lazy"
-                    class="h-20 object-contain"
+                    class="h-20 w-20 object-contain"
                     alt="Eyecatch"
                     src="{{ if isset .Params " eyecatch" }}
                       {{ .Params.Eyecatch }}
@@ -144,7 +144,7 @@
                     <p class="text-grey-dark text-sm">
                       {{ .Date.Format "2006.01.02" }}
                     </p>
-                    <h4 class="mb-2	text-base font-semibold">{{ .Title }}</h4>
+                    <h2 class="mb-2	text-base font-semibold">{{ .Title }}</h2>
                   </div>
                 </div>
               </div>
@@ -155,7 +155,7 @@
     </div>
     <div class="mt-2 lg:w-1/5 lg:flex-none">
       <section>
-        <h3 class="text-xl font-bold">Categories</h3>
+        <h1 class="text-xl font-bold">Categories</h1>
         {{ range sort .Site.Taxonomies.category "Count" "desc" }}
           <a
             class="text-hover:text-grey-200 ml-2 mt-2 block text-lg"
