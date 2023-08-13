@@ -14,7 +14,7 @@
     <a
       href="{{ $json.DetailPageURL }}"
       rel="noopener sponsored"
-      class="text-blue-500 hover:underline"
+      class="text-blue-600 hover:underline"
     >
       <img
         loading="lazy"
@@ -31,7 +31,7 @@
       <a
         href="{{ $json.DetailPageURL }}"
         rel="noopener sponsored"
-        class="text-blue-500 hover:underline"
+        class="text-blue-600 hover:underline"
         >{{ $json.ItemInfo.Title.DisplayValue }}</a
       >
       {{- with $json.ItemInfo.Classifications.ProductGroup.DisplayValue -}}
@@ -58,7 +58,7 @@
         href="{{ $json.DetailPageURL }}"
         target="_blank"
         rel="noopener sponsored"
-        class="border-1 block	w-full rounded border-gray-600 bg-yellow-500 text-center text-sm font-medium leading-9 text-white hover:bg-yellow-400"
+        class="border-1 block	w-full rounded border-gray-600 bg-yellow-400 text-center text-sm font-medium leading-9 text-gray-900 hover:bg-yellow-400"
         >Amazon</a
       >
       {{- with $json.Kindle.productUrl -}}
@@ -66,7 +66,7 @@
           href="{{ $json.Kindle.productUrl }}"
           target="_blank"
           rel="noopener sponsored"
-          class="border-1 block w-full rounded border-gray-600 bg-yellow-600 text-center text-sm font-medium leading-9 text-white  hover:bg-yellow-500"
+          class="border-1 block w-full rounded border-gray-600 bg-yellow-500 text-center text-sm font-medium leading-9 text-gray-900  hover:bg-yellow-500"
           >Kindle</a
         >
       {{- end -}}
