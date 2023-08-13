@@ -1,17 +1,15 @@
-<ol>
-  <ul>
-    {{- range .Ancestors.Reverse }}
-      <li class="inline">
-        <a
-          class="text-gray-800 hover:text-gray-600 hover:underline"
-          href="{{ .Permalink }}"
-          >{{ .LinkTitle }}</a
-        >
-      </li>
-      <li class="inline">></li>
-    {{- end }}
-    <li class="inline active:text-black">
-      {{- .Title -}}
+<ul>
+  {{- range .Ancestors.Reverse }}
+    <li class="inline">
+      <a
+        class="text-gray-800 hover:text-gray-600 hover:underline"
+        href="{{ .Permalink }}"
+        >{{ .LinkTitle }}</a
+      >
     </li>
-  </ul>
-</ol>
+    <li class="inline">></li>
+  {{- end }}
+  <li class="inline active:text-black">
+    {{- .Title -}}
+  </li>
+</ul>
