@@ -25,7 +25,7 @@
     {{ $BaseURL := .Site.BaseURL }}
     {{ with $related }}
       <section class="mt-8">
-        <h4 class="font-medium">Related contents</h4>
+        <h1 class="font-medium">Related contents</h1>
         {{ range . }}
           <article class="border-grey-light m-4 border-t pt-3">
             <a href="{{ .Permalink }}" data-rel="prefetch" class="">
@@ -33,7 +33,7 @@
                 <div class="flex basis-1/5 items-center justify-center rounded">
                   <img
                     loading="lazy"
-                    class="h-32 object-contain"
+                    class="h-32 w-32 object-contain"
                     alt="Eyecatch"
                     media=""
                     layout="fill"
