@@ -32,8 +32,8 @@
   padding-left: 1.6em;
 }
 
-.post p {
-  @apply my-7;
+.post > p {
+  @apply mt-7;
 }
 
 .post h2 {
