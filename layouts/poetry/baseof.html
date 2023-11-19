@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="{{ .Site.LanguageCode }}" class="text-gray-800">
+  {{- partial "head.html" . -}}
+  <body class="font-jamin break-words [writing-mode:vertical-rl]">
+    <div class="container mx-auto flex flex-col">
+      {{- partial "header.html" . -}}
+      <main class="flex-1 sm:mx-4 md:mx-12 lg:mx-40 xl:mx-80">
+        {{- block "main" . }}{{- end }}
+      </main>
+    </div>
+    <script>
+      document
+        .getElementById("nav-open")
+        .addEventListener("click", function () {
+          document.getElementById("nav-menu").classList.toggle("hidden");
+        });
+    </script>
+    <script src="/js/instantpage-5.2.0.js" type="module" defer></script>
+  </body>
+</html>
