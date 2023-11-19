@@ -2,7 +2,7 @@
   <div class="float-right [writing-mode:vertical-rl] ">
     <h1 class="text-2xl	font-bold">{{ .Title }}</h1>
     {{ .Content }}
-    <div class="flex flex-col flex-wrap">
+    <div class="flex flex-col-reverse flex-wrap">
       {{ range .Paginator.Pages }}
         <div class="h-full">
           <a href="{{ .Permalink }}#title">{{ .Title }}</a>
