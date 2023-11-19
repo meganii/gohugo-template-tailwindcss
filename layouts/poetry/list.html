@@ -5,7 +5,7 @@
     <div class="flex flex-col flex-wrap">
       {{ range .Paginator.Pages }}
         <div class="h-full">
-          <a href="{{ .Permalink }}">{{ .Title }}</a>
+          <a href="{{ .Permalink }}#title">{{ .Title }}</a>
         </div>
       {{ end }}
     </div>
