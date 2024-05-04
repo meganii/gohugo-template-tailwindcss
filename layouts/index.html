@@ -17,7 +17,11 @@
         layout="responsive"
       />
     </a>
-    {{ $recent_articles := (where .Site.Pages "IsPage" true) }}
+    {{ $recent_articles := where .Site.Pages "IsPage" true }}
+    {{ $recent_articles = where $recent_articles "Section" "ne" "note" }}
+    {{ $recent_articles = where $recent_articles "Section" "ne" "app" }}
+    {{ $recent_articles = where $recent_articles "Section" "ne" "poetry" }}
+
     {{ range first ($.Site.Params.latestSize | default 3) $recent_articles }}
       <article class="border-grey-light mt-1.5 rounded border pb-1 pt-1">
         <a href="{{ .Permalink }}">

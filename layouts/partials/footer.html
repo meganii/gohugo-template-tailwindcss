@@ -111,7 +111,10 @@
       </section>
     </div>
     <div class="mt-2 lg:w-2/5 lg:flex-none">
-      {{ $recent_articles := (where .Site.Pages "IsPage" true) }}
+      {{ $recent_articles := where .Site.Pages "IsPage" true }}
+      {{ $recent_articles = where $recent_articles "Section" "ne" "note" }}
+      {{ $recent_articles = where $recent_articles "Section" "ne" "app" }}
+      {{ $recent_articles = where $recent_articles "Section" "ne" "poetry" }}
       <section class="">
         <h1 class="text-xl font-bold">Latest Posts</h1>
         {{ range first ($.Site.Params.latestSize | default 3) $recent_articles }}
