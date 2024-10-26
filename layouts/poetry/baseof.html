@@ -1,12 +1,18 @@
 <!doctype html>
 <html lang="{{ .Site.LanguageCode }}" class="text-gray-800">
   {{- partial "head.html" . -}}
-  <body class="font-jamin break-words [writing-mode:vertical-rl]">
-    <div class="container mx-auto flex flex-col">
-      {{- partial "header.html" . -}}
-      <main class="flex-1 sm:mx-4 md:mx-12 lg:mx-40 xl:mx-80">
-        {{- block "main" . }}{{- end }}
-      </main>
+  <body class="font-jamin">
+    <div class="container">
+      <div class="flex flex-row-reverse [overflow:hidden]">
+        <div
+          class="min-h-screen [overflow-x:scroll] [word-break:auto-phrase] [writing-mode:vertical-rl]"
+        >
+          {{- partial "header_vertical.html" . -}}
+          <main class="">
+            {{- block "main" . }}{{- end }}
+          </main>
+        </div>
+      </div>
     </div>
     <script>
       document

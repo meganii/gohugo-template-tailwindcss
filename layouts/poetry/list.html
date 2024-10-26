@@ -1,12 +1,12 @@
 {{ define "main" }}
-  <div class="float-right [writing-mode:vertical-rl] ">
+  <div class="py-20 leading-loose">
     <h1 class="text-2xl	font-bold">{{ .Title }}</h1>
     {{ .Content }}
-    <div class="flex flex-col-reverse flex-wrap">
-      {{ range .Pages }}
-        <div class="h-full">
-          <a href="{{ .Permalink }}">{{ .Title }}</a>
-        </div>
+    <div class="flex flex-col">
+      {{ range .Pages.Reverse }}
+        <a class="" href="{{ .Permalink }}">
+          {{ .Title }}
+        </a>
       {{ end }}
     </div>
   </div>
