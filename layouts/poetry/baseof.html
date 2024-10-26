@@ -3,9 +3,16 @@
   {{- partial "head.html" . -}}
   <body class="font-jamin">
     <div class="container">
-      <main class="flex flex-row-reverse [overflow:hidden]">
-        {{- block "main" . }}{{- end }}
-      </main>
+      <div class="flex flex-row-reverse [overflow:hidden]">
+        <div
+          class="min-h-screen [overflow-x:scroll] [word-break:auto-phrase] [writing-mode:vertical-rl]"
+        >
+          {{- partial "header_vertical.html" . -}}
+          <main class="">
+            {{- block "main" . }}{{- end }}
+          </main>
+        </div>
+      </div>
     </div>
     <script>
       document
