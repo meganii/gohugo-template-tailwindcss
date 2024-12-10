@@ -1,3 +1,16 @@
-{{ $url := .Get 0 | md5 }}
-{{ $json := getJSON "data/iframely/" $url ".json" }}
-{{ $json.html | markdownify }}
+{{ $url := .Get 0 }}
+{{ $md5Url := $url | md5 }}
+{{ $filePath := printf "data/iframely/%s.json" $md5Url }}
+{{ with resources.Get $filePath }}
+  {{ with .Err }}
+    {{ errorf "ERROR: Failed to get resource %q: %s" $filePath . }}
+  {{ else }}
+    {{ with unmarshal .Content }}
+      {{ .html | safeHTML }}
+    {{ else }}
+      {{ errorf "ERROR: Failed to unmarshal content from %q" $filePath }}
+    {{ end }}
+  {{ end }}
+{{ else }}
+  {{ errorf "ERROR: Failed to get resource %q" $filePath }}
+{{ end }}

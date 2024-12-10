@@ -1,6 +1,6 @@
 {{ $url := ( .Get 0) }}
 {{ $getURL := printf "http://localhost:6060/ogp?%s" (querify "url" $url ) }}
-{{ $ogpjson := getJSON $getURL }}
+{{ $ogpjson := resources.GetRemote $getURL }}
 
 
 <div class="border-grey-light my-4 rounded border">
