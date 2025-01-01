@@ -2,10 +2,10 @@
 <html lang="{{ .Site.LanguageCode }}" class="text-gray-800">
   {{- partial "head.html" . -}}
   <body class="font-jamin">
-    <div class="container">
-      <div class="flex flex-row-reverse [overflow:hidden]">
+    <div class="">
+      <div class="flex flex-row-reverse">
         <div
-          class="min-h-full [overflow-x:scroll] [word-break:auto-phrase] [writing-mode:vertical-rl]"
+          class="min-h-full overflow-auto [word-break:auto-phrase] [writing-mode:vertical-rl]"
         >
           {{- partial "header_vertical.html" . -}}
           <main class="">

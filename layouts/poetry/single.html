@@ -1,16 +1,23 @@
 {{ define "main" }}
   <div class="">
-    <div class="flex flex-col items-center [writing-mode:vertical-rl]">
-      <h1 id="title" class="mx-10 my-5 text-2xl font-bold">
-        {{ .Title }}
-      </h1>
-      <div class="p-10 indent-4 leading-loose [writing-mode:vertical-rl]">
-        {{ .Content }}
-      </div>
-      <div class="mr-10">
-        <a class="" href="/poetry/tanka/"
-          ><h3>{{ .CurrentSection.LinkTitle }}</h3></a
+    <div class="flex flex-col">
+      <div class="">
+        <div
+          id="title"
+          class="mr-16 p-10 text-2xl font-bold [word-break:auto-phrase] md:px-20"
         >
+          {{ .Title }}
+        </div>
+        <div
+          class="p-10 indent-4 leading-loose [word-break:auto-phrase] md:py-20"
+        >
+          {{ .Content }}
+        </div>
+        <div class="mr-10 p-10">
+          <a class="" href="/poetry/tanka/">
+            <h3>{{ .CurrentSection.LinkTitle }}</h3>
+          </a>
+        </div>
       </div>
     </div>
   </div>
