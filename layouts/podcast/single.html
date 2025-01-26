@@ -19,7 +19,7 @@
 
       <div class="my-4">
         <h2>Listen now on</h2>
-        <div class="flex items-center">
+        <div class="flex items-center gap-x-1	">
           {{ with .Params.Podcast.Spotify }}
             <div class="">
               <a href="{{ . }}">
@@ -50,6 +50,19 @@
                 <img
                   class="h-8 w-8 object-cover"
                   src="{{ relURL "images/logo-castbox.svg" }}"
+                  alt="Castbox"
+                  width="32"
+                  height="32"
+                />
+              </a>
+            </div>
+          {{ end }}
+          {{ with .Params.Podcast.Podcastaddict }}
+            <div class="">
+              <a href="{{ . }}">
+                <img
+                  class="h-8 w-8 object-cover"
+                  src="{{ relURL "images/logo-podcastaddict.svg" }}"
                   alt="Castbox"
                   width="32"
                   height="32"
