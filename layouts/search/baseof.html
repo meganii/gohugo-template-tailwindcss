@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="{{ .Site.LanguageCode }}" class="text-gray-800">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#2196f3" />
+    {{- partial "meta.html" . -}}
+    <meta http-equiv="x-dns-prefetch-control" content="on" />
+    <link rel="preconnect" href="https://res.cloudinary.com" />
+    <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+    <link rel="manifest" href="{{ .Site.BaseURL }}manifest.json" />
+
+    {{- partialCached "css.html" . -}}
+    <link
+      rel="apple-touch-icon"
+      type="image/png"
+      href="/images/icons/apple-touch-icon-180x180.png"
+    />
+    <link rel="icon" type="image/png" href="/images/icons/icon-96x96.png" />
+
+    {{ $baseurl := (printf "https://res.cloudinary.com/%s/image/upload/" "meganii") }}
+    {{ $restr := (printf "^https?://res.cloudinary.com/%s/image/upload/.+/(.*)" "meganii" ) }}
+
+    {{- $regex := `<img[\s\S]*data-hero[\s\S]+?src="(.+?)"[\s\S]+? />` -}}
+    {{- $matches := findRESubmatch $regex .Content -}}
+    {{- range $matches -}}
+      {{ $src := index . 1 }}
+      {{ if (hasPrefix $src $baseurl) }}
+        {{ $itemid := $src | replaceRE $restr "$1" }}
+        <link
+          rel="preload"
+          as="image"
+          href="{{ $src }}"
+          imagesrcset="
+                      {{ $baseurl }}q_auto,f_auto,w_320/{{ $itemid }} 320w,
+                      {{ $baseurl }}q_auto,f_auto,w_640/{{ $itemid }} 640w,
+                      {{ $baseurl }}q_auto,f_auto,w_1024/{{ $itemid }} 1024w"
+        />
+      {{ else }}
+        <link rel="preload" as="image" href="{{ $src }}" />
+      {{ end }}
+    {{- end -}}
+
+    {{ partial "seo-schema.html" . }}
+    <link
+      rel="canonical"
+      href="{{ .Site.Params.CanonicalUrl }}{{ .RelPermalink }}"
+    />
+    <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+    <script src="/pagefind/pagefind-ui.js"></script>
+    <script>
+      window.addEventListener("DOMContentLoaded", (event) => {
+        new PagefindUI({
+          element: "#search",
+          showSubResults: true,
+          autofocus: true,
+        });
+      });
+    </script>
+    <title>
+      {{ $isHomePage := eq .Title .Site.Title }}{{ .Title }}{{ if eq $isHomePage false }}
+        -
+        {{ .Site.Title }}
+      {{ end }}
+    </title>
+  </head>
+  <body class="font-ja break-words">
+    <div class="container mx-auto flex min-h-screen flex-col">
+      {{- partial "header.html" . -}}
+      <div id="search"></div>
+      <main class="flex-1 sm:mx-4 md:mx-12 lg:mx-40 xl:mx-80">
+        {{- block "main" . }}{{- end }}
+      </main>
+    </div>
+    {{- partial "footer.html" . -}}
+    <script>
+      document
+        .getElementById("nav-open")
+        .addEventListener("click", function () {
+          document.getElementById("nav-menu").classList.toggle("hidden");
+        });
+    </script>
+    <script src="/js/instantpage-5.2.0.js" type="module" defer></script>
+  </body>
+</html>
