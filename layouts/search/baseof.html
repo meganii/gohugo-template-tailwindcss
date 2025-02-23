@@ -85,23 +85,22 @@
   <body class="font-ja break-words">
     <div class="container mx-auto flex min-h-screen flex-col">
       {{- partial "header.html" . -}}
-      <div id="search"></div>
-      <div id="search-tags" class="flex flex-wrap gap-2">
-        <h3 class="mt-2 text-sm">主なタグ一覧</h3>
-        <div>
-          {{- range sort .Site.Taxonomies.tags "Count" "desc" -}}
-            {{- if ge .Count 5 -}}
-              <a
-                class="text-hover:text-grey-200 ml-2 mt-2 inline text-sm hover:underline"
-                href="{{ .Page.Permalink }}"
-                >{{ .Page.Title }} ({{ .Count }})</a
-              >
+      <main class="flex-1 sm:mx-4 md:mx-12 lg:mx-20 xl:mx-60">
+        <div id="search"></div>
+        <div id="search-tags" class="flex flex-wrap gap-2">
+          <h3 class="mt-2 text-sm">主なタグ一覧</h3>
+          <div>
+            {{- range sort .Site.Taxonomies.tags "Count" "desc" -}}
+              {{- if ge .Count 5 -}}
+                <a
+                  class="text-hover:text-grey-200 ml-2 mt-2 inline text-sm hover:underline"
+                  href="{{ .Page.Permalink }}"
+                  >{{ .Page.Title }} ({{ .Count }})</a
+                >
+              {{- end -}}
             {{- end -}}
-          {{- end -}}
+          </div>
         </div>
-      </div>
-      <main class="flex-1 sm:mx-4 md:mx-12 lg:mx-40 xl:mx-80">
-        {{- block "main" . }}{{- end }}
       </main>
     </div>
     {{- partial "footer.html" . -}}
