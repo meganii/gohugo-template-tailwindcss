@@ -50,11 +50,29 @@
     <script src="/pagefind/pagefind-ui.js"></script>
     <script>
       window.addEventListener("DOMContentLoaded", (event) => {
-        new PagefindUI({
+        const searchTags = document.getElementById("search-tags");
+        const pagefind = new PagefindUI({
           element: "#search",
           showSubResults: true,
           autofocus: true,
         });
+        // MutationObserverで検索結果の変化を監視
+        const observer = new MutationObserver(() => {
+          const resultsContainer = document.querySelector(
+            "#search .pagefind-ui__results",
+          );
+          if (resultsContainer && resultsContainer.childElementCount > 0) {
+            searchTags.classList.add("hidden");
+          } else {
+            searchTags.classList.remove("hidden");
+          }
+        });
+
+        // 監視対象の要素を取得して監視を開始
+        const searchElement = document.querySelector("#search");
+        if (searchElement) {
+          observer.observe(searchElement, { childList: true, subtree: true });
+        }
       });
     </script>
     <title>
@@ -68,6 +86,20 @@
     <div class="container mx-auto flex min-h-screen flex-col">
       {{- partial "header.html" . -}}
       <div id="search"></div>
+      <div id="search-tags" class="flex flex-wrap gap-2">
+        <h3 class="mt-2 text-sm">主なタグ一覧</h3>
+        <div>
+          {{- range sort .Site.Taxonomies.tags "Count" "desc" -}}
+            {{- if ge .Count 5 -}}
+              <a
+                class="text-hover:text-grey-200 ml-2 mt-2 inline text-sm hover:underline"
+                href="{{ .Page.Permalink }}"
+                >{{ .Page.Title }} ({{ .Count }})</a
+              >
+            {{- end -}}
+          {{- end -}}
+        </div>
+      </div>
       <main class="flex-1 sm:mx-4 md:mx-12 lg:mx-40 xl:mx-80">
         {{- block "main" . }}{{- end }}
       </main>
