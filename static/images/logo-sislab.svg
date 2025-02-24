@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 2048 2048" version="1.1"
+    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:space="preserve" xmlns:serif="http://www.serif.com/"
+    style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g id="レイヤー3">
+    </g>
+    <g transform="matrix(1.79956,0,0,1.79956,-812.44,-724.711)">
+        <g transform="matrix(1,0,0,1,368.697,-290.62)">
+            <g transform="matrix(1.32836,0,0,0.660543,-135.446,448.357)">
+                <rect x="378.124" y="1699.55" width="535.086" height="223.997" style="fill:rgb(31, 41, 55);"/>
+            </g>
+            <g transform="matrix(1.32836,0,0,0.660543,426.396,68.302)">
+                <rect x="378.124" y="1699.55" width="535.086" height="223.997" style="fill:rgb(31, 41, 55);"/>
+            </g>
+            <g transform="matrix(4.86168e-17,-0.789626,0.66418,4.04466e-17,-199.957,2017.52)">
+                <rect x="378.124" y="1699.55" width="535.086" height="223.997" style="fill:rgb(31, 41, 55);"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-339.534,-557.659)">
+            <g transform="matrix(1.32836,0,0,0.660543,-129.928,451.388)">
+                <rect x="378.124" y="1699.55" width="535.086" height="223.997" style="fill:rgb(31, 41, 55);"/>
+            </g>
+            <g transform="matrix(1.32836,0,0,0.660543,432.084,60.2501)">
+                <rect x="378.124" y="1699.55" width="535.086" height="223.997" style="fill:rgb(31, 41, 55);"/>
+            </g>
+            <g transform="matrix(4.86168e-17,-0.789626,0.66418,4.04466e-17,-194.438,2020.55)">
+                <rect x="378.124" y="1699.55" width="535.086" height="223.997" style="fill:rgb(31, 41, 55);"/>
+            </g>
+        </g>
+        <g transform="matrix(0.689895,0,0,0.600529,407.016,477.546)">
+            <circle cx="893.505" cy="694.755" r="130.495" style="fill:rgb(185,75,75);"/>
+        </g>
+        <g transform="matrix(2.44034e-17,-0.394813,0.569016,3.47309e-17,-10.3076,1377.85)">
+            <rect x="378.124" y="1699.55" width="535.086" height="223.997" style="fill:rgb(31, 41, 55);"/>
+        </g>
+    </g>
+    <g id="レイヤー2">
+    </g>
+</svg>

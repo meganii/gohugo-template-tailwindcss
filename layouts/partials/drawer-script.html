@@ -1,0 +1,19 @@
+<script>
+  const drawerToggle = document.getElementById("nav-open");
+  const drawer = document.getElementById("drawer");
+  const drawerOverlay = document.getElementById("drawer-overlay");
+
+  drawerToggle.addEventListener("click", () => {
+    drawer.classList.toggle("-translate-x-full");
+    drawerOverlay.classList.toggle("hidden");
+    //bodyのスクロールを制御
+    document.body.classList.toggle("overflow-hidden");
+  });
+
+  // オーバーレイをクリックしたときもドロワーを閉じる
+  drawerOverlay.addEventListener("click", () => {
+    drawer.classList.add("-translate-x-full");
+    drawerOverlay.classList.add("hidden");
+    document.body.classList.remove("overflow-hidden");
+  });
+</script>
