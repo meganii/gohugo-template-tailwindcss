@@ -85,7 +85,7 @@
   <body class="font-ja break-words">
     <div class="container mx-auto flex min-h-screen flex-col">
       {{- partial "header.html" . -}}
-      <main class="flex-1 sm:mx-4 md:mx-12 lg:mx-20 xl:mx-60">
+      <main class="mx-4 flex-1 sm:mx-4 md:mx-12 lg:mx-20 xl:mx-60">
         <div id="search"></div>
         <div id="search-tags" class="flex flex-wrap gap-2">
           <h3 class="mt-2 text-sm">主なタグ一覧</h3>
@@ -104,13 +104,7 @@
       </main>
     </div>
     {{- partial "footer.html" . -}}
-    <script>
-      document
-        .getElementById("nav-open")
-        .addEventListener("click", function () {
-          document.getElementById("nav-menu").classList.toggle("hidden");
-        });
-    </script>
+    {{- partial "drawer-script.html" -}}
     <script src="/js/instantpage-5.2.0.js" type="module" defer></script>
   </body>
 </html>

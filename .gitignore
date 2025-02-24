@@ -2,3 +2,5 @@
 /exampleSite/public
 /exampleSite/hugo_stats.json
 public
+.DS_Store
+Thumbs.db
