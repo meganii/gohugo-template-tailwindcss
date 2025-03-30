@@ -7,7 +7,6 @@
         <div
           class="min-h-full overflow-auto [word-break:auto-phrase] [writing-mode:vertical-rl]"
         >
-          {{- partial "header_vertical.html" . -}}
           <main class="">
             {{- block "main" . }}{{- end }}
           </main>
@@ -15,12 +14,43 @@
       </div>
     </div>
     <script>
-      document
-        .getElementById("nav-open")
-        .addEventListener("click", function () {
-          document.getElementById("nav-menu").classList.toggle("hidden");
-        });
-      document.querySelector("nav").scrollIntoView();
+      function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+        };
+      }
+
+      async function adjustTitleFontSize() {
+        const titleElement = document.getElementById("title");
+        if (!titleElement) return;
+
+        const computedStyle = getComputedStyle(titleElement);
+        const paddingLeft = parseFloat(computedStyle.paddingLeft);
+        const paddingRight = parseFloat(computedStyle.paddingRight);
+        const lineHeight = parseFloat(computedStyle.lineHeight);
+        const baseWidth = paddingLeft + paddingRight + lineHeight;
+
+        let iterations = 0; // 無限ループ防止用
+        let currentFontSize = parseFloat(computedStyle.fontSize);
+        while (baseWidth < titleElement.scrollWidth && iterations < 20) {
+          iterations++; // 念のため回数制限
+          console.log(titleElement.style.fontSize);
+          titleElement.style.fontSize = `${currentFontSize}px`;
+          console.log("smaller font size:", titleElement.style.fontSize);
+          currentFontSize -= 1; // フォントサイズを1px小さくする
+        }
+      }
+
+      // イベントリスナー (変更なし)
+      window.addEventListener("load", adjustTitleFontSize);
+      const debouncedAdjust = debounce(adjustTitleFontSize, 150);
+      window.addEventListener("resize", debouncedAdjust);
     </script>
     <script src="/js/instantpage-5.2.0.js" type="module" defer></script>
   </body>
