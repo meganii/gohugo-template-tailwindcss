@@ -20,16 +20,15 @@
   {{- $url := printf "https://twitter.com/%v/status/%v" .user .id -}}
   {{- $query := querify "url" $url "align" "center" -}}
   {{- $request := printf "https://publish.twitter.com/oembed?%s" $query -}}
-  {{- $opts := dict "dataType" "json" }}
-  {{- with resources.GetRemote $request $opts -}}
+
+  {{- with try (resources.GetRemote $request) -}}
     {{- with .Err -}}
       {{- errorf "%s" . -}}
-    {{- else -}}
+    {{- else with .Value -}}
+      {{- $data := . | transform.Unmarshal -}}
       <div class="w-full">
-        {{- .Content | safeHTML -}}
+        {{- $data.html  | safeHTML -}}
       </div>
     {{- end -}}
-  {{- else -}}
-    {{- errorf "Failed to fetch remote resource: %s" $request -}}
   {{- end -}}
 {{- end -}}
