@@ -24,7 +24,7 @@
     },
     "image": {
       "@type": "ImageObject",
-      "url": "{{ if isset .Params "eyecatch" }}{{ .Params.Eyecatch }}{{ else if isset .Params "img" }}{{ .Params.img }}{{ else }}{{ $.Site.BaseURL }}images/nopicture.png{{ end }}"
+      "url": "{{ partial "funcGetOgpImage.html" . }}",
     }
   }
 </script>

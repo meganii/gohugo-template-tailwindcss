@@ -1,0 +1,18 @@
+{{ $image := "" }}
+{{ if isset .Params "img" }}
+  {{ if eq (substr .Params.img 0 4) "http" }}
+    {{ $image = .Params.img }}
+  {{ else }}
+    {{ $image = (print $.Site.BaseURL (replaceRE "^/" "" .Params.img)) }}
+  {{ end }}
+{{ else if eq .Section "poetry" -}}
+  {{ if .File }}
+    {{ $image = (print $.Site.BaseURL "images/poetry/" .File.BaseFileName ".png") }}
+  {{ else }}
+    {{ $image = "File not found" }}
+  {{ end }}
+{{ else }}
+  {{ $image = (print $.Site.BaseURL "images/nopicture.png") }}
+{{ end }}
+
+{{ return $image }}
