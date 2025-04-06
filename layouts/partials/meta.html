@@ -1,63 +1,33 @@
 {{- if or (eq .Section "category") (eq .Section "tags") -}}
   <meta name="robots" content="noindex" />
 {{- end -}}
-<meta
-  name="description"
-  content="{{ replaceRE "\n" "" ((.Description | default .Summary) | plainify) }}"
-/>
+{{ $ogpDescription := replaceRE "\n" "" ((.Description | default .Summary) | plainify) }}
+<meta name="description" content="{{ $ogpDescription }}" />
 <meta property="og:title" content="{{ .Title }} - {{ .Site.Title }}" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="{{ .Permalink }}" />
-<meta
-  property="og:image"
-  content="
-  {{ if isset .Params "img" }}
-    {{ if eq (substr .Params.img 0 4) "http" }}
-      {{ .Params.img }}
-    {{ else }}
-      {{ $.Site.BaseURL }}{{ replaceRE "^/" "" .Params.img }}
-    {{ end }}
-  {{ else }}
-    {{ $.Site.BaseURL }}images/nopicture.png
-  {{ end }}"
-/>
+{{ $ogpImage := (partial "funcGetOgpImage.html" .) -}}
+<meta property="og:image" content="{{ $ogpImage }}" />
 <meta property="og:site_name" content="{{ .Site.Title }}" />
-<meta
-  property="og:description"
-  content="{{ replaceRE "\n" "" ((.Description | default .Summary) | plainify) }}"
-/>
+<meta property="og:description" content="{{ $ogpDescription }}" />
 <meta property="og:locale" content="ja_JP" />
 <meta name="twitter:site" content="{{ .Site.Title }}" />
 <meta name="twitter:url" content="{{ .Permalink }}" />
 <meta name="twitter:title" content="{{ .Title }} - {{ .Site.Title }}" />
-<meta
-  name="twitter:description"
-  content="{{ replaceRE "\n" "" ((.Description | default .Summary) | plainify) }}"
-/>
-<meta
-  name="twitter:image"
-  content="
-  {{ if isset .Params "img" }}
-    {{ if eq (substr .Params.img 0 4) "http" }}
-      {{ .Params.img }}
-    {{ else }}
-      {{ $.Site.BaseURL }}{{ replaceRE "^/" "" .Params.img }}
-    {{ end }}
-  {{ else }}
-    {{ $.Site.BaseURL }}images/nopicture.png
-  {{ end }}
-  "
-/>
-
+<meta name="twitter:description" content="{{ $ogpDescription }}" />
+<meta name="twitter:image" content="{{ $ogpImage }}" />
 {{ $isAmazonLink := findRE `https:\/\/.*amazon\.com` .Params.img }}
+{{- if $isAmazonLink -}}
+  <meta name="twitter:image:alt" content="Amazon" />
+{{- else -}}
+  <meta name="twitter:image:alt" content="{{ .Title }}" />
+{{- end -}}
 <meta
   name="twitter:card"
-  content="{{ if $isAmazonLink }}
+  content="{{- if $isAmazonLink -}}
     summary
-  {{ else }}
+  {{- else -}}
     summary_large_image
-  {{ end }}
-  "
+  {{- end -}}"
 />
-
 <meta property="fb:app_id" content="385471528156440" />

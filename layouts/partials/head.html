@@ -16,8 +16,8 @@
   />
   <link rel="icon" type="image/png" href="/images/icons/icon-96x96.png" />
 
-  {{ $baseurl := (printf "https://res.cloudinary.com/%s/image/upload/" "meganii") }}
-  {{ $restr := (printf "^https?://res.cloudinary.com/%s/image/upload/.+/(.*)" "meganii" ) }}
+  {{- $baseurl := (printf "https://res.cloudinary.com/%s/image/upload/" "meganii") -}}
+  {{- $restr := (printf "^https?://res.cloudinary.com/%s/image/upload/.+/(.*)" "meganii" ) -}}
 
   {{- $regex := `<img[\s\S]*data-hero[\s\S]+?src="(.+?)"[\s\S]+? />` -}}
   {{- $matches := findRESubmatch $regex .Content -}}
@@ -39,15 +39,15 @@
     {{ end }}
   {{- end -}}
 
-  {{ partial "seo-schema.html" . }}
+  {{- partial "seo-schema.html" . -}}
   <link
     rel="canonical"
     href="{{ .Site.Params.CanonicalUrl }}{{ .RelPermalink }}"
   />
   <title>
-    {{ $isHomePage := eq .Title .Site.Title }}{{ .Title }}{{ if eq $isHomePage false }}
+    {{- $isHomePage := eq .Title .Site.Title }}{{ .Title }}{{ if eq $isHomePage false -}}
       -
-      {{ .Site.Title }}
-    {{ end }}
+      {{- .Site.Title -}}
+    {{- end -}}
   </title>
 </head>
