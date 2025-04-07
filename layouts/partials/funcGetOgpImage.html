@@ -1,18 +1,18 @@
 {{ $image := "" }}
 {{ if isset .Params "img" }}
-  {{ if eq (substr .Params.img 0 4) "http" }}
-    {{ $image = .Params.img }}
+  {{- if strings.HasPrefix .Params.img "http" -}}
+    {{- $image = .Params.img -}}
   {{ else }}
-    {{ $image = (print $.Site.BaseURL (replaceRE "^/" "" .Params.img)) }}
+    {{- $image = (print .Params.img | absURL) -}}
   {{ end }}
 {{ else if eq .Section "poetry" -}}
   {{ if .File }}
-    {{ $image = (print $.Site.BaseURL "images/poetry/" .File.BaseFileName ".png") }}
+    {{- $image = (printf "images/poetry/%s.png" .File.BaseFileName | absURL) -}}
   {{ else }}
-    {{ $image = "File not found" }}
+    {{- $image = "images/nopicture.png" | absURL -}}
   {{ end }}
 {{ else }}
-  {{ $image = (print $.Site.BaseURL "images/nopicture.png") }}
+  {{- $image = "images/nopicture.png" | absURL -}}
 {{ end }}
 
 {{ return $image }}
