@@ -3,7 +3,7 @@
 {{- end -}}
 {{ $ogpDescription := replaceRE "\n" "" ((.Description | default .Summary) | plainify) }}
 <meta name="description" content="{{ $ogpDescription }}" />
-<meta property="og:title" content="{{ .Title }} - {{ .Site.Title }}" />
+<meta property="og:title" content="{{- partial "funcGetTitle.html" . -}}" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="{{ .Permalink }}" />
 {{ $ogpImage := (partial "funcGetOgpImage.html" .) -}}
@@ -13,7 +13,7 @@
 <meta property="og:locale" content="ja_JP" />
 <meta name="twitter:site" content="{{ .Site.Title }}" />
 <meta name="twitter:url" content="{{ .Permalink }}" />
-<meta name="twitter:title" content="{{ .Title }} - {{ .Site.Title }}" />
+<meta name="twitter:title" content="{{- partial "funcGetTitle.html" . -}}" />
 <meta name="twitter:description" content="{{ $ogpDescription }}" />
 <meta name="twitter:image" content="{{ $ogpImage }}" />
 {{ $isAmazonLink := findRE `https:\/\/.*amazon\.com` .Params.img }}

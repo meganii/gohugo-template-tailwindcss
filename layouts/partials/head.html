@@ -44,10 +44,5 @@
     rel="canonical"
     href="{{ .Site.Params.CanonicalUrl }}{{ .RelPermalink }}"
   />
-  <title>
-    {{- $isHomePage := eq .Title .Site.Title }}{{ .Title }}{{ if eq $isHomePage false -}}
-      -
-      {{- .Site.Title -}}
-    {{- end -}}
-  </title>
+  <title>{{- partial "funcGetTitle.html" . -}}</title>
 </head>
