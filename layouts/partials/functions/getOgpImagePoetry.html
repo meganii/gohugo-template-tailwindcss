@@ -1,0 +1,55 @@
+{{- $image := "" -}}
+
+{{ if .File }}
+  {{- $font := resources.Get "UtsukushiFONT.otf" }}
+  {{- $titleText := "" -}}
+  {{- if isset .Params "wakachi" -}}
+    {{- $titleText = .Params.Wakachi }}
+  {{- else -}}
+    {{- $maxWidth := 26 }}
+    {{- $title := .Title }}
+    {{- $currentLine := "" }}
+    {{- $currentWidth := 0 }}
+
+    {{- range $i, $r := split $title "" }}
+      {{/* タイトルの文字を1文字ずつ処理する */}}
+      {{- $char := $r }}
+      {{/* 現在の文字を $char に代入 */}}
+
+      {{- $isAscii := findRE "^[\u0000-\u007F]$" $char }}
+      {{/* 半角（ASCII）文字かどうかを判定 */}}
+      {{- $charWidth := cond (gt (len $isAscii) 0) 1 2 }}
+      {{/* 半角なら1、全角なら2とする */}}
+
+      {{- if gt (add $currentWidth $charWidth) $maxWidth }}
+        {{/* 次の文字を追加すると幅オーバーするか？ */}}
+        {{- $titleText = printf "%s%s\n" $titleText $currentLine }}
+        {{/* 今の行を結果に追加して改行 */}}
+        {{- $currentLine = "" }}
+        {{/* 現在の行をリセット */}}
+        {{- $currentWidth = 0 }}
+        {{/* 幅カウンターもリセット */}}
+      {{- end }}
+
+      {{- $currentLine = printf "%s%s" $currentLine $char }}
+      {{/* 今の文字を現在の行に追加 */}}
+      {{- $currentWidth = add $currentWidth $charWidth }}
+      {{/* 幅も加算（全角なら+2） */}}
+    {{- end }}
+
+    {{- if gt (len $currentLine) 0 }}
+      {{/* 最後の行が残っていたら追加 */}}
+      {{- $titleText = printf "%s%s" $titleText $currentLine }}
+    {{- end }}
+
+  {{- end -}}
+
+  {{- $articleTitle := images.Text $titleText (dict "font" $font "color" "#333" "size" 70 "x" 120 "y" 100 "linespacing" 28) }}
+  {{- $author := images.Text (print "紺野春馬／" ( time.Format "2006年1月2日" .Date)) (dict "font" $font "color" "#8D8D8D" "size" 40 "x" 220 "y" 455 "linespacing" 2) }}
+  {{- $image = (resources.Get "images/template_poetry.png" | images.Filter $articleTitle $author ) }}
+  {{- $image = $image.Permalink -}}
+{{ else }}
+  {{- $image = "images/nopicture.png" | absURL -}}
+{{ end }}
+
+{{- return $image -}}

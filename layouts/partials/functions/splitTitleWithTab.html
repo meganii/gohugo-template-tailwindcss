@@ -1,0 +1,7 @@
+{{- /* 英単語の前後にタブを付加して返却する */ -}}
+{{- $title := "" -}}
+
+{{- $title = replaceRE `([\p{Han}\p{Hiragana}\p{Katakana}ー～〜「」『』【】（）［］｛｝〈〉《》。、・…！？])([a-zA-Z0-9-])` "$1\t$2" . -}}
+{{- $title = replaceRE `([a-zA-Z0-9-])([\p{Han}\p{Hiragana}\p{Katakana}ー～〜「」『』【】（）［］｛｝〈〉《》。、・…！？])` "$1\t$2" $title -}}
+
+{{- return $title -}}
