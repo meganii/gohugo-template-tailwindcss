@@ -1,16 +1,15 @@
 {{ $image := "" }}
+
 {{ if isset .Params "img" }}
   {{- if strings.HasPrefix .Params.img "http" -}}
     {{- $image = .Params.img -}}
   {{ else }}
     {{- $image = (print .Params.img | absURL) -}}
   {{ end }}
+{{ else if eq .Section "blog" }}
+  {{- $image = partial "functions/getOgpImageBlog.html" . -}}
 {{ else if eq .Section "poetry" -}}
-  {{ if .File }}
-    {{- $image = (printf "images/poetry/%s.png" .File.BaseFileName | absURL) -}}
-  {{ else }}
-    {{- $image = "images/nopicture.png" | absURL -}}
-  {{ end }}
+  {{- $image = partial "functions/getOgpImagePoetry.html" . -}}
 {{ else }}
   {{- $image = "images/nopicture.png" | absURL -}}
 {{ end }}

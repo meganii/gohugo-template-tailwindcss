@@ -1,0 +1,20 @@
+{{- /*
+  この関数は、与えられた文字列のバイト数を計算します。
+  日本語の文字は2バイト、英数字は1バイトとしてカウントします。
+  */
+-}}
+
+{{- $str := . -}}
+{{- $count := 0 -}}
+
+{{- range $i, $char := split $str "" -}}
+  {{- if findRE `[\p{Han}\p{Hiragana}\p{Katakana}]` $char -}}
+    {{- $count = add $count 2 -}}
+  {{- else if findRE `[a-zA-Z0-9]` $char -}}
+    {{- $count = add $count 1 -}}
+  {{- else -}}
+    {{- $count = add $count 1 -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $count -}}

@@ -1,0 +1,34 @@
+{{- /* 英単語を検出して分割するロジック */ -}}
+
+{{- $lines := slice -}}
+{{- $maxLength := .MaxLength -}}
+{{- $words := split .Title "\t" -}}
+{{- $currentLine := "" -}}
+{{- $currentLength := 0 -}}
+
+{{- range $words -}}
+  {{- $word := . -}}
+  {{- $chunks := partial "functions/splitChunk.html" (dict "Word" $word) -}}
+  {{- range $chunks -}}
+    {{- $chunk := . -}}
+    {{- $count := partial "functions/countChars.html" $chunk -}}
+    {{- if le (add $currentLength $count) $maxLength -}}
+      {{- $currentLine = printf "%s%s" $currentLine $chunk -}}
+      {{- $currentLength = add $currentLength $count -}}
+    {{- else -}}
+      {{- /* 超える場合は現在の行を確定し、新しい行を開始 */ -}}
+      {{- if ne $currentLine "" -}}
+        {{- $lines = $lines | append $currentLine -}}
+      {{- end -}}
+      {{- $currentLine = $chunk -}}
+      {{- $currentLength = $count -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* 最後の行を追加 */ -}}
+{{- if ne $currentLine "" -}}
+  {{- $lines = $lines | append $currentLine -}}
+{{- end -}}
+
+{{- return $lines -}}

@@ -1,0 +1,13 @@
+{{- $image := "" -}}
+{{- $font := resources.Get "UDEVGothic-Regular.ttf" }}
+
+{{- $title := partial "functions/splitTitleWithTab.html" .Title -}}
+{{- $lines := partial "functions/getTitleLines.html" (dict "Title" $title "MaxLength" 30) -}}
+{{- $titleText := delimit $lines "\n" -}}
+
+{{- $articleTitle := images.Text $titleText (dict "font" $font "color" "#333" "size" 60 "x" 120 "y" 100 "linespacing" 28) -}}
+{{- $author := images.Text (print "@meganii / " ( time.Format "2006-01-02" .Date)) (dict "font" $font "color" "#8D8D8D" "size" 40 "x" 220 "y" 455 "linespacing" 2) -}}
+{{- $image = (resources.Get "images/template_blog.png" | images.Filter $articleTitle $author ) -}}
+{{- $image = $image.Permalink -}}
+
+{{- return $image -}}
