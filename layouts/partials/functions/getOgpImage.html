@@ -6,7 +6,7 @@
   {{ else }}
     {{- $image = (print .Params.img | absURL) -}}
   {{ end }}
-{{ else if eq .Section "blog" }}
+{{ else if or (eq .Section "blog") (eq .Section "note") -}}
   {{- $image = partial "functions/getOgpImageBlog.html" . -}}
 {{ else if eq .Section "poetry" -}}
   {{- $image = partial "functions/getOgpImagePoetry.html" . -}}
