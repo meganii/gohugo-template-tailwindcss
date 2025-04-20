@@ -3,7 +3,7 @@
 {{ $ogpjson := resources.GetRemote $getURL }}
 
 
-<div class="border-grey-light my-4 rounded border">
+<div class="my-4 rounded-sm border border-gray-200">
   <div class="relative mx-2 p-3 lg:flex">
     <div class="lg:w-4/5">
       <a href="{{ $ogpjson.ogUrl }}"><strong>{{ $ogpjson.ogTitle }}</strong></a>

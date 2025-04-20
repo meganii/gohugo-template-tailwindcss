@@ -6,10 +6,10 @@
 <!-- Avoid overriding list -->
 
 <div
-  class="affiliate border-grey-light z-0 rounded border lg:mx-auto lg:my-4 lg:flex"
+  class="affiliate z-0 rounded-sm border border-gray-200 lg:mx-auto lg:my-4 lg:flex"
 >
   <div
-    class="my-4 flex items-center justify-center rounded lg:mx-2 lg:w-2/5 lg:flex-none lg:px-2 lg:py-4"
+    class="my-4 flex items-center justify-center rounded-sm lg:mx-2 lg:w-2/5 lg:flex-none lg:px-2 lg:py-4"
   >
     <a
       href="{{ $json.DetailPageURL }}"
@@ -58,7 +58,7 @@
         href="{{ $json.DetailPageURL }}"
         target="_blank"
         rel="noopener sponsored"
-        class="border-1 block	w-full rounded border-gray-600 bg-yellow-400 text-center text-sm font-medium leading-9 text-gray-900 hover:bg-yellow-400"
+        class="block w-full rounded-sm bg-yellow-400 text-center text-sm leading-9 font-medium text-gray-900 hover:bg-yellow-400"
         >Amazon</a
       >
       {{- with $json.Kindle.productUrl -}}
@@ -66,7 +66,7 @@
           href="{{ $json.Kindle.productUrl }}"
           target="_blank"
           rel="noopener sponsored"
-          class="border-1 block w-full rounded border-gray-600 bg-yellow-500 text-center text-sm font-medium leading-9 text-gray-900  hover:bg-yellow-500"
+          class="block w-full rounded-sm bg-yellow-500 text-center text-sm leading-9 font-medium text-gray-900 hover:bg-yellow-500"
           >Kindle</a
         >
       {{- end -}}
@@ -76,7 +76,7 @@
             href="{{ $json.Rakuten.productUrl }}"
             target="_blank"
             rel="noopener sponsored"
-            class="border-1 block w-full rounded border-gray-600 bg-red-600 text-center text-sm leading-9 text-white hover:bg-red-500"
+            class="block w-full rounded-sm bg-red-600 text-center text-sm leading-9 text-white hover:bg-red-500"
             >楽天市場</a
           >
         {{- end -}}
@@ -85,7 +85,7 @@
             href="{{ $json.Rakuten.productUrlPC }}"
             target="_blank"
             rel="noopener sponsored"
-            class="border-1 block w-full rounded border-gray-600 bg-red-600 text-center text-sm leading-9 text-white hover:bg-red-500"
+            class="block w-full rounded-sm bg-red-600 text-center text-sm leading-9 text-white hover:bg-red-500"
             >楽天市場</a
           >
         {{- end -}}
@@ -95,7 +95,7 @@
           href="{{ $json.Yahoo.productUrl }}"
           target="_blank"
           rel="noopener sponsored"
-          class="border-1 block w-full rounded border-gray-600 bg-purple-600 text-center text-sm leading-9 text-white hover:bg-purple-500"
+          class="block w-full rounded-sm bg-purple-600 text-center text-xs leading-9 text-white hover:bg-purple-500"
           >Yahoo!ショッピング</a
         >
       {{- end -}}

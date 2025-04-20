@@ -10,7 +10,7 @@
       <div class="mt-1 text-sm">
         {{ range (.GetTerms "tags") }}
           <a
-            class="mt-1 inline-block rounded bg-gray-600 p-1 text-sm text-white no-underline hover:bg-gray-500"
+            class="mt-1 inline-block rounded-sm bg-gray-600 p-1 text-sm text-white no-underline hover:bg-gray-500"
             href="{{ .Permalink }}"
             >#{{ .LinkTitle }}</a
           >
@@ -27,10 +27,12 @@
       <section class="mt-8">
         <h1 class="font-medium">Related contents</h1>
         {{ range . }}
-          <article class="border-grey-light m-4 border-t pt-3">
+          <article class="m-4 border-t border-gray-200 pt-3">
             <a href="{{ .Permalink }}" data-rel="prefetch" class="">
               <div class="flex flex-row">
-                <div class="flex basis-1/5 items-center justify-center rounded">
+                <div
+                  class="flex basis-1/5 items-center justify-center rounded-sm"
+                >
                   <img
                     loading="lazy"
                     class="h-32 w-32 object-contain"
@@ -50,10 +52,10 @@
                   class="flex basis-4/5 flex-col justify-between p-4 leading-normal"
                 >
                   <div class="px-1">
-                    <p class="text-grey-dark flex items-center text-sm">
+                    <p class="flex items-center text-sm text-gray-800">
                       {{ range .Params.category }}{{ . | upper }}{{ end }}
                     </p>
-                    <p class="text-grey-dark">
+                    <p class="text-gray-800">
                       {{ .Date.Format "2006.01.02" }}
                     </p>
                     <div class="mb-2 text-xl text-black">{{ .Title }}</div>
