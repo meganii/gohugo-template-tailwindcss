@@ -1,11 +1,22 @@
-{{- $options := dict "inlineImports" true "config" "./assets/postcss.config.js" -}}
-{{- $styles := resources.Get "css/styles.css" -}}
-{{- $styles = $styles | css.PostCSS $options -}}
-{{- if hugo.IsProduction -}}
-  {{- with $styles -}}
-    {{- $styles = $styles | minify | fingerprint | resources.PostProcess -}}
-    <link href="{{ $styles.RelPermalink }}" rel="stylesheet" />
-  {{- end -}}
-{{- else }}
-  <link href="{{ $styles.RelPermalink }}" rel="stylesheet" />
-{{- end -}}
+{{ with (templates.Defer (dict "key" "global")) }}
+  {{ with resources.Get "css/styles.css" }}
+    {{ $opts := dict
+      "inlineImports" true
+      "optimize" (not hugo.IsDevelopment)
+    }}
+    {{ with . | css.TailwindCSS $opts }}
+      {{ if hugo.IsDevelopment }}
+        <link rel="stylesheet" href="{{ .RelPermalink }}" />
+      {{ else }}
+        {{ with . | minify | fingerprint }}
+          <link
+            rel="stylesheet"
+            href="{{ .RelPermalink }}"
+            integrity="{{ .Data.Integrity }}"
+            crossorigin="anonymous"
+          />
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}

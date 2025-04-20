@@ -10,7 +10,7 @@
       <div class="mt-1 text-sm">
         {{ range (.GetTerms "tags") }}
           <a
-            class="mt-1 inline-block rounded bg-gray-600 p-1 text-sm text-white no-underline hover:bg-gray-500"
+            class="mt-1 inline-block rounded-sm bg-gray-600 p-1 text-sm text-white no-underline hover:bg-gray-500"
             href="{{ .Permalink }}"
             >#{{ .LinkTitle }}</a
           >
@@ -19,7 +19,7 @@
 
       <div class="my-4">
         <h2>Listen now on</h2>
-        <div class="flex items-center gap-x-1	">
+        <div class="flex items-center gap-x-1">
           {{ with .Params.Podcast.Spotify }}
             <div class="">
               <a href="{{ . }}">

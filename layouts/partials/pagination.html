@@ -1,9 +1,9 @@
 {{ if or (.Paginator.HasPrev) (.Paginator.HasNext) }}
-  <nav class="my-4 flex justify-center ">
+  <nav class="my-4 flex justify-center">
     {{ if .Paginator.HasPrev }}
       <a href="{{ .Paginator.Prev.URL }}" rel="prev" class="">
         <button
-          class="mr-2 rounded border border-gray-100 bg-gray-700 px-4 py-2 font-semibold text-white hover:border-transparent hover:bg-gray-500 hover:text-white"
+          class="mr-2 rounded-sm border border-gray-100 bg-gray-700 px-4 py-2 font-semibold text-white hover:border-transparent hover:bg-gray-500 hover:text-white"
         >
           Prev.
         </button>
@@ -12,7 +12,7 @@
     {{ if .Paginator.HasNext }}
       <a href="{{ .Paginator.Next.URL }}" rel="next" class="next bp">
         <button
-          class="rounded border border-gray-100 bg-gray-700 px-4 py-2 font-semibold text-white hover:border-transparent hover:bg-gray-500 hover:text-white"
+          class="rounded-sm border border-gray-100 bg-gray-700 px-4 py-2 font-semibold text-white hover:border-transparent hover:bg-gray-500 hover:text-white"
         >
           Next
         </button>
