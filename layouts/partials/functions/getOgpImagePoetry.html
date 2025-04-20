@@ -47,6 +47,12 @@
   {{- $articleTitle := images.Text $titleText (dict "font" $font "color" "#333" "size" 70 "x" 120 "y" 100 "linespacing" 28) }}
   {{- $author := images.Text (print "紺野春馬／" ( time.Format "2006年1月2日" .Date)) (dict "font" $font "color" "#8D8D8D" "size" 40 "x" 220 "y" 455 "linespacing" 2) }}
   {{- $image = (resources.Get "images/template_poetry.png" | images.Filter $articleTitle $author ) }}
+  {{/* 相対公開パスを生成（スラッシュ始まりを除外） */}}
+  {{- $rel :=  .RelPermalink  | strings.TrimPrefix "/" | strings.TrimSuffix "/" -}}
+  {{- $target := printf "%s/og-image.png" $rel -}}
+  {{- with resources.Copy $target $image -}}
+    {{ $image = . }}
+  {{- end -}}
   {{- $image = $image.Permalink -}}
 {{ else }}
   {{- $image = "images/nopicture.png" | absURL -}}
