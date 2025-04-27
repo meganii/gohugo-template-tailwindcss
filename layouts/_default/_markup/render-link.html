@@ -1,29 +1,33 @@
-{{ if and (not (strings.HasPrefix .Destination "http")) (strings.HasSuffix .Destination ".md") }}
-  <a
-    class="text-blue-600 hover:underline"
-    href="{{ relref .Page .Destination }}"
-    >{{ .Text | safeHTML }}</a
-  >
-{{ else if not (strings.HasPrefix .Destination "http") }}
-  <a class="text-blue-600 hover:underline" href="{{ .Destination | safeURL }}"
-    >{{ .Text | safeHTML }}</a
-  >
-{{ else if and (ne .Destination "") (strings.HasPrefix .Destination "https://px.a8.net/") }}
-  {{ range first 1 ( where .Page.Site.Data.affiliate.affiliate.links "url" .Destination) }}
+{{- /* 
+  Render Hook
+  - 内部の.mdファイルリンクは適切なRelPermalinkに変換
+  - 外部リンクは適切な属性を付与
+  - アフィリエイトリンクは特別に処理
+*/ -}}
+
+{{- $isExternal := strings.HasPrefix .Destination "http" -}}
+{{- $isMdFile := strings.HasSuffix .Destination ".md" -}}
+
+{{- if and (not $isExternal) $isMdFile }}
+  {{/* 内部マークダウンファイルへのリンク */}}
+  {{- $url := urls.Parse .Destination -}}
+  {{- $text := .Text | safeHTML -}}
+  {{ with site.GetPage $url.Path }}
+    <a data-rel="prefetch" class="text-blue-600 hover:underline" href="{{ .RelPermalink }}">{{ $text }}</a>
+  {{ end }}
+{{- else if and $isExternal (strings.HasPrefix .Destination "https://px.a8.net/")  -}}
+  {{/* アフィリエイトリンク */}}
+  {{ range first 1 (where .Page.Site.Data.affiliate.affiliate.links "url" .Destination) }}
     {{ .content | safeHTML }}
   {{ end }}
-{{ else }}
-  <a
-    class="external-link text-blue-600 hover:underline"
-    {{- if not (strings.HasPrefix .Destination "http") }}
-      data-rel="prefetch"
-    {{ end -}}
+{{- else -}}
+  {{/* 通常のリンク（内部または外部） */}}
+  <a class="text-blue-600 hover:underline {{ if $isExternal }}external-link{{ end -}}"
+    {{- if not $isExternal }} data-rel="prefetch"{{ end -}}
     href="{{ .Destination | safeURL }}"
     {{ with .Title }}title="{{ . }}"{{ end }}
-    {{ if (strings.HasPrefix .Destination "http") }}
-      target="_blank" rel="noopener"
-    {{ end }}
+    {{ if $isExternal }}target="_blank" rel="noopener"{{ end }}
   >
     {{ .Text | safeHTML }}
   </a>
-{{ end }}
+{{- end -}}
