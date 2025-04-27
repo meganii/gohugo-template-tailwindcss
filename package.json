@@ -3,14 +3,14 @@
   "comments": {
     "dependencies": {},
     "devDependencies": {
-      "postcss": "project",
-      "postcss-cli": "project",
+      "@tailwindcss/cli": "project",
       "prettier": "project",
       "prettier-plugin-go-template": "project",
       "prettier-plugin-tailwindcss": "project",
       "tailwindcss": "project"
     }
   },
+  "dependencies": {},
   "description": "Starter files for a Hugo theme with Tailwindcss",
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.4",
