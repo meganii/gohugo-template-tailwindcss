@@ -5,7 +5,8 @@
         <h2 class="text-xl font-bold">Blog Archives</h2>
         {{ $type := "blog" }}
         {{ $isGroupKey := true }}
-        {{ range (.Site.RegularPages.GroupByDate "2006") }}
+        {{ $pages := where .Site.RegularPages "Type" $type }}
+        {{ range ($pages.GroupByDate "2006") }}
           {{ $count := (len .Pages) }}
           {{ range (where .Pages "Type" $type) }}
             {{ if $isGroupKey }}
