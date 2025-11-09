@@ -2,7 +2,7 @@
 @source "hugo_stats.json";
 
 @theme {
-  --font-ja: "Helvetica Neue", "Arial", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic", "Meiryo", "sans-serif";
+  --font-ja: "Helvetica Neue", "Arial", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "sans-serif";
   --font-jamin: "游明朝", "Yu Mincho", "YuMincho", "Hiragino Mincho Pro", 'Noto Serif JP', "Noto Serif JP", "serif"; 
 }
 /* For markdown list */
