@@ -8,7 +8,9 @@
   <link rel="dns-prefetch" href="https://res.cloudinary.com" />
   <link rel="manifest" href="{{ .Site.BaseURL }}manifest.json" />
 
-  {{- partialCached "css.html" . -}}
+  {{ with (templates.Defer (dict "key" "global")) }}
+    {{ partial "css.html" . }}
+  {{ end }}
   <link
     rel="apple-touch-icon"
     type="image/png"
