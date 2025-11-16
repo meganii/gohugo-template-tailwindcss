@@ -1,13 +1,11 @@
 {{ $ctx := .Context }}
 {{ $currentPath := .CurrentPath }}
-{{ $wrapperClass := or .WrapperClass "mt-4 space-y-3 text-sm text-neutral-600" }}
-{{ $listClass := or .ListClass "space-y-2" }}
 
 
 <h2 class="px-2 text-xl text-neutral-500">Navigation</h2>
-<div class="{{ $wrapperClass }}">
+<div class="mt-4 space-y-3 text-sm text-neutral-600">
   {{ with site.Menus.main }}
-    <ul class="{{ $listClass }}">
+    <ul class="space-y-2">
       {{ range . }}
         {{ $entryPath := (urls.Parse .URL).Path }}
         {{ $isOpen := or (eq $entryPath $currentPath) (strings.HasPrefix $currentPath $entryPath) }}
@@ -59,7 +57,7 @@
   {{ else }}
     {{ $sections := site.Sections }}
     {{ if gt (len $sections) 0 }}
-      <ul class="{{ $listClass }}">
+      <ul class="space-y-2">
         {{ range $sections.ByWeight }}
           {{ partial "notes/sidebar-section.html" (dict "Node" . "CurrentPath" $currentPath "Level" 0) }}
         {{ end }}
