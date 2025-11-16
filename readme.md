@@ -1,116 +1,100 @@
 # Hugo Starter Theme with Tailwind CSS
 
-Starter files for a Hugo theme with Tailwind CSS.
+Starter files for a Hugo theme powered by Tailwind CSS **v4**.
 
-- set up to use [Tailwind CSS](https://tailwindcss.com) - v1.2
-- use [Hugo Pipes](https://gohugo.io/hugo-pipes/) to build and load css based on `dev` or `build` environment
-- purge unused css classes with [PurgeCSS](https://www.purgecss.com) for `build`, but __not__ in `dev`
-- works as separate theme repo or as a local theme folder within a Hugo site
-- basic template setup with an index page, an about page and a posts category
-- responsive navigation header with minimal javascript to hide the nav on small screens
-- to keep that s***er down, the theme features a sticky footer
-
-Live long and code.
+- ships with [Tailwind CSS](https://tailwindcss.com) v4 and the new `@tailwindcss/cli`
+- uses [Hugo Pipes](https://gohugo.io/hugo-pipes/) `css.TailwindCSS` to build styles for development and production
+- `assets/css/styles.css` keeps Tailwind declarations in one place and uses `@source "hugo_stats.json";` for automatic tree shaking
+- works as a separate theme repository or as a local theme folder within a Hugo site
+- basic template setup with an index page, an about page, and a posts category
+- responsive navigation header with minimal JavaScript to hide the nav on small screens
+- sticky footer layout
 
 ## Prerequisites
 
-Make sure to install `postcss-cli` and `autoprefixer` globally in your environment, as Hugo Pipe’s PostCSS requires it. This is mentioned in the [Hugo Docs](https://gohugo.io/hugo-pipes/postcss/).
+- Hugo **Extended** (0.127+ recommended for Tailwind v4 support)
+- Node.js for installing local dev dependencies (`tailwindcss`, `@tailwindcss/cli`, prettier plugins)
 
-```bash
-npm install -g postcss-cli
-npm install -g autoprefixer
-```
-
-## Basic usage to develop a separate Theme repo
-
-- clone and rename the repo
-
-```bash
-git clone https://github.com/dirkolbrich/hugo-theme-tailwindcss-starter new-theme-name
-```
-
-- to make that theme your own, switch into the newly created folder, remove the git history from this starter repo and initiate a new git repo
-
-```bash
-cd new-theme-name
-rm -rf .git
-git init
-```
-
-- now install the necessary node packages
+Install the Node dependencies once after cloning:
 
 ```bash
 npm install
 ```
 
-- edit the `config.toml` file in `exampleSite/` to reflect the `new-theme-name`
+## Develop this repository as a standalone theme
 
-```toml
-# in config.toml
-theme = "new-theme-name" # your new theme name here
-```
+1. Clone this repository (optionally rename the folder):
 
-- start a server to develop with `exampleSite`
+   ```bash
+   git clone https://github.com/meganii/gohugo-template-tailwindcss my-theme
+   ```
 
-```bash
-hugo server -s exampleSite --themesDir=../.. --disableFastRender
-```
+2. Remove the starter Git history and re‑initialize if you are creating a new theme:
 
-## Usage directly within a Hugo repo as a theme package
+   ```bash
+   cd my-theme
+   rm -rf .git
+   git init
+   ```
 
-- start a new Hugo site
+3. Install the Node packages (Tailwind CSS CLI, prettier plugins):
 
-```bash
-hugo new site new-site
-```
+   ```bash
+   npm install
+   ```
 
-- switch into the theme folder an clone the starter repo
+4. Update the theme name in `exampleSite/hugo.toml` to match your folder name:
 
-```bash
-cd new-site/themes
-git clone https://github.com/dirkolbrich/hugo-theme-tailwindcss-starter new-theme-name
-```
+   ```toml
+   # in exampleSite/hugo.toml
+   theme = "my-theme"
+   ```
 
-- switch into the newly created theme folder, remove the git history from this starter repo and install the node packages
+5. Start a Hugo server that uses the example site and this theme:
 
-```bash
-cd new-theme-name
-rm -rf .git
-npm install
-```
+   ```bash
+   hugo server -s exampleSite --themesDir=../.. --disableFastRender
+   ```
 
-- edit the `config.toml` file in `new-site/` to reflect the new-theme-name
+## Use as a theme inside an existing Hugo site
 
-```toml
-# in config.toml
-theme = "new-theme-name" # your new theme name here
-```
+1. Create (or open) your Hugo site and add the theme under `themes/`:
 
-- switch to the root of the new-site repo and start a server to view the index site
+   ```bash
+   hugo new site new-site
+   cd new-site/themes
+   git clone https://github.com/meganii/gohugo-template-tailwindcss my-theme
+   ```
 
-```bash
-cd new-site
-hugo server --disableFastRender
-```
+2. Install the theme dependencies:
 
-Your content should go into `new-site/content`, the development of the site layout is done within `new-site/themes/new-theme-name/layout`.
+   ```bash
+   cd my-theme
+   npm install
+   ```
 
-## How does that work anyway
+3. Set the theme in your site configuration (e.g., `config.toml`, `config.yaml`, or `hugo.toml`):
 
-This theme setup uses two separate `postcss.config.js` files as a configuration used by the Hugo PostCSS Pipe. One for `dev` and one for `build`. Based on these config files, PostCSS builds the `styles.css` for the site. This snippet is located in `/layouts/partials/head.html` and is.
+   ```toml
+   theme = "my-theme"
+   ```
 
-```html
-{{ if .Site.IsServer }}
-    {{ $style := resources.Get "css/styles.css" | postCSS (dict "config" "./assets/css/dev/postcss.config.js") }}
-    <link rel="stylesheet" href="{{ $style.Permalink }}">
-{{ else }}
-    {{ $style := resources.Get "css/styles.css" | postCSS (dict "config" "./assets/css/postcss.config.js") | minify | fingerprint }}
-    <link rel="stylesheet" href="{{ $style.Permalink }}" integrity="{{ $style.Data.Integrity }}">
-{{ end }}
-```
+4. From the root of your site, run Hugo to develop locally:
 
-The `dev` config only pulls the `tailwind` package and uses `autoprefixer` on it, while the `build` config also uses `purgecss` on the resulting `tailwind` css classes, to keep the file size minimal.
+   ```bash
+   hugo server --disableFastRender
+   ```
+
+Your content lives in your site’s `content/` folder; layout development happens under `themes/my-theme/layouts/`.
+
+## Tailwind CSS v4 workflow
+
+- The entrypoint is `assets/css/styles.css`, which imports Tailwind, sets `@theme` font variables, and defines reusable component styles with `@layer` and `@apply`.
+- `@source "hugo_stats.json";` enables Tailwind’s built-in content scanning using the stats file generated by Hugo.
+- Styles are built via `layouts/partials/css.html`, which calls `css.TailwindCSS` with inline imports enabled. Assets are minified and fingerprinted automatically in production builds.
+- `tailwind.config.js` is intentionally empty and exists only for editor IntelliSense; most customization happens directly in the CSS entrypoint.
+- No separate PostCSS or PurgeCSS setup is required—Tailwind v4 and Hugo handle optimization out of the box.
 
 ## Reference
 
-See the Hugo forum discussion "[Regenerating assets directory for Hugo Pipes](https://discourse.gohugo.io/t/regenerating-assets-directory-for-hugo-pipes-solved/13175)" for the functionality concept.
+See the Hugo documentation for [Tailwind CSS with Hugo Pipes](https://gohugo.io/hugo-pipes/tailwindcss/) to learn more about the pipeline used in this starter.
