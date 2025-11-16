@@ -1,0 +1,73 @@
+{{ $ctx := .Context }}
+{{ $currentPath := .CurrentPath }}
+{{ $wrapperClass := or .WrapperClass "mt-4 space-y-3 text-sm text-neutral-600" }}
+{{ $listClass := or .ListClass "space-y-2" }}
+
+
+<h2 class="px-2 text-xl text-neutral-500">Navigation</h2>
+<div class="{{ $wrapperClass }}">
+  {{ with site.Menus.main }}
+    <ul class="{{ $listClass }}">
+      {{ range . }}
+        {{ $entryPath := (urls.Parse .URL).Path }}
+        {{ $isOpen := or (eq $entryPath $currentPath) (strings.HasPrefix $currentPath $entryPath) }}
+        <li>
+          {{ if .HasChildren }}
+            <details
+              class="group overflow-hidden rounded-xl border border-neutral-200 bg-white/80"
+              {{ if $isOpen }}open{{ end }}
+            >
+              <summary
+                class="flex cursor-pointer items-center justify-between gap-2 px-3 py-2 text-neutral-800 transition hover:text-neutral-600"
+              >
+                <span>{{ .Name }}</span>
+                <span class="text-xs text-neutral-400"
+                  >{{ len .Children }}件</span
+                >
+              </summary>
+              <ul
+                class="space-y-1 border-t border-neutral-200 bg-white/70 py-2 pl-4"
+              >
+                {{ range .Children }}
+                  {{ $childPath := (urls.Parse .URL).Path }}
+                  {{ $active := eq $childPath $currentPath }}
+                  <li>
+                    <a
+                      href="{{ .URL | relLangURL }}"
+                      class="hover:bg-sapphire-50 hover:text-sapphire-700 {{ if $active }}
+                        bg-sapphire-100 text-sapphire-800 font-semibold
+                      {{ end }} block rounded-md px-2 py-1.5 text-neutral-600 transition"
+                      >{{ .Name }}</a
+                    >
+                  </li>
+                {{ end }}
+              </ul>
+            </details>
+          {{ else }}
+            <a
+              href="{{ .URL | relLangURL }}"
+              class="hover:border-sapphire-200 hover:bg-sapphire-50 hover:text-sapphire-700 {{ if $isOpen }}
+                border-sapphire-300 bg-sapphire-50 text-sapphire-800
+                font-semibold
+              {{ end }} block rounded-xl border border-transparent px-3 py-2 font-medium text-neutral-700 transition"
+              >{{ .Name }}</a
+            >
+          {{ end }}
+        </li>
+      {{ end }}
+    </ul>
+  {{ else }}
+    {{ $sections := site.Sections }}
+    {{ if gt (len $sections) 0 }}
+      <ul class="{{ $listClass }}">
+        {{ range $sections.ByWeight }}
+          {{ partial "notes/sidebar-section.html" (dict "Node" . "CurrentPath" $currentPath "Level" 0) }}
+        {{ end }}
+      </ul>
+    {{ else }}
+      <p class="px-2 text-sm text-neutral-500">
+        `main` メニューにページを追加するとナビゲーションが表示されます。
+      </p>
+    {{ end }}
+  {{ end }}
+</div>

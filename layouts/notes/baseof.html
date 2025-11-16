@@ -1,18 +1,21 @@
 <!doctype html>
-<html lang="{{ .Site.LanguageCode }}" class="text-gray-800">
+<html lang="{{ .Site.LanguageCode }}" class="text-neutral-900">
   {{- partial "head.html" . -}}
-  <body class="font-ja break-words">
-    <div class="container mx-auto">
+  <body class="font-ja wrap-break-word">
+    <div class="container mx-auto px-6">
       {{- partial "header.html" . -}}
-      <div class="grid sm:grid-cols-1 md:grid-cols-[1fr_240px] max-w-7xl mx-auto px-4  min-h-screen">
+      <div
+        class="mx-auto grid max-w-7xl grid-cols-1 gap-8 pb-16 lg:grid-cols-[18rem_minmax(0,1fr)_18rem] lg:px-6"
+      >
+        {{ partial "notes/sidebar.html" . }}
         <!-- メインコンテンツ -->
-        <main class="rounded-lg bg-white px-[40px] max-w-[790px]">
-            {{- block "main" . }}{{- end }}
+        <main class="prose lg:prose-lg xl:prose-xl max-w-none">
+          {{- block "main" . }}{{- end }}
         </main>
         <!-- サイドバー -->
-        <aside class="rounded-lg bg-gray-100 p-4">
-          <h2 class="mb-4 text-xl text-gray-700">Updates</h2>
-          {{ $pages := first 5 (sort (where .Site.RegularPages "Type" "notes") "Date" "desc") }}
+        <aside class="">
+          <h2 class="mb-4 text-xl text-neutral-500">Updates</h2>
+          {{ $pages := first 10 (sort (where .Site.RegularPages "Type" "notes") "Date" "desc") }}
           <ul>
             {{ range $pages }}
               <li class="mb-2">
@@ -22,7 +25,7 @@
                 >
                   {{ .Title }}
                 </a>
-                <span class="text-sm text-gray-500">
+                <span class="text-sm text-neutral-500">
                   - {{ .Date.Format "2006-01-02" }}</span
                 >
               </li>

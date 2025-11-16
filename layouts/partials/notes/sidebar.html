@@ -1,0 +1,7 @@
+{{ $ctx := . }}
+{{ $currentPath := (urls.Parse $ctx.RelPermalink).Path }}
+<aside class="hidden lg:block">
+  <nav class="scrollbar-thin sticky h-[calc(100vh-5rem)] overflow-y-auto pr-3">
+    {{ partial "notes/sidebar-menu.html" (dict "Context" $ctx "CurrentPath" $currentPath) }}
+  </nav>
+</aside>
