@@ -1,65 +1,61 @@
 {{ $ctx := .Context }}
 {{ $currentPath := .CurrentPath }}
-{{ $wrapperClass := or .WrapperClass "mt-4 space-y-3 text-sm text-neutral-600" }}
-{{ $listClass := or .ListClass "space-y-2" }}
+{{ $re := "\\[([^\\]]+)\\]\\(([^)]+).md\\)" }}
 
 
 <h2 class="px-2 text-xl text-neutral-500">Navigation</h2>
-<div class="{{ $wrapperClass }}">
+<div class="mt-4 space-y-3 text-sm text-neutral-600">
   {{ with site.Menus.main }}
-    <ul class="{{ $listClass }}">
+    <ul class="space-y-2">
       {{ range . }}
-        {{ $entryPath := (urls.Parse .URL).Path }}
-        {{ $isOpen := or (eq $entryPath $currentPath) (strings.HasPrefix $currentPath $entryPath) }}
+        {{ $isOpen := false }}
+        {{ $matches := findRESubmatch $re .Page.RawContent }}
+        {{ range $matches }}
+          {{ $linkURL := index . 2 }}
+          {{ $page := index (where site.RegularPages "File.BaseFileName" $linkURL) 0 }}
+          {{ $isOpen = or $isOpen (eq (urls.Parse $page.RelPermalink).Path $currentPath) }}
+        {{ end }}
         <li>
-          {{ if .HasChildren }}
-            <details
-              class="group overflow-hidden rounded-xl border border-neutral-200 bg-white/80"
-              {{ if $isOpen }}open{{ end }}
+          <details
+            class="group overflow-hidden rounded-xl border border-neutral-200 bg-white/80"
+            {{ if $isOpen }}open{{ end }}
+          >
+            <summary
+              class="flex cursor-pointer items-center justify-between gap-2 px-3 py-2 text-neutral-800 transition hover:text-neutral-600"
             >
-              <summary
-                class="flex cursor-pointer items-center justify-between gap-2 px-3 py-2 text-neutral-800 transition hover:text-neutral-600"
-              >
-                <span>{{ .Name }}</span>
-                <span class="text-xs text-neutral-400"
-                  >{{ len .Children }}件</span
-                >
-              </summary>
-              <ul
-                class="space-y-1 border-t border-neutral-200 bg-white/70 py-2 pl-4"
-              >
-                {{ range .Children }}
-                  {{ $childPath := (urls.Parse .URL).Path }}
-                  {{ $active := eq $childPath $currentPath }}
+              <span>{{ .Name }}</span>
+            </summary>
+
+            <ul
+              class="space-y-1 border-t border-neutral-200 bg-white/70 py-2 pl-4"
+            >
+              {{ range $matches }}
+                {{ $linkText := index . 1 }}
+                {{ $linkURL := index . 2 }}
+                {{ $page := index (where site.RegularPages "File.BaseFileName" $linkURL) 0 }}
+                {{ $active := eq (urls.Parse $page.RelPermalink).Path $currentPath }}
+                {{ with $page }}
                   <li>
                     <a
-                      href="{{ .URL | relLangURL }}"
+                      href="{{ .RelPermalink }}"
                       class="hover:bg-sapphire-50 hover:text-sapphire-700 {{ if $active }}
                         bg-sapphire-100 text-sapphire-800 font-semibold
                       {{ end }} block rounded-md px-2 py-1.5 text-neutral-600 transition"
-                      >{{ .Name }}</a
+                      >{{ $linkText }}</a
                     >
                   </li>
                 {{ end }}
-              </ul>
-            </details>
-          {{ else }}
-            <a
-              href="{{ .URL | relLangURL }}"
-              class="hover:border-sapphire-200 hover:bg-sapphire-50 hover:text-sapphire-700 {{ if $isOpen }}
-                border-sapphire-300 bg-sapphire-50 text-sapphire-800
-                font-semibold
-              {{ end }} block rounded-xl border border-transparent px-3 py-2 font-medium text-neutral-700 transition"
-              >{{ .Name }}</a
-            >
-          {{ end }}
+              {{ end }}
+
+            </ul>
+          </details>
         </li>
       {{ end }}
     </ul>
   {{ else }}
     {{ $sections := site.Sections }}
     {{ if gt (len $sections) 0 }}
-      <ul class="{{ $listClass }}">
+      <ul class="space-y-2">
         {{ range $sections.ByWeight }}
           {{ partial "notes/sidebar-section.html" (dict "Node" . "CurrentPath" $currentPath "Level" 0) }}
         {{ end }}
