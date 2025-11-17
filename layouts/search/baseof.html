@@ -10,7 +10,9 @@
     <link rel="dns-prefetch" href="https://res.cloudinary.com" />
     <link rel="manifest" href="{{ .Site.BaseURL }}manifest.json" />
 
-    {{- partialCached "css.html" . -}}
+    {{ with (templates.Defer (dict "key" "global")) }}
+      {{ partial "css.html" . }}
+    {{ end }}
     <link
       rel="apple-touch-icon"
       type="image/png"
@@ -82,7 +84,7 @@
       {{ end }}
     </title>
   </head>
-  <body class="font-ja break-words">
+  <body class="font-ja wrap-break-word">
     <div class="container mx-auto flex min-h-screen flex-col">
       {{- partial "header.html" . -}}
       <main class="mx-4 flex-1 sm:mx-4 md:mx-12 lg:mx-20 xl:mx-60">
@@ -93,7 +95,7 @@
             {{- range sort .Site.Taxonomies.tags "Count" "desc" -}}
               {{- if ge .Count 5 -}}
                 <a
-                  class="text-hover:text-grey-200 ml-2 mt-2 inline text-sm hover:underline"
+                  class="text-hover:text-grey-200 mt-2 ml-2 inline text-sm hover:underline"
                   href="{{ .Page.Permalink }}"
                   >{{ .Page.Title }} ({{ .Count }})</a
                 >
