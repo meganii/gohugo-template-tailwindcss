@@ -14,13 +14,26 @@
       {{ if $isOpen }}open{{ end }}
     >
       <summary
-        class="flex cursor-pointer items-center justify-between gap-2 px-3 py-2 text-neutral-800 transition hover:text-neutral-600"
+        class="flex cursor-pointer items-center justify-between gap-2 px-3 py-2 text-neutral-800 transition hover:text-neutral-600 [&::-webkit-details-marker]:hidden"
       >
-        <a
-          href="{{ $node.RelPermalink }}"
-          class="flex-1 truncate text-left text-neutral-800 hover:text-neutral-600"
-          >{{ $node.LinkTitle | default $node.Title }}</a
-        >
+        <span class="flex items-center gap-2">
+          <svg
+            class="h-4 w-4 shrink-0 text-neutral-400 transition-transform duration-200 group-open:rotate-90"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M9 18l6-6-6-6" />
+          </svg>
+          <a
+            href="{{ $node.RelPermalink }}"
+            class="flex-1 truncate text-left text-neutral-800 hover:text-neutral-600"
+            >{{ $node.LinkTitle | default $node.Title }}</a
+          >
+        </span>
         {{ if gt $childCount 0 }}
           <span class="text-xs text-neutral-400">{{ $childCount }}件</span>
         {{ end }}
