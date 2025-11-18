@@ -21,9 +21,22 @@
             {{ if $isOpen }}open{{ end }}
           >
             <summary
-              class="flex cursor-pointer items-center justify-between gap-2 px-3 py-2 text-neutral-800 transition hover:text-neutral-600"
+              class="flex cursor-pointer items-center justify-between gap-2 px-3 py-2 text-neutral-800 transition hover:text-neutral-600 [&::-webkit-details-marker]:hidden"
             >
-              <span>{{ .Name }}</span>
+              <span class="flex items-center gap-2">
+                <svg
+                  class="h-4 w-4 shrink-0 text-neutral-400 transition-transform duration-200 group-open:rotate-90"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+                <span class="truncate">{{ .Name }}</span>
+              </span>
             </summary>
 
             <ul
