@@ -2,8 +2,12 @@
 @source "hugo_stats.json";
 
 @theme {
-  --font-ja: "Helvetica Neue", "Arial", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "sans-serif";
-  --font-jamin: "游明朝", "Yu Mincho", "YuMincho", "Hiragino Mincho Pro", 'Noto Serif JP', "Noto Serif JP", "serif"; 
+  --font-ja:
+    "Helvetica Neue", "Arial", "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+    "sans-serif";
+  --font-jamin:
+    "游明朝", "Yu Mincho", "YuMincho", "Hiragino Mincho Pro", "Noto Serif JP",
+    "Noto Serif JP", "serif";
 }
 
 /* For markdown list */
@@ -41,7 +45,7 @@
   }
 
   .post h2 {
-    @apply text-xl font-bold border-b-2 border-neutral-300 mt-8 mb-6 pb-2;
+    @apply mt-8 mb-6 border-b-2 border-neutral-300 pb-2 text-xl font-bold;
   }
 
   .post h3 {
@@ -132,6 +136,10 @@
     @apply border-gray-300;
     @apply py-1 md:py-3;
     @apply px-2 md:px-4;
+  }
+
+  .post hr {
+    @apply my-4 border-neutral-200;
   }
 
   .external-link:not([href$=".jpg" i]):not([href$=".png" i]):not(
