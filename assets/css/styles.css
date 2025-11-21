@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 @source "hugo_stats.json";
 
 @theme {
@@ -10,8 +11,47 @@
     "Noto Serif JP", "serif";
 }
 
+.prose {
+  line-height: 1.9; /*行間広め */
+  letter-spacing: 0.05em; /* 文字間 */
+}
+
+.prose :where(blockquote) {
+  font-weight: normal;
+  font-style: normal;
+  border-left-width: 4px;
+  border-left-color: var(--color-neutral-300);
+  color: var(--color-neutral-600);
+  background-color: var(--color-neutral-50);
+}
+
+/* .prose :where(pre code) {
+  font-size: small;
+  color: var(--color-neutral-900);
+  background-color: var(--color-neutral-100);
+} */
+
+.prose :where(pre) {
+  color: var(--color-neutral-900);
+  background-color: var(--color-neutral-100);
+}
+
+.prose :where(code) {
+  @apply rounded px-1.5 py-1;
+  font-weight: medium;
+  color: var(--color-neutral-900);
+  background-color: var(--color-neutral-100);
+}
+
 /* For markdown list */
 @layer components {
+  /* class="prose prose-neutral 
+  prose-headings:font-bold prose-headings:text-black 
+  prose-a:text-neutral-900 prose-a:decoration-neutral-300 prose-a:underline-offset-4 
+  hover:prose-a:decoration-neutral-900 prose-code:bg-neutral-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none 
+  max-w-none" */
+  /* 引用（blockquote）のイタリック解除 & 装飾 */
+
   .post ul > li {
     list-style: none;
     list-style-position: inside;
@@ -142,18 +182,45 @@
     @apply my-4 border-neutral-200;
   }
 
+  /* External link icon for links with .external-link class */
   .external-link:not([href$=".jpg" i]):not([href$=".png" i]):not(
       [href$=".gif" i]
     ):not([href$=".jpeg" i]):not([href$=".webp" i])::after {
     display: inline-block;
-    vertical-align: -0.65em;
-    margin-left: -0.5em;
-    width: 2em;
-    height: 2em;
+    vertical-align: baseline;
+    margin-left: 0.2em;
+    width: 0.9em;
+    height: 0.9em;
     content: " ";
-    background-color: #003feb;
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cdefs%3E%3Cstyle%3E.a,.b%7Bfill:none;%7D.b%7Bstroke:%23000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;%7D%3C/style%3E%3C/defs%3E%3Ctitle%3E125_arr_24%3C/title%3E%3Crect class='a' width='48' height='48'/%3E%3Cpolyline class='b' points='27 12 36 12 36 21'/%3E%3Cpolyline class='b' points='32 26 32 34 14 34 14 16 22 16'/%3E%3Cline class='b' x1='24' y1='24' x2='35' y2='13'/%3E%3C/svg%3E");
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cdefs%3E%3Cstyle%3E.a,.b%7Bfill:none;%7D.b%7Bstroke:%23000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;%7D%3C/style%3E%3C/defs%3E%3Ctitle%3E125_arr_24%3C/title%3E%3Crect class='a' width='48' height='48'/%3E%3Cpolyline class='b' points='27 12 36 12 36 21'/%3E%3Cpolyline class='b' points='32 26 32 34 14 34 14 16 22 16'/%3E%3Cline class='b' x1='24' y1='24' x2='35' y2='13'/%3E%3C/svg%3E");
+    background-color: #6b7280;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'%3E%3C/path%3E%3Cpolyline points='15 3 21 3 21 9'%3E%3C/polyline%3E%3Cline x1='10' y1='14' x2='21' y2='3'%3E%3C/line%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'%3E%3C/path%3E%3Cpolyline points='15 3 21 3 21 9'%3E%3C/polyline%3E%3Cline x1='10' y1='14' x2='21' y2='3'%3E%3C/line%3E%3C/svg%3E");
+    mask-size: contain;
+    -webkit-mask-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+  }
+
+  /* Automatically apply external link icon to prose links starting with http:// or https:// */
+  .prose a[href^="http://"]:not([href$=".jpg" i]):not([href$=".png" i]):not(
+      [href$=".gif" i]
+    ):not([href$=".jpeg" i]):not([href$=".webp" i])::after,
+  .prose a[href^="https://"]:not([href$=".jpg" i]):not([href$=".png" i]):not(
+      [href$=".gif" i]
+    ):not([href$=".jpeg" i]):not([href$=".webp" i])::after {
+    display: inline-block;
+    vertical-align: baseline;
+    margin-left: 0.2em;
+    width: 0.9em;
+    height: 0.9em;
+    content: " ";
+    background-color: #6b7280;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'%3E%3C/path%3E%3Cpolyline points='15 3 21 3 21 9'%3E%3C/polyline%3E%3Cline x1='10' y1='14' x2='21' y2='3'%3E%3C/line%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'%3E%3C/path%3E%3Cpolyline points='15 3 21 3 21 9'%3E%3C/polyline%3E%3Cline x1='10' y1='14' x2='21' y2='3'%3E%3C/line%3E%3C/svg%3E");
+    mask-size: contain;
+    -webkit-mask-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
   }
 
   #title {

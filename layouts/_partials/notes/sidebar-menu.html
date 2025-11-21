@@ -3,7 +3,7 @@
 {{ $re := "\\[([^\\]]+)\\]\\(([^)]+).md\\)" }}
 
 
-<h2 class="px-2 text-xl text-neutral-500">Navigation</h2>
+<h2 class="px-2 text-sm font-semibold text-neutral-900">Navigation</h2>
 <div class="mt-4 space-y-3 text-sm text-neutral-600">
   {{ with site.Menus.main }}
     <ul class="space-y-2">
@@ -51,9 +51,9 @@
                   <li>
                     <a
                       href="{{ .RelPermalink }}"
-                      class="hover:bg-sapphire-50 hover:text-sapphire-700 {{ if $active }}
-                        bg-sapphire-100 text-sapphire-800 font-semibold
-                      {{ end }} block rounded-md px-2 py-1.5 text-neutral-600 transition"
+                      class="{{ if $active }}
+                        bg-neutral-100 text-neutral-900 font-semibold
+                      {{ end }} block rounded-md px-2 py-1.5 text-neutral-600 transition hover:bg-neutral-100 hover:text-neutral-900"
                       >{{ $linkText }}</a
                     >
                   </li>

@@ -10,10 +10,10 @@
       "tailwindcss": "project"
     }
   },
-  "dependencies": {},
   "description": "Starter files for a Hugo theme with Tailwindcss",
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.17",
+    "@tailwindcss/typography": "^0.5.19",
     "prettier": "^3.6.2",
     "prettier-plugin-go-template": "^0.0.15",
     "prettier-plugin-tailwindcss": "^0.7.1",

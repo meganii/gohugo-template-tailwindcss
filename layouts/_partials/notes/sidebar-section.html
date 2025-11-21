@@ -54,9 +54,9 @@
   <li>
     <a
       href="{{ $node.RelPermalink }}"
-      class="hover:bg-sapphire-50 hover:text-sapphire-700 {{ if $isActive }}
-        bg-sapphire-100 text-sapphire-800 font-semibold
-      {{ end }} block rounded-md px-2 py-1.5 text-neutral-600 transition"
+      class="{{ if $isActive }}
+        bg-neutral-100 text-neutral-900 font-semibold
+      {{ end }} block rounded-md px-2 py-1.5 text-neutral-600 transition hover:bg-neutral-100 hover:text-neutral-900"
       >{{ $node.LinkTitle | default $node.Title }}</a
     >
   </li>
