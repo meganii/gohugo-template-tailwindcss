@@ -3,10 +3,11 @@
   {{- partial "head.html" . -}}
   <body class="font-ja bg-neutral-50 text-neutral-900">
     <div class="grid min-h-screen grid-rows-[auto_1fr_auto]">
-      {{- partial "header.html" . -}}
+      <div class="container mx-auto w-full px-6">
+        {{- partial "header.html" . -}}
+      </div>
 
-
-      <div class="container mx-auto w-full px-4 py-6 sm:px-6 lg:px-8">
+      <div class="container mx-auto w-full px-6 py-6">
         <div
           class="grid grid-cols-1 items-start gap-8 lg:grid-cols-[280px_1fr_240px]"
         >
