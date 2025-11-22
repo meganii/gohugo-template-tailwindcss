@@ -1,23 +1,29 @@
 {{ define "main" }}
-  <article class="mx-4 sm:mx-12">
-    <div>{{- partial "breadcrumb.html" . -}}</div>
+  <article
+    class="mx-4 rounded-xl border border-neutral-200 bg-white p-8 shadow-sm"
+  >
     <section data-pagefind-body class="">
-      <h1 class="mt-4 text-4xl">{{ .Title }}</h1>
-      <div class="mt-2 text-sm">
-        <span class="mr-1">更新日:{{ .Lastmod.Format "2006.01.02" }}</span>
-        <span class="">作成日:{{ .Date.Format "2006.01.02" }}</span>
-      </div>
-      <div class="mt-1 text-sm">
-        {{ range (.GetTerms "tags") }}
-          <a
-            class="mt-1 inline-block rounded-sm bg-gray-600 p-1 text-sm text-white no-underline hover:bg-gray-500"
-            href="{{ .Permalink }}"
-            >#{{ .LinkTitle }}</a
-          >
-        {{ end }}
-      </div>
+      <header class="mx-auto mb-6 max-w-xl">
+        <div data-pagefind-ignore>{{- partial "breadcrumb.html" . -}}</div>
+        <h1 class="mt-4 text-4xl font-bold tracking-tight text-neutral-900">
+          {{ .Title }}
+        </h1>
+        <div class="mt-2 text-sm">
+          <span class="mr-1">更新日:{{ .Lastmod.Format "2006.01.02" }}</span>
+          <span class="">作成日:{{ .Date.Format "2006.01.02" }}</span>
+        </div>
+        <div class="mt-1 text-sm">
+          {{ range (.GetTerms "tags") }}
+            <a
+              class="mt-1 inline-block rounded-sm bg-neutral-500 p-1 text-sm text-white no-underline hover:bg-neutral-400"
+              href="{{ .Permalink }}"
+              >#{{ .LinkTitle }}</a
+            >
+          {{ end }}
+        </div>
+      </header>
       <div
-        class="prose prose-neutral prose-headings:font-bold prose-headings:text-black prose-a:text-neutral-900 prose-a:decoration-neutral-300 prose-a:underline-offset-4 prose-a:hover:decoration-neutral-900 prose-code:bg-neutral-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none max-w-none"
+        class="prose prose-neutral prose-headings:font-bold prose-headings:text-black prose-a:text-neutral-900 prose-a:decoration-neutral-300 prose-a:underline-offset-4 prose-a:hover:decoration-neutral-900 prose-code:bg-neutral-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none mx-auto"
       >
         {{ .Content }}
       </div>
