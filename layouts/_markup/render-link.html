@@ -29,9 +29,9 @@
 {{- else -}}
   {{/* 通常のリンク（内部または外部） */}}
   <a
-    class="{{- if $isExternal }}
+    class="{{- if $isExternal -}}
       external-link
-    {{ end }} text-neutral-900 hover:text-neutral-800 hover:underline"
+    {{- end }} text-neutral-900 hover:text-neutral-800 hover:underline"
     {{- if not $isExternal }}data-rel="prefetch"{{ end -}}
     href="{{ .Destination | safeURL }}"
     {{ with .Title }}title="{{ . }}"{{ end }}
