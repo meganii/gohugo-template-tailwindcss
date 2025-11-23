@@ -1,77 +1,66 @@
 {{ define "main" }}
-  <article class="rounded-md border border-neutral-200 bg-white p-2 md:p-8">
-    <section data-pagefind-body class="">
-      <header class="mx-auto mb-6 max-w-xl">
-        <div data-pagefind-ignore>{{- partial "breadcrumb.html" . -}}</div>
-        <h1 class="mt-4 text-4xl font-bold tracking-tight text-neutral-900">
-          {{ .Title }}
-        </h1>
-        <div class="mt-2 text-sm">
-          <span class="mr-1">更新日:{{ .Lastmod.Format "2006.01.02" }}</span>
-          <span class="">作成日:{{ .Date.Format "2006.01.02" }}</span>
-        </div>
-        <div class="mt-1 text-sm">
-          {{ range (.GetTerms "tags") }}
-            <a
-              class="mt-1 inline-block rounded-sm bg-neutral-500 p-1 text-sm text-white no-underline hover:bg-neutral-400"
-              href="{{ .Permalink }}"
-              >#{{ .LinkTitle }}</a
-            >
-          {{ end }}
-        </div>
-      </header>
+  <article
+    class="rounded-md border border-neutral-200 bg-white px-2 py-4 md:p-8"
+  >
+    <header class="prose mx-auto mb-4 border-b border-neutral-100">
+      <h1 class="text-3xl font-bold tracking-tight text-neutral-900">
+        {{ .Title }}
+      </h1>
       <div
-        class="prose prose-neutral prose-headings:font-bold prose-headings:text-black prose-a:text-neutral-900 prose-a:decoration-neutral-300 prose-a:underline-offset-4 prose-a:hover:decoration-neutral-900 prose-code:bg-neutral-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none mx-auto"
+        class="mt-4 flex flex-wrap items-center gap-4 text-sm text-neutral-500"
       >
-        {{ .Content }}
-      </div>
-    </section>
-
-    {{ $related := .Site.RegularPages.Related . | first 8 }}
-    {{ $BaseURL := .Site.BaseURL }}
-    {{ with $related }}
-      <section class="mt-8">
-        <h1 class="font-medium">Related contents</h1>
-        {{ range . }}
-          <article class="m-4 border-t border-gray-200 pt-3">
-            <a href="{{ .Permalink }}" data-rel="prefetch" class="">
-              <div class="flex flex-row">
-                <div
-                  class="flex basis-1/5 items-center justify-center rounded-sm"
-                >
-                  <img
-                    loading="lazy"
-                    class="h-32 w-32 object-contain"
-                    alt="Eyecatch"
-                    media=""
-                    layout="fill"
-                    src="{{ if isset .Params "eyecatch" }}
-                      {{ .Params.Eyecatch }}
-                    {{ else if isset .Params "img" }}
-                      {{ .Params.img }}
-                    {{ else }}
-                      {{ $.Site.BaseURL }}images/nopicture.png
-                    {{ end }}"
-                  />
-                </div>
-                <div
-                  class="flex basis-4/5 flex-col justify-between p-4 leading-normal"
-                >
-                  <div class="px-1">
-                    <p class="flex items-center text-sm text-gray-800">
-                      {{ range .Params.category }}{{ . | upper }}{{ end }}
-                    </p>
-                    <p class="text-gray-800">
-                      {{ .Date.Format "2006.01.02" }}
-                    </p>
-                    <div class="mb-2 text-xl text-black">{{ .Title }}</div>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </article>
+        {{ with .Date }}
+          <div class="flex items-center gap-1.5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="h-4 w-4"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <time datetime="{{ .Format "2006-01-02T15:04:05Z07:00" }}">
+              {{ .Format "2006.01.02" }}
+            </time>
+          </div>
         {{ end }}
-      </section>
-    {{ end }}
+
+        {{ if ne .Date .Lastmod }}
+          <div class="flex items-center gap-1.5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="h-4 w-4"
+            >
+              <path d="M21 2v6h-6"></path>
+              <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
+              <path d="M3 22v-6h6"></path>
+              <path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path>
+            </svg>
+            <time datetime="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">
+              {{ .Lastmod.Format "2006.01.02" }}
+            </time>
+          </div>
+        {{ end }}
+      </div>
+    </header>
+
+    <div
+      class="prose prose-neutral prose-a:text-neutral-900 prose-a:underline-offset-4 prose-a:decoration-neutral-300 prose-a:hover:decoration-neutral-900 prose-code:before:content-none prose-code:after:content-none mx-auto"
+    >
+      {{ .Content }}
+    </div>
   </article>
 {{ end }}
