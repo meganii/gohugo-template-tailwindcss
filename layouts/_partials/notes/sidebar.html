@@ -1,7 +1,31 @@
 {{ $ctx := . }}
 {{ $currentPath := (urls.Parse $ctx.RelPermalink).Path }}
-<aside class="hidden lg:block">
-  <nav class="scrollbar-thin sticky h-[calc(100vh-5rem)] overflow-y-auto pr-3">
+  <nav id="sidebar-nav" class="scrollbar-thin sticky h-[calc(100vh-5rem)] overflow-y-auto pr-3">
     {{ partial "notes/sidebar-menu.html" (dict "Context" $ctx "CurrentPath" $currentPath) }}
   </nav>
 </aside>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const nav = document.getElementById('sidebar-nav');
+    if (nav) {
+      // Restore scroll position
+      const scrollPos = sessionStorage.getItem('sidebar-scroll');
+      if (scrollPos) {
+        nav.scrollTop = parseInt(scrollPos, 10);
+      }
+
+      // Save scroll position before leaving
+      window.addEventListener('beforeunload', () => {
+        sessionStorage.setItem('sidebar-scroll', nav.scrollTop);
+      });
+    }
+
+    // Prevent details toggle when clicking link in summary
+    document.querySelectorAll('details summary a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+    });
+  });
+</script>
