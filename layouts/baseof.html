@@ -35,5 +35,29 @@
     </div>
     {{- partial "drawer-script.html" -}}
     <script src="/js/instantpage-5.2.0.js" type="module" defer></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const nav = document.getElementById("sidebar-nav");
+        if (nav) {
+          // Restore scroll position
+          const scrollPos = sessionStorage.getItem("sidebar-scroll");
+          if (scrollPos) {
+            nav.scrollTop = parseInt(scrollPos, 10);
+          }
+
+          // Save scroll position before leaving
+          window.addEventListener("beforeunload", () => {
+            sessionStorage.setItem("sidebar-scroll", nav.scrollTop);
+          });
+        }
+
+        // Prevent details toggle when clicking link in summary
+        document.querySelectorAll("details summary a").forEach((link) => {
+          link.addEventListener("click", (e) => {
+            e.stopPropagation();
+          });
+        });
+      });
+    </script>
   </body>
 </html>
