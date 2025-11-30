@@ -1,68 +1,66 @@
-{{ $width := 400 }}
-{{ $height := 300 }}
-{{ $hero := 0 }}
+{{- $width := 400 -}}
+{{- $height := 300 -}}
+{{- $hero := 0 -}}
 
-{{ with .Title }}
+{{- with .Title -}}
   <!-- =を含まない場合はパラメタ指定なしとみなす -->
-  {{ if gt (. | strings.Count "=") 0 }}
-
+  {{- if gt (. | strings.Count "=") 0 -}}
     <!-- ?よりも後をqueryStringとする -->
-    {{ $queryString := (split . "?" ) }}
-    {{ if gt (len $queryString) 1 }}
+    {{- $queryString := split . "?" -}}
+    {{- if gt (len $queryString) 1 -}}
       <!-- & で分割 -->
-      {{ $paramString := (split (index $queryString 1) "&" ) }}
-      {{ $params := "" }}
-      {{ range $paramString }}
-        {{ $kv := split . "=" }}
-        {{ $key := index $kv 0 }}
-        {{ $value := index $kv 1 }}
+      {{- $paramString := split (index $queryString 1) "&" -}}
+
+      {{- range $paramString -}}
+        {{- $kv := split . "=" -}}
+        {{- $key := index $kv 0 -}}
+        {{- $value := index $kv 1 -}}
         <!-- size -->
-        {{ if eq $key "size" }}
-          {{ $wh := split $value "x" }}
-          {{ $width = index $wh 0 }}
-          {{ $height = index $wh 1 }}
-        {{ end }}
+        {{- if eq $key "size" -}}
+          {{- $wh := split $value "x" -}}
+          {{- $width = index $wh 0 -}}
+          {{- $height = index $wh 1 -}}
+        {{- end -}}
         <!-- hero -->
-        {{ if eq $key "hero" }}
-          {{ $hero = 1 }}
-        {{ end }}
-      {{ end }}
-    {{ else }}
-      {{ $kv := split . "=" }}
-      {{ $value := index $kv 1 }}
-      {{ $wh := split $value "x" }}
-      {{ $width = index $wh 0 }}
-      {{ $height = index $wh 1 }}
-    {{ end }}
+        {{- if eq $key "hero" -}}
+          {{- $hero = 1 -}}
+        {{- end -}}
+      {{- end -}}
+    {{- else -}}
+      {{- $kv := split . "=" -}}
+      {{- $value := index $kv 1 -}}
+      {{- $wh := split $value "x" -}}
+      {{- $width = index $wh 0 -}}
+      {{- $height = index $wh 1 -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
 
-  {{ end }}
-{{ end }}
+{{- $cloudinaryBaseUrl := (printf "https://res.cloudinary.com/%s/image/upload/" "meganii") -}}
+{{- $restr := (printf "^https?://res.cloudinary.com/%s/image/upload/.+/(.*)" "meganii" ) -}}
 
-{{ $baseurl := (printf "https://res.cloudinary.com/%s/image/upload/" "meganii") }}
-{{ $restr := (printf "^https?://res.cloudinary.com/%s/image/upload/.+/(.*)" "meganii" ) }}
-
-{{ if (hasPrefix .Destination $baseurl) }}
-  {{ $itemid := .Destination | replaceRE $restr "$1" }}
+{{- if (hasPrefix .Destination $cloudinaryBaseUrl) -}}
+  {{- $itemid := .Destination | replaceRE $restr "$1" -}}
+  {{- $w320 := (print $cloudinaryBaseUrl "q_auto,f_auto,w_320/" $itemid " 320w") -}}
+  {{- $w640 := (print $cloudinaryBaseUrl "q_auto,f_auto,w_640/" $itemid " 640w") -}}
+  {{- $w1024 := (print $cloudinaryBaseUrl "q_auto,f_auto,w_1024/" $itemid " 1024w") -}}
+  {{- $srcset := printf "%s, %s, %s" $w320 $w640 $w1024 -}}
   <div class="pt-4 text-center">
     <img
-      {{ if eq $hero 1 }}
+      {{ if eq $hero 1 -}}
         data-hero
-      {{ else }}
+      {{- else -}}
         loading="lazy"
       {{ end }}
       class=""
       src="{{ .Destination }}"
-      srcset="
-        {{ $baseurl }}q_auto,f_auto,w_320/{{ $itemid }}   320w,
-        {{ $baseurl }}q_auto,f_auto,w_640/{{ $itemid }}   640w,
-        {{ $baseurl }}q_auto,f_auto,w_1024/{{ $itemid }} 1024w
-      "
+      srcset="{{ $srcset }}"
       width="{{ $width }}"
       height="{{ $height }}"
       alt="{{ .Text | default $.Page.Title }}"
     />
   </div>
-{{ else }}
+{{- else -}}
   <div class="pt-4 text-center">
     <img
       {{ if eq $hero 1 }}
@@ -79,4 +77,4 @@
       alt="{{ .Text | default $.Page.Title }}"
     />
   </div>
-{{ end }}
+{{- end -}}

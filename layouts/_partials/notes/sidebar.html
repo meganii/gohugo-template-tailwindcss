@@ -1,7 +1,7 @@
-{{ $ctx := . }}
-{{ $currentPath := (urls.Parse $ctx.RelPermalink).Path }}
+{{- $ctx := . -}}
+{{- $currentPath := (urls.Parse $ctx.RelPermalink).Path -}}
   <nav id="sidebar-nav" class="scrollbar-thin sticky h-[calc(100vh-5rem)] overflow-y-auto pr-3">
-    {{ partial "notes/sidebar-menu.html" (dict "Context" $ctx "CurrentPath" $currentPath) }}
+    {{- partial "notes/sidebar-menu.html" (dict "Context" $ctx "CurrentPath" $currentPath) -}}
   </nav>
 </aside>
 

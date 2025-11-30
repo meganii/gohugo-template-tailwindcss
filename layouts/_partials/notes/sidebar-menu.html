@@ -1,24 +1,24 @@
-{{ $ctx := .Context }}
-{{ $currentPath := .CurrentPath }}
-{{ $re := "\\[([^\\]]+)\\]\\(([^)]+).md\\)" }}
+{{- $ctx := .Context -}}
+{{- $currentPath := .CurrentPath -}}
+{{- $re := "\\[([^\\]]+)\\]\\(([^)]+).md\\)" -}}
 
 
 <h2 class="px-2 text-sm font-semibold text-neutral-900">Navigation</h2>
 <div class="mt-4 space-y-3 text-sm text-neutral-600">
-  {{ with site.Menus.main }}
+  {{- with site.Menus.main -}}
     <ul class="space-y-2">
-      {{ range . }}
-        {{ $isOpen := eq (urls.Parse .Page.RelPermalink).Path $currentPath }}
-        {{ $matches := findRESubmatch $re .Page.RawContent }}
-        {{ range $matches }}
-          {{ $linkURL := index . 2 }}
-          {{ $page := index (where site.RegularPages "File.BaseFileName" $linkURL) 0 }}
-          {{ $isOpen = or $isOpen (eq (urls.Parse $page.RelPermalink).Path $currentPath) }}
-        {{ end }}
+      {{- range . -}}
+        {{- $isOpen := eq (urls.Parse .Page.RelPermalink).Path $currentPath }}
+        {{- $matches := findRESubmatch $re .Page.RawContent }}
+        {{- range $matches -}}
+          {{- $linkURL := index . 2 -}}
+          {{- $page := index (where site.RegularPages "File.BaseFileName" $linkURL) 0 -}}
+          {{- $isOpen = or $isOpen (eq (urls.Parse $page.RelPermalink).Path $currentPath) -}}
+        {{- end -}}
         <li>
           <details
             class="group overflow-hidden rounded-xl border border-neutral-200 bg-white/80"
-            {{ if $isOpen }}open{{ end }}
+            {{ if $isOpen }}open{{ end -}}
           >
             <summary
               class="flex cursor-pointer items-center justify-between gap-2 px-3 py-2 text-neutral-800 transition hover:text-neutral-600 [&::-webkit-details-marker]:hidden"
@@ -46,12 +46,12 @@
             <ul
               class="space-y-1 border-t border-neutral-200 bg-white/70 py-2 pl-4"
             >
-              {{ range $matches }}
-                {{ $linkText := index . 1 }}
-                {{ $linkURL := index . 2 }}
-                {{ $page := index (where site.RegularPages "File.BaseFileName" $linkURL) 0 }}
-                {{ $active := eq (urls.Parse $page.RelPermalink).Path $currentPath }}
-                {{ with $page }}
+              {{- range $matches -}}
+                {{- $linkText := index . 1 -}}
+                {{- $linkURL := index . 2 -}}
+                {{- $page := index (where site.RegularPages "File.BaseFileName" $linkURL) 0 -}}
+                {{- $active := eq (urls.Parse $page.RelPermalink).Path $currentPath -}}
+                {{- with $page -}}
                   <li>
                     <a
                       href="{{ .RelPermalink }}"
@@ -61,26 +61,25 @@
                       >{{ $linkText }}</a
                     >
                   </li>
-                {{ end }}
-              {{ end }}
-
+                {{- end -}}
+              {{- end -}}
             </ul>
           </details>
         </li>
       {{ end }}
     </ul>
-  {{ else }}
-    {{ $sections := site.Sections }}
+  {{- else -}}
+    {{- $sections := site.Sections -}}
     {{ if gt (len $sections) 0 }}
       <ul class="space-y-2">
-        {{ range $sections.ByWeight }}
-          {{ partial "notes/sidebar-section.html" (dict "Node" . "CurrentPath" $currentPath "Level" 0) }}
-        {{ end }}
+        {{- range $sections.ByWeight -}}
+          {{- partial "notes/sidebar-section.html" (dict "Node" . "CurrentPath" $currentPath "Level" 0) -}}
+        {{- end -}}
       </ul>
-    {{ else }}
+    {{- else -}}
       <p class="px-2 text-sm text-neutral-500">
         `main` メニューにページを追加するとナビゲーションが表示されます。
       </p>
-    {{ end }}
-  {{ end }}
+    {{- end -}}
+  {{- end -}}
 </div>
