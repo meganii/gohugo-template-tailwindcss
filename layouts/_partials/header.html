@@ -17,7 +17,7 @@
       >
     </div>
     <ul>
-      {{ $BaseURL := .Site.BaseURL }}
+      {{- $BaseURL := .Site.BaseURL -}}
       {{- range.Site.Menus.categories -}}
         <li class="py-4">
           <a
@@ -117,7 +117,7 @@
             <img src="/images/search.svg" class="h-7 w-7" alt="Search" />
           </a>
         </li>
-        {{ $BaseURL := .Site.BaseURL }}
+        {{- $BaseURL := .Site.BaseURL -}}
         {{- range.Site.Menus.categories -}}
           <li class="hidden md:block">
             <a

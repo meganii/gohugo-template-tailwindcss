@@ -1,7 +1,7 @@
 {{- if or (eq .Section "category") (eq .Section "tags") -}}
   <meta name="robots" content="noindex" />
 {{- end -}}
-{{ $ogpDescription := replaceRE "\n" "" ((.Description | default .Summary) | plainify) }}
+{{- $ogpDescription := replaceRE "\n" "" ((.Description | default .Summary) | plainify) -}}
 <meta name="description" content="{{ $ogpDescription }}" />
 <meta
   property="og:title"
@@ -9,7 +9,7 @@
 />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="{{ .Permalink }}" />
-{{ $ogpImage := (partial "functions/getOgpImage.html" .) -}}
+{{- $ogpImage := (partial "functions/getOgpImage.html" .) -}}
 <meta property="og:image" content="{{ $ogpImage }}" />
 <meta property="og:site_name" content="{{ .Site.Title }}" />
 <meta property="og:description" content="{{ $ogpDescription }}" />
@@ -22,7 +22,7 @@
 />
 <meta name="twitter:description" content="{{ $ogpDescription }}" />
 <meta name="twitter:image" content="{{ $ogpImage }}" />
-{{ $isAmazonLink := findRE `https:\/\/.*amazon\.com` .Params.img }}
+{{- $isAmazonLink := findRE `https:\/\/.*amazon\.com` .Params.img -}}
 {{- if $isAmazonLink -}}
   <meta name="twitter:image:alt" content="Amazon" />
 {{- else -}}

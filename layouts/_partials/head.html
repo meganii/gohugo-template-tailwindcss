@@ -8,9 +8,9 @@
   <link rel="dns-prefetch" href="https://res.cloudinary.com" />
   <link rel="manifest" href="{{ .Site.BaseURL }}manifest.json" />
 
-  {{ with (templates.Defer (dict "key" "global")) }}
-    {{ partial "css.html" . }}
-  {{ end }}
+  {{- with (templates.Defer (dict "key" "global")) -}}
+    {{- partial "css.html" . -}}
+  {{- end -}}
   <link
     rel="apple-touch-icon"
     type="image/png"
@@ -24,9 +24,9 @@
   {{- $regex := `<img[\s\S]*data-hero[\s\S]+?src="(.+?)"[\s\S]+? />` -}}
   {{- $matches := findRESubmatch $regex .Content -}}
   {{- range $matches -}}
-    {{ $src := index . 1 }}
-    {{ if (hasPrefix $src $baseurl) }}
-      {{ $itemid := $src | replaceRE $restr "$1" }}
+    {{- $src := index . 1 -}}
+    {{- if (hasPrefix $src $baseurl) -}}
+      {{- $itemid := $src | replaceRE $restr "$1" -}}
       <link
         rel="preload"
         as="image"
@@ -36,9 +36,9 @@
                 {{ $baseurl }}q_auto,f_auto,w_640/{{ $itemid }} 640w,
                 {{ $baseurl }}q_auto,f_auto,w_1024/{{ $itemid }} 1024w"
       />
-    {{ else }}
+    {{- else -}}
       <link rel="preload" as="image" href="{{ $src }}" />
-    {{ end }}
+    {{- end -}}
   {{- end -}}
 
   {{- partial "seo-schema.html" . -}}
