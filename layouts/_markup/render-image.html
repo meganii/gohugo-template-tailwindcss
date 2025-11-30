@@ -2,6 +2,7 @@
 {{- $width := $imgParams.width -}}
 {{- $height := $imgParams.height -}}
 {{- $hero := $imgParams.hero -}}
+{{- $class := $imgParams.class -}}
 
 {{- if (hasPrefix .Destination "https://res.cloudinary.com/meganii/image/upload/") -}}
   {{- $srcset := (partial "functions/get-cloudinary-srcset.html" .) -}}
@@ -19,6 +20,76 @@
       height="{{ $height }}"
       alt="{{ .Text | default $.Page.Title }}"
     />
+  </div>
+{{- else if eq $class "affiliate" -}}
+  <div class="not-prose">
+    <div class="pt-4 text-center">
+      <img
+        {{ if $hero }}
+          data-hero decoding="async"
+        {{ else }}
+          loading="lazy"
+        {{ end }}
+        class="{{ $class }}"
+        src="{{ .Destination }}"
+        width="{{ $width }}"
+        height="{{ $height }}"
+        heights="(min-width:600px) 400px, 80%"
+        layout="responsive"
+        alt="{{ .Text | default $.Page.Title }}"
+      />
+    </div>
+    <div class="my-8 flex flex-wrap justify-center gap-4">
+      {{/* --- Amazon (Orange #FF9900) --- */}}
+      {{ with .Page.Params.linkAmazon }}
+        <a
+          href="{{ . }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex w-full items-center justify-center rounded-lg bg-[#FF9900] px-8 py-3 text-sm font-bold text-gray-900 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#ffad33] hover:shadow-lg sm:w-auto"
+        >
+          Amazon
+        </a>
+      {{ end }}
+
+      {{/* --- Kindle (Blue #007AC1) --- */}}
+      {{ with .Page.Params.linkKindle }}
+        <a
+          href="{{ . }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex w-full items-center justify-center rounded-lg bg-[#007AC1] px-8 py-3 text-sm font-bold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#008bd9] hover:shadow-lg sm:w-auto"
+        >
+          Kindle
+        </a>
+      {{ end }}
+
+      {{/* --- Rakuten (Red #BF0000) --- */}}
+      {{ with .Page.Params.linkRakuten }}
+        <a
+          href="{{ . }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex w-full items-center justify-center rounded-lg bg-[#BF0000] px-8 py-3 text-sm font-bold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#d90000] hover:shadow-lg sm:w-auto"
+        >
+          楽天市場
+        </a>
+      {{ end }}
+
+      {{/* --- Yahoo! (Red Border / White #FF0033) --- */}}
+      {{/* Yahooは他と差別化するため、白背景+赤枠のアウトラインスタイルにしています */}}
+      {{ with .Page.Params.linkYahoo }}
+        <a
+          href="{{ . }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="box-border inline-flex w-full items-center justify-center rounded-lg border-2 border-[#FF0033] bg-white px-8 py-3 text-sm font-bold text-[#FF0033] shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#FF0033] hover:text-white hover:shadow-lg sm:w-auto"
+        >
+          Yahoo!
+        </a>
+      {{ end }}
+
+    </div>
   </div>
 {{- else -}}
   <div class="pt-4 text-center">

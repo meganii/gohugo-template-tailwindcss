@@ -14,12 +14,14 @@
   - width  (int) : 画像の幅 (デフォルト: 400)
   - height (int) : 画像の高さ (デフォルト: 300)
   - hero   (bool): LCP対策用Hero画像フラグ (デフォルト: false)
+  - class (string): 追加CSSクラス (デフォルト: "")
   ※ hero=1 または hero=true の場合に true となります。
 */}}
 {{/* デフォルト値の設定 */}}
 {{ $width := 400 }}
 {{ $height := 300 }}
 {{ $hero := false }}
+{{ $class := "" }}
 
 {{ with . }}
   {{/* = を含まない場合はパラメータ指定なしとみなす */}}
@@ -56,10 +58,19 @@
             {{ $hero = true }}
           {{ end }}
         {{ end }}
+        {{/* class=additional-css-class */}}
+        {{ if eq $key "class" }}
+          {{ $class = $value }}
+        {{ end }}
       {{ end }}
     {{ end }}
   {{ end }}
 {{ end }}
 
 {{/* 辞書形式で値を返す */}}
-{{ return dict "width" $width "height" $height "hero" $hero }}
+{{ return dict
+  "width" $width
+  "height" $height
+  "hero" $hero
+  "class" $class
+}}
