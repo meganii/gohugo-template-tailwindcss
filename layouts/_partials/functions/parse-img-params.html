@@ -1,0 +1,65 @@
+{{/* parse-img-params.html
+
+  概要:
+  画像パラメータ文字列（Markdownのタイトル属性など）を解析し、
+  幅・高さ・Heroフラグを抽出して辞書形式で返します。
+
+  引数 (.):
+  string: 解析対象の文字列
+  - 形式例1: "size=800x600"
+  - 形式例2: "画像のキャプション?size=800x600&hero=1"
+  ※ "?" がある場合、それ以降をクエリ文字列として扱います。
+
+  戻り値 (dict):
+  - width  (int) : 画像の幅 (デフォルト: 400)
+  - height (int) : 画像の高さ (デフォルト: 300)
+  - hero   (bool): LCP対策用Hero画像フラグ (デフォルト: false)
+  ※ hero=1 または hero=true の場合に true となります。
+*/}}
+{{/* デフォルト値の設定 */}}
+{{ $width := 400 }}
+{{ $height := 300 }}
+{{ $hero := false }}
+
+{{ with . }}
+  {{/* = を含まない場合はパラメータ指定なしとみなす */}}
+  {{ if strings.Contains . "=" }}
+
+    {{/* ? で分割し、パラメータ部分を特定する */}}
+    {{ $paramStr := . }}
+    {{ $parts := split . "?" }}
+
+    {{/* "Title?size=..." の形式なら ? の後ろを使う */}}
+    {{ if gt (len $parts) 1 }}
+      {{ $paramStr = index $parts 1 }}
+    {{ end }}
+
+    {{/* & で分割してループ解析 */}}
+    {{ range split $paramStr "&" }}
+      {{ $kv := split . "=" }}
+      {{ if eq (len $kv) 2 }}
+        {{ $key := index $kv 0 }}
+        {{ $value := index $kv 1 }}
+
+        {{/* size=WxH */}}
+        {{ if eq $key "size" }}
+          {{ $wh := split $value "x" }}
+          {{ if eq (len $wh) 2 }}
+            {{ $width = index $wh 0 | int }}
+            {{ $height = index $wh 1 | int }}
+          {{ end }}
+        {{ end }}
+
+        {{/* hero=1 or hero=true */}}
+        {{ if eq $key "hero" }}
+          {{ if or (eq $value "1") (eq $value "true") }}
+            {{ $hero = true }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{/* 辞書形式で値を返す */}}
+{{ return dict "width" $width "height" $height "hero" $hero }}

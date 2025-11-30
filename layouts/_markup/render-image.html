@@ -1,54 +1,14 @@
-{{- $width := 400 -}}
-{{- $height := 300 -}}
-{{- $hero := 0 -}}
+{{ $imgParams := partial "functions/parse-img-params.html" .Title }}
+{{ $width := $imgParams.width }}
+{{ $height := $imgParams.height }}
+{{ $hero := $imgParams.hero }}
 
-{{- with .Title -}}
-  <!-- =を含まない場合はパラメタ指定なしとみなす -->
-  {{- if gt (. | strings.Count "=") 0 -}}
-    <!-- ?よりも後をqueryStringとする -->
-    {{- $queryString := split . "?" -}}
-    {{- if gt (len $queryString) 1 -}}
-      <!-- & で分割 -->
-      {{- $paramString := split (index $queryString 1) "&" -}}
-
-      {{- range $paramString -}}
-        {{- $kv := split . "=" -}}
-        {{- $key := index $kv 0 -}}
-        {{- $value := index $kv 1 -}}
-        <!-- size -->
-        {{- if eq $key "size" -}}
-          {{- $wh := split $value "x" -}}
-          {{- $width = index $wh 0 -}}
-          {{- $height = index $wh 1 -}}
-        {{- end -}}
-        <!-- hero -->
-        {{- if eq $key "hero" -}}
-          {{- $hero = 1 -}}
-        {{- end -}}
-      {{- end -}}
-    {{- else -}}
-      {{- $kv := split . "=" -}}
-      {{- $value := index $kv 1 -}}
-      {{- $wh := split $value "x" -}}
-      {{- $width = index $wh 0 -}}
-      {{- $height = index $wh 1 -}}
-    {{- end -}}
-  {{- end -}}
-{{- end -}}
-
-{{- $cloudinaryBaseUrl := (printf "https://res.cloudinary.com/%s/image/upload/" "meganii") -}}
-{{- $restr := (printf "^https?://res.cloudinary.com/%s/image/upload/.+/(.*)" "meganii" ) -}}
-
-{{- if (hasPrefix .Destination $cloudinaryBaseUrl) -}}
-  {{- $itemid := .Destination | replaceRE $restr "$1" -}}
-  {{- $w320 := (print $cloudinaryBaseUrl "q_auto,f_auto,w_320/" $itemid " 320w") -}}
-  {{- $w640 := (print $cloudinaryBaseUrl "q_auto,f_auto,w_640/" $itemid " 640w") -}}
-  {{- $w1024 := (print $cloudinaryBaseUrl "q_auto,f_auto,w_1024/" $itemid " 1024w") -}}
-  {{- $srcset := printf "%s, %s, %s" $w320 $w640 $w1024 -}}
+{{- if (hasPrefix .Destination "https://res.cloudinary.com/meganii/image/upload/") -}}
+  {{- $srcset := (partial "functions/get-cloudinary-srcset.html" .) -}}
   <div class="pt-4 text-center">
     <img
-      {{ if eq $hero 1 -}}
-        data-hero
+      {{ if $hero }}
+        data-hero decoding="async"
       {{- else -}}
         loading="lazy"
       {{ end }}
@@ -63,7 +23,7 @@
 {{- else -}}
   <div class="pt-4 text-center">
     <img
-      {{ if eq $hero 1 }}
+      {{ if $hero }}
         data-hero decoding="async"
       {{ else }}
         loading="lazy"

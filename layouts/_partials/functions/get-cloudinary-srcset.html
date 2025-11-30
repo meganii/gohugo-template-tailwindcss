@@ -1,0 +1,10 @@
+{{- $cloudinaryBaseUrl := (printf "https://res.cloudinary.com/%s/image/upload/" "meganii") -}}
+{{- $restr := (printf "^https?://res.cloudinary.com/%s/image/upload/.+/(.*)" "meganii" ) -}}
+{{- $itemid := .Destination | replaceRE $restr "$1" -}}
+
+{{- $w320 := (print $cloudinaryBaseUrl "q_auto,f_auto,w_320/" $itemid " 320w") -}}
+{{- $w640 := (print $cloudinaryBaseUrl "q_auto,f_auto,w_640/" $itemid " 640w") -}}
+{{- $w1024 := (print $cloudinaryBaseUrl "q_auto,f_auto,w_1024/" $itemid " 1024w") -}}
+{{- $srcset := printf "%s, %s, %s" $w320 $w640 $w1024 -}}
+
+{{- return  $srcset -}}
