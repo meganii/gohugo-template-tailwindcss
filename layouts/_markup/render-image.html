@@ -30,12 +30,8 @@
         {{ else }}
           loading="lazy"
         {{ end }}
-        class="{{ $class }}"
+        class="h-[200px] w-auto object-contain"
         src="{{ .Destination }}"
-        width="{{ $width }}"
-        height="{{ $height }}"
-        heights="(min-width:600px) 400px, 80%"
-        layout="responsive"
         alt="{{ .Text | default $.Page.Title }}"
       />
     </div>
