@@ -1,7 +1,7 @@
-{{ $imgParams := partial "functions/parse-img-params.html" .Title }}
-{{ $width := $imgParams.width }}
-{{ $height := $imgParams.height }}
-{{ $hero := $imgParams.hero }}
+{{- $imgParams := partial "functions/parse-img-params.html" .Title -}}
+{{- $width := $imgParams.width -}}
+{{- $height := $imgParams.height -}}
+{{- $hero := $imgParams.hero -}}
 
 {{- if (hasPrefix .Destination "https://res.cloudinary.com/meganii/image/upload/") -}}
   {{- $srcset := (partial "functions/get-cloudinary-srcset.html" .) -}}
