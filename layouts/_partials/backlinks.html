@@ -1,0 +1,69 @@
+{{/* layouts/partials/backlinks.html */}}
+
+{{ $currentPath := .RelPermalink }}
+{{ $currentFile := .File.BaseFileName }}
+{{ $backlinks := slice }}
+
+{{/* サイト内の通常ページ（RegularPages）をすべてループ */}}
+{{ range .Site.RegularPages }}
+  {{/* 自分自身は除外 */}}
+  {{ if ne .RelPermalink $currentPath }}
+
+    {{/* 判定ロジック: */}}
+    {{/* 1. コンテンツ(.Content)の中に、自分の相対URLが含まれているか (Markdownリンク [Title](/path) などを検知) */}}
+    {{/* 2. 生データ(.RawContent)の中に、ファイル名が含まれているか (Obsidianの [[Filename]] などを検知したい場合) */}}
+    {{/* ※ Hugoの設定でWikiLinkを有効にしている場合、.Contentで判定できますが、念のため両方見ています */}}
+
+    {{ if or (strings.Contains .Content $currentPath) (strings.Contains .RawContent $currentFile) }}
+      {{ $backlinks = $backlinks | append . }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{/* バックリンクが存在する場合のみ表示 */}}
+{{ if gt (len $backlinks) 0 }}
+  <div class="mt-12 border-t border-gray-200 pt-8 dark:border-gray-700">
+    <h3
+      class="mb-4 flex items-center gap-2 text-xl font-bold text-gray-900 dark:text-gray-100"
+    >
+      {{/* アイコン (Heroicons: link) */}}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="h-5 w-5"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+        />
+      </svg>
+      Backlinks
+    </h3>
+
+    <div class="grid gap-4 sm:grid-cols-2">
+      {{ range $backlinks }}
+        <a
+          href="{{ .RelPermalink }}"
+          class="group block rounded-lg border border-gray-200 p-4 transition-colors duration-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
+        >
+          <div
+            class="mb-1 font-bold text-gray-800 group-hover:text-blue-600 dark:text-gray-200 dark:group-hover:text-blue-400"
+          >
+            {{ .Title }}
+          </div>
+          <div class="line-clamp-2 text-sm text-gray-500 dark:text-gray-400">
+            {{/* 記事の概要を表示（Summaryがあればそれを、なければ冒頭を切り出し） */}}
+            {{ .Summary | plainify | htmlUnescape }}
+          </div>
+          <div class="mt-2 font-mono text-xs text-gray-400">
+            {{ .Date.Format "2006-01-02" }}
+          </div>
+        </a>
+      {{ end }}
+    </div>
+  </div>
+{{ end }}
