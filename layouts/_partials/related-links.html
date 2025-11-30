@@ -1,0 +1,113 @@
+{{ $currentPath := .RelPermalink }}
+{{ $currentFile := .File.BaseFileName }}
+
+{{/* --- A. 内部リンク (Outgoing) の収集 --- */}}
+{{ $outgoingPages := slice }}
+{{/* Render Hookで保存されたリンクを取得 */}}
+{{ $linksMap := .Store.Get "outgoingLinks" }}
+
+{{ if $linksMap }}
+  {{ range $path, $_ := $linksMap }}
+    {{/* パスからページオブジェクトを取得 */}}
+    {{ $page := $.Site.GetPage $path }}
+    {{ if $page }}
+      {{ $outgoingPages = $outgoingPages | append $page }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{/* --- B. バックリンク (Incoming) の収集 --- */}}
+{{ $backlinks := slice }}
+
+{{/* 誤検知を防ぐための検索パターンを作成 */}}
+{{/* 1. 完全一致: href="/docs/hugo/" */}}
+{{ $exactMatch := printf "href=\"%s\"" $currentPath }}
+{{/* 2. アンカー付き: href="/docs/hugo/#" (セクションへのリンクも許容) */}}
+{{ $anchorMatch := printf "href=\"%s#" $currentPath }}
+
+{{ range .Site.RegularPages }}
+  {{ if ne .RelPermalink $currentPath }}
+    {{/* 判定ロジックを厳密化 */}}
+    {{ $hasLink := false }}
+
+    {{/* .Content (HTML) をチェック: 完全一致 または アンカー付きの場合のみヒットとする */}}
+    {{ if or (strings.Contains .Content $exactMatch) (strings.Contains .Content $anchorMatch) }}
+      {{ $hasLink = true }}
+    {{ end }}
+
+    {{/* .RawContent (Markdown) をチェック: Obsidian形式 [[filename]] への保険 */}}
+    {{/* ファイル名が重複しやすい場合（例: "hugo" と "hugo-setup"）は誤検知するため、ブラケットで囲む */}}
+    {{ $wikiLink := printf "[[%s]]" $currentFile }}
+    {{ if strings.Contains .RawContent $wikiLink }}
+      {{ $hasLink = true }}
+    {{ end }}
+
+    {{ if $hasLink }}
+      {{/* 内部リンクリスト($outgoingPages)に含まれていない場合のみ追加 */}}
+      {{ if not (in $outgoingPages .) }}
+        {{ $backlinks = $backlinks | append . }}
+      {{ end }}
+    {{ end }}
+
+  {{ end }}
+{{ end }}
+
+{{/* --- C. 表示エリア --- */}}
+{{ if or (gt (len $outgoingPages) 0) (gt (len $backlinks) 0) }}
+  <div class="mt-16 space-y-12">
+    {{/* 1. 記事内の言及リンク (Mentions / Outgoing) */}}
+    {{ if gt (len $outgoingPages) 0 }}
+      <div class="border-t border-gray-200 pt-8 dark:border-gray-700">
+        <h3
+          class="mb-4 flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-gray-100"
+        >
+          <!-- Icon: Arrow Right (Outgoing) -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            class="h-5 w-5 text-blue-500"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+            />
+          </svg>
+          Links in this post
+        </h3>
+        {{ partial "functions/link-grid.html" $outgoingPages }}
+      </div>
+    {{ end }}
+
+    {{/* 2. バックリンク (Backlinks / Incoming) - 重複除外済み */}}
+    {{ if gt (len $backlinks) 0 }}
+      <div class="border-t border-gray-200 pt-8 dark:border-gray-700">
+        <h3
+          class="mb-4 flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-gray-100"
+        >
+          <!-- Icon: Link (Incoming) -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            class="h-5 w-5 text-green-500"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+            />
+          </svg>
+          Linked to this post
+        </h3>
+        {{ partial "functions/link-grid.html" $backlinks }}
+      </div>
+    {{ end }}
+
+  </div>
+{{ end }}
