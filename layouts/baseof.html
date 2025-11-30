@@ -12,14 +12,11 @@
           class="grid grid-cols-1 items-start gap-8 lg:grid-cols-[280px_1fr_240px]"
         >
           <!-- Left Sidebar -->
-          {{ partial "notes/sidebar.html" . }}
-
-
+          {{- partial "notes/sidebar.html" . -}}
           <!-- Main Content -->
           <main class="min-w-0">
             {{- block "main" . }}{{- end }}
           </main>
-
           <!-- Right Sidebar (TOC) -->
           <aside
             class="sticky top-24 hidden h-[calc(100vh-8rem)] overflow-y-auto lg:block"
