@@ -1,39 +1,28 @@
 {{/* layouts/partials/backlinks.html */}}
 
-{{ $currentPath := .RelPermalink }}
-{{ $currentFile := .File.BaseFileName }}
-{{ $backlinks := slice }}
+{{/* ★ここが変更点: 高速なMap生成（キャッシュ）を呼び出す */}}
+{{ $allBacklinks := partialCached "functions/get-backlink-map.html" "global-backlinks-index" }}
 
-{{/* サイト内の通常ページ（RegularPages）をすべてループ */}}
-{{ range .Site.RegularPages }}
-  {{/* 自分自身は除外 */}}
-  {{ if ne .RelPermalink $currentPath }}
+{{/* 自分のURLをキーにしてリストを取得 */}}
+{{ $myBacklinks := index $allBacklinks .RelPermalink }}
 
-    {{/* 判定ロジック: */}}
-    {{/* 1. コンテンツ(.Content)の中に、自分の相対URLが含まれているか (Markdownリンク [Title](/path) などを検知) */}}
-    {{/* 2. 生データ(.RawContent)の中に、ファイル名が含まれているか (Obsidianの [[Filename]] などを検知したい場合) */}}
-    {{/* ※ Hugoの設定でWikiLinkを有効にしている場合、.Contentで判定できますが、念のため両方見ています */}}
+{{/* 重複排除（同じページから複数回リンクされている場合など） */}}
+{{ $myBacklinks = uniq $myBacklinks }}
 
-    {{ if or (strings.Contains .Content $currentPath) (strings.Contains .RawContent $currentFile) }}
-      {{ $backlinks = $backlinks | append . }}
-    {{ end }}
-  {{ end }}
-{{ end }}
-
-{{/* バックリンクが存在する場合のみ表示 */}}
-{{ if gt (len $backlinks) 0 }}
+{{/* 表示処理 */}}
+{{ if $myBacklinks }}
   <div class="mt-12 border-t border-gray-200 pt-8 dark:border-gray-700">
     <h3
       class="mb-4 flex items-center gap-2 text-xl font-bold text-gray-900 dark:text-gray-100"
     >
-      {{/* アイコン (Heroicons: link) */}}
+      <!-- Icon -->
       <svg
         xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5"
         fill="none"
         viewBox="0 0 24 24"
-        stroke-width="1.5"
         stroke="currentColor"
-        class="h-5 w-5"
+        stroke-width="1.5"
       >
         <path
           stroke-linecap="round"
@@ -45,7 +34,7 @@
     </h3>
 
     <div class="grid gap-4 sm:grid-cols-2">
-      {{ range $backlinks }}
+      {{ range $myBacklinks }}
         <a
           href="{{ .RelPermalink }}"
           class="group block rounded-lg border border-gray-200 p-4 transition-colors duration-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
@@ -56,7 +45,6 @@
             {{ .Title }}
           </div>
           <div class="line-clamp-2 text-sm text-gray-500 dark:text-gray-400">
-            {{/* 記事の概要を表示（Summaryがあればそれを、なければ冒頭を切り出し） */}}
             {{ .Summary | plainify | htmlUnescape }}
           </div>
           <div class="mt-2 font-mono text-xs text-gray-400">

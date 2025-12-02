@@ -1,0 +1,13 @@
+{{/* layouts/partials/func/get-page-map.html */}}
+
+{{/* 処理速度優先のため Scratch を使用 */}}
+{{ $s := newScratch }}
+
+{{/* 全ページを走査してマップに登録 */}}
+{{ range site.RegularPages }}
+  {{/* Key: 相対URL (/blog/2021/...), Value: Pageオブジェクト */}}
+  {{ $s.SetInMap "urlMap" .RelPermalink . }}
+{{ end }}
+
+{{/* 辞書を返す */}}
+{{ return $s.Get "urlMap" }}

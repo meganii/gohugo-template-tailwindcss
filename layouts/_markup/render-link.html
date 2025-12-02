@@ -7,39 +7,58 @@
 
 {{- $isExternal := strings.HasPrefix .Destination "http" -}}
 {{- $isMdFile := strings.HasSuffix .Destination ".md" -}}
+{{- $destination := .Destination -}}
 
-{{- /* 1. 内部Markdownファイルへのリンク */ -}}
-{{- if and (not $isExternal) $isMdFile }}
-  {{- $url := urls.Parse .Destination -}}
-  {{- $text := .Text | safeHTML -}}
-  {{- with site.GetPage $url.Path -}}
+{{/* URLのパース（アンカー #... を除去してパスだけにする） */}}
+{{- $u := urls.Parse .Destination -}}
+{{- $path := $u.Path -}}
 
-    {{/* ★追加: リンク先のページが見つかった場合、発リンクとして記録 */}}
-    {{- $.Page.Store.SetInMap "outgoingLinks" .RelPermalink .RelPermalink -}}
+{{/* ★追加: URLマップを取得 (キャッシュされるので高速) */}}
+{{/* 第2引数の "global-url-map" はキャッシュキーです */}}
+{{- $pageMap := partialCached "functions/get-page-map.html" "global-url-map" -}}
+
+{{/* ★変更: GetPage の代わりに Map から検索 */}}
+{{- $targetPage := index $pageMap $path -}}
+
+{{- /* 1. 内部Markdownファイルへのリンク OR カスタムURLへのリンク */ -}}
+{{- if or $isMdFile (and (not $isExternal) $targetPage) }}
+
+  {{/* $targetPage が見つからない場合（.md指定など）は従来のGetPageを試す保険 */}}
+  {{- if not $targetPage -}}
+    {{- $targetPage = site.GetPage $path -}}
+  {{- end -}}
+
+  {{- with $targetPage -}}
+    {{/* ページが見つかったので記録 */}}
+    {{- $.Page.Store.SetInMap "outgoingLinks" .File.Path .File.Path -}}
 
 
     <a
       data-rel="prefetch"
       class="text-neutral-900 hover:text-neutral-800 hover:underline"
       href="{{ .RelPermalink }}"
-      >{{ $text }}</a
+      >{{ $.Text | safeHTML }}</a
+    >
+  {{- else -}}
+    {{/* ページが見つからなかった場合のフォールバック（リンク切れの可能性あり） */}}
+    <a href="{{ $destination | safeURL }}" class="broken-link text-red-500"
+      >{{ $.Text | safeHTML }}</a
     >
   {{- end -}}
 
-  {{- /* 2. アフィリエイトリンク (A8.net) */ -}}
-{{- else if and $isExternal (strings.HasPrefix .Destination "https://px.a8.net/") -}}
-  {{- range first 1 (where .Page.Site.Data.affiliate.affiliate.links "url" .Destination) -}}
+  {{- /* 2. アフィリエイトリンク */ -}}
+{{- else if and $isExternal (strings.HasPrefix $destination "https://px.a8.net/") -}}
+  {{- range first 1 (where .Page.Site.Data.affiliate.affiliate.links "url" $destination) -}}
     {{ .content | safeHTML }}
   {{- end -}}
 
-  {{- /* 3. 通常のリンク（内部または外部） */ -}}
+  {{- /* 3. 通常のリンク */ -}}
 {{- else -}}
 
-  {{/* ★追加: 内部リンクの場合、ページが存在するか確認して記録 */}}
-  {{- if and (not $isExternal) (not (strings.HasPrefix .Destination "#")) -}}
-    {{- with site.GetPage .Destination -}}
-      {{/* リンク先がHugo管理下のページなら記録 */}}
-      {{- $.Page.Store.SetInMap "outgoingLinks" .RelPermalink .RelPermalink -}}
+  {{/* 内部リンクの記録処理（こちらもMapを使って確認） */}}
+  {{- if and (not $isExternal) (not (strings.HasPrefix $destination "#")) -}}
+    {{- with index $pageMap $path -}}
+      {{- $.Page.Store.SetInMap "outgoingLinks" .File.Path .File.Path -}}
     {{- end -}}
   {{- end -}}
 
@@ -49,7 +68,7 @@
       external-link
     {{- end }} text-neutral-900 hover:text-neutral-800 hover:underline"
     {{- if not $isExternal }}data-rel="prefetch"{{ end -}}
-    href="{{ .Destination | safeURL }}"
+    href="{{ $destination | safeURL }}"
     {{ with .Title }}title="{{ . }}"{{ end }}
     {{ if $isExternal }}target="_blank" rel="noopener"{{ end }}
   >
