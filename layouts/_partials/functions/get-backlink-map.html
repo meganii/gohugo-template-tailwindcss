@@ -1,0 +1,35 @@
+{{/* layouts/partials/func/get-backlink-map.html */}}
+{{ $backlinkMap := newScratch }}
+
+{{/* 全ページを走査 */}}
+{{ range site.RegularPages }}
+  {{ $sourcePage := . }}
+  {{ $content := .RawContent }}
+
+  {{/* Markdown Link [text](/path) の抽出 */}}
+  {{ $mdLinks := findRE `\[.*?\]\((.*?)\)` $content }}
+  {{ range $mdLinks }}
+    {{/* URL部分を抽出 */}}
+    {{ $targetPath := . | replaceRE `^\[.*?\]\(` "" | replaceRE `\)$` "" }}
+
+    {{/* 外部リンクは無視 */}}
+    {{ if not (strings.HasPrefix $targetPath "http") }}
+      {{/* アンカー/クエリ除去 */}}
+      {{ $targetPath = index (split $targetPath "#") 0 }}
+      {{ $targetPath = index (split $targetPath "?") 0 }}
+
+      {{/* ページを探す */}}
+      {{ $targetPage := site.GetPage $targetPath }}
+
+      {{ with $targetPage }}
+        {{ if ne .RelPermalink $sourcePage.RelPermalink }}
+          {{/* Mapに "ターゲットURL" -> [ソースページ] を追加 */}}
+          {{ $backlinkMap.Add .RelPermalink (slice $sourcePage) }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+
+{{ end }}
+
+{{ return $backlinkMap.Values }}

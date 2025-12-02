@@ -1,0 +1,57 @@
+{{/* layouts/partials/backlinks.html */}}
+
+{{/* ★ここが変更点: 高速なMap生成（キャッシュ）を呼び出す */}}
+{{ $allBacklinks := partialCached "functions/get-backlink-map.html" "global-backlinks-index" }}
+
+{{/* 自分のURLをキーにしてリストを取得 */}}
+{{ $myBacklinks := index $allBacklinks .RelPermalink }}
+
+{{/* 重複排除（同じページから複数回リンクされている場合など） */}}
+{{ $myBacklinks = uniq $myBacklinks }}
+
+{{/* 表示処理 */}}
+{{ if $myBacklinks }}
+  <div class="mt-12 border-t border-gray-200 pt-8 dark:border-gray-700">
+    <h3
+      class="mb-4 flex items-center gap-2 text-xl font-bold text-gray-900 dark:text-gray-100"
+    >
+      <!-- Icon -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="1.5"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+        />
+      </svg>
+      Backlinks
+    </h3>
+
+    <div class="grid gap-4 sm:grid-cols-2">
+      {{ range $myBacklinks }}
+        <a
+          href="{{ .RelPermalink }}"
+          class="group block rounded-lg border border-gray-200 p-4 transition-colors duration-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
+        >
+          <div
+            class="mb-1 font-bold text-gray-800 group-hover:text-blue-600 dark:text-gray-200 dark:group-hover:text-blue-400"
+          >
+            {{ .Title }}
+          </div>
+          <div class="line-clamp-2 text-sm text-gray-500 dark:text-gray-400">
+            {{ .Summary | plainify | htmlUnescape }}
+          </div>
+          <div class="mt-2 font-mono text-xs text-gray-400">
+            {{ .Date.Format "2006-01-02" }}
+          </div>
+        </a>
+      {{ end }}
+    </div>
+  </div>
+{{ end }}
