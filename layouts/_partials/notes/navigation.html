@@ -1,0 +1,76 @@
+{{- $currentPath := .CurrentPath -}}
+{{- $menuSlice := .MenuSlice -}}
+
+
+<h2 class="px-2 text-sm font-semibold text-neutral-900">Navigation</h2>
+<div class="mt-4 space-y-3 text-sm text-neutral-600">
+  {{ if gt (len $menuSlice) 0 }}
+    <ul class="space-y-2">
+      {{- range $item := $menuSlice -}}
+        {{ $page := $item.Page }}
+        {{ $children := $item.Children }}
+
+        {{ $isOpen := eq (urls.Parse $page.RelPermalink).Path $currentPath }}
+        {{ range $children }}
+          {{ $isOpen = or $isOpen (eq (urls.Parse .RelPermalink).Path $currentPath) }}
+        {{ end }}
+
+
+        <li>
+          <details
+            class="group overflow-hidden rounded-xl border border-neutral-200 bg-white/80"
+            {{ if $isOpen }}open{{ end -}}
+          >
+            <summary
+              class="flex cursor-pointer items-center justify-between gap-2 px-3 py-2 text-neutral-800 transition hover:text-neutral-600 [&::-webkit-details-marker]:hidden"
+            >
+              <span class="flex items-center gap-2">
+                <svg
+                  class="h-4 w-4 shrink-0 text-neutral-400 transition-transform duration-200 group-open:rotate-90"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+
+                <a
+                  href="{{ $page.RelPermalink }}"
+                  class="truncate hover:underline"
+                >
+                  {{ $page.Title }}
+                </a>
+              </span>
+            </summary>
+
+            <ul
+              class="space-y-1 border-t border-neutral-200 bg-white/70 py-2 pl-4"
+            >
+              {{ range $child := $children }}
+                {{ $active := eq (urls.Parse $child.RelPermalink).Path $currentPath }}
+                <li>
+                  <a
+                    href="{{ $child.RelPermalink }}"
+                    class="{{ if $active }}
+                      bg-neutral-100 text-neutral-900 font-semibold
+                    {{ end }} block rounded-md px-2 py-1.5 text-neutral-600 transition hover:bg-neutral-100 hover:text-neutral-900"
+                  >
+                    {{ $child.Title }}
+                  </a>
+                </li>
+              {{ end }}
+            </ul>
+          </details>
+        </li>
+      {{ end }}
+    </ul>
+  {{ else }}
+    <p class="px-2 text-sm text-neutral-500">
+      `main` メニューにページを追加するとナビゲーションが表示されます。
+    </p>
+  {{ end }}
+
+</div>

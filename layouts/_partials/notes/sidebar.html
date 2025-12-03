@@ -1,10 +1,14 @@
 {{- $ctx := . -}}
 {{- $currentPath := (urls.Parse $ctx.RelPermalink).Path -}}
+
+{{- $menuSlice := partialCached "functions/get-menu-pages.html" . -}}
+
+
 <aside class="hidden lg:block">
   <nav
     id="sidebar-nav"
     class="scrollbar-thin sticky h-[calc(100vh-5rem)] overflow-y-auto pr-3"
   >
-    {{- partial "notes/sidebar-menu.html" (dict "Context" $ctx "CurrentPath" $currentPath) -}}
+    {{ partial "notes/navigation.html" (dict "MenuSlice" $menuSlice "CurrentPath" .RelPermalink) }}
   </nav>
 </aside>
