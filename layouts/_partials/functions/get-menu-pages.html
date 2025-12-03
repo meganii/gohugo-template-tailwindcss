@@ -1,0 +1,21 @@
+{{ $menuSlice := slice }}
+
+{{ with site.Menus.main }}
+  {{ range sort . "Weight" "asc" }}
+    {{ $menuPage := .Page }}
+    {{ $mdLinks := findRE `\[.*?\]\((.*?)\)` .Page.RawContent }}
+    {{ $children := slice }}
+
+    {{ range $mdLinks }}
+      {{ $path := . | replaceRE `^\[.*?\]\(` "" | replaceRE `\)$` "" }}
+      {{ $page := site.GetPage $path }}
+      {{ with $page }}
+        {{ $children = $children | append . }}
+      {{ end }}
+    {{ end }}
+
+    {{ $menuSlice = $menuSlice | append (dict "Page" $menuPage "Children" $children) }}
+  {{ end }}
+{{ end }}
+
+{{ return $menuSlice }}
