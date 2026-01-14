@@ -1,24 +1,5 @@
 {{ define "main" }}
   <div class="text-gray-700">
-    <div class="hidden lg:block">
-      <a href="{{ .Site.BaseURL }}">
-        <img
-          loading="lazy"
-          class="rounded-sm"
-          src="https://res.cloudinary.com/{{ .Site.Params.Cloudinary }}/image/upload/{{ .Site.Params.topbanner.src }}"
-          srcset="
-            https://res.cloudinary.com/{{ .Site.Params.Cloudinary }}/image/upload/q_auto,f_auto/{{ .Site.Params.topbanner.src }}       1000w,
-            https://res.cloudinary.com/{{ .Site.Params.Cloudinary }}/image/upload/q_auto,f_auto,w_800/{{ .Site.Params.topbanner.src }}  800w,
-            https://res.cloudinary.com/{{ .Site.Params.Cloudinary }}/image/upload/q_auto,f_auto,w_640/{{ .Site.Params.topbanner.src }}  640w,
-            https://res.cloudinary.com/{{ .Site.Params.Cloudinary }}/image/upload/q_auto,f_auto,w_400/{{ .Site.Params.topbanner.src }}  400w,
-            https://res.cloudinary.com/{{ .Site.Params.Cloudinary }}/image/upload/q_auto,f_auto,w_320/{{ .Site.Params.topbanner.src }}  320w
-          "
-          width="{{ .Site.Params.topbanner.width }}"
-          height="{{ .Site.Params.topbanner.height }}"
-          layout="responsive"
-        />
-      </a>
-    </div>
     {{ $recent_articles := where .Site.RegularPages "Section" "not in" (slice "note" "app" "poetry") }}
     {{ range first 10 $recent_articles }}
       {{ partial "article-list.html" . }}
