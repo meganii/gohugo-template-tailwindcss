@@ -48,7 +48,7 @@
 
   {{- /* 2. アフィリエイトリンク */ -}}
 {{- else if and $isExternal (strings.HasPrefix $destination "https://px.a8.net/") -}}
-  {{- range first 1 (where .Page.Site.Data.affiliate.affiliate.links "url" $destination) -}}
+  {{- range first 1 (where hugo.Data.affiliate.affiliate.links "url" $destination) -}}
     {{ .content | safeHTML }}
   {{- end -}}
 

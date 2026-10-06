@@ -2,7 +2,7 @@
   <article class="mx-5">
     <h2>Tweets</h2>
     <ul>
-      {{ $data := .Site.Data.tweet.twitter.tweets }}
+      {{ $data := hugo.Data.tweet.twitter.tweets }}
       {{ $sorted := sort $data ".tweet.id" "desc" }}
       {{ range $sorted }}
         {{ if strings.HasPrefix .tweet.full_text "@" }}
