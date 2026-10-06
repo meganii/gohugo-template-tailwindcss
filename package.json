@@ -12,12 +12,12 @@
   },
   "description": "Starter files for a Hugo theme with Tailwindcss",
   "devDependencies": {
-    "@tailwindcss/cli": "^4.1.17",
-    "@tailwindcss/typography": "^0.5.19",
-    "prettier": "^3.6.2",
-    "prettier-plugin-go-template": "^0.0.15",
-    "prettier-plugin-tailwindcss": "^0.7.1",
-    "tailwindcss": "^4.1.17"
+    "@htnabe/prettier-plugin-go-template": "^0.0.3",
+    "@tailwindcss/cli": "^4.3.3",
+    "@tailwindcss/typography": "^0.5.20",
+    "prettier": "^3.9.9",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "tailwindcss": "^4.3.3"
   },
   "license": "MIT",
   "main": "index.js",
