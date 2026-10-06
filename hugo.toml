@@ -6,10 +6,16 @@ license = "MIT"
 licenselink = "https://github.com/meganii/gohugo-template-tailwindcss/blob/master/LICENSE"
 description = ""
 homepage = "https://github.com/meganii/gohugo-template-tailwindcss"
-tags = ["Hugo", "Tailwindcss", "theme", "starter"]
-features = []
+tags = [
+  "Hugo",
+  "Tailwindcss",
+  "theme",
+  "starter",
+]
+features = [
+]
 min_version = "0.112"
 
 [author]
-  name = "meganii"
-  homepage = "https://github.com/meganii/"
+name = "meganii"
+homepage = "https://github.com/meganii/"
