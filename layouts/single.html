@@ -1,8 +1,8 @@
 {{- define "main" -}}
   <article
-    class="rounded-md border border-neutral-200 bg-white px-2 py-4 md:p-8"
+    class="rounded-md border border-neutral-200 bg-white px-2 py-4 md:px-6 md:py-8"
   >
-    <header class="prose mx-auto mb-4 border-b border-neutral-100">
+    <header class="prose mb-4 max-w-none border-b border-neutral-100">
       <h1 class="text-3xl font-bold tracking-tight text-neutral-900">
         {{ .Title }}
       </h1>
@@ -58,7 +58,7 @@
     </header>
 
     <div
-      class="prose prose-neutral prose-a:text-neutral-900 prose-a:underline-offset-4 prose-a:decoration-neutral-300 prose-a:hover:decoration-neutral-900 prose-code:before:content-none prose-code:after:content-none mx-auto"
+      class="prose prose-neutral prose-a:text-neutral-900 prose-a:underline-offset-4 prose-a:decoration-neutral-300 prose-a:hover:decoration-neutral-900 prose-code:before:content-none prose-code:after:content-none max-w-none"
     >
       {{ .Content }}
     </div>
